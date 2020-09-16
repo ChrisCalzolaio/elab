@@ -80,14 +80,14 @@
 \pagestyle{scrplain}
 \pagestyle{empty}
 
-\include{title}
+\include{./chapters/00_title}
 \cleardoubleemptypage
-\include{abstract}
+\include{./chapters/01_abstract}
 \cleardoubleemptypage
 
 \pagestyle{scrplain}
 \pagenumbering{roman}
-\include{toc}
+\include{./chapters/02_toc}
 
 \pagestyle{scrheadings}
 
@@ -95,13 +95,15 @@
 \addtokomafont{caption}{\small}
 
 \mainmatter
-
-\include{chapters}
+% kapitel 1
+\include{./chapters/herleitung}
+% kapitel 2
+\include{./chapters/hinweise}
 
 
 
 \appendix
-\include{append}
+\include{./chapters/90_append}
 
 \cleardoublepage
 
