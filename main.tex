@@ -48,7 +48,7 @@
             pdfborder={0 0 0},
             breaklinks=true]
             {hyperref}
-
+\usepackage{subfiles} % Best loaded last in the preamble
 
 %\typearea[current]{calc}
 
@@ -74,20 +74,21 @@
 \selectlanguage{ngerman}
 \def\figdir{figures}
 \def\tabledir{tables}
+% \def\chaptdir{chapters}
 
 \frontmatter
 
 \pagestyle{scrplain}
 \pagestyle{empty}
 
-\include{./chapters/00_title}
+\subfile{./chapters/00_title}
 \cleardoubleemptypage
-\include{./chapters/01_abstract}
+\subfile{./chapters/01_abstract}
 \cleardoubleemptypage
 
 \pagestyle{scrplain}
 \pagenumbering{roman}
-\include{./chapters/02_toc}
+\subfile{./chapters/02_toc}
 
 \pagestyle{scrheadings}
 
@@ -96,19 +97,19 @@
 
 \mainmatter
 % kapitel 1
-\include{./chapters/herleitung}
+\subfile{./chapters/herleitung}
 % kapitel 2
-\include{./chapters/hinweise}
+\subfile{./chapters/hinweise}
 
 
 
 \appendix
-\include{./chapters/90_append}
+\subfile{./chapters/90_append}
 
 \cleardoublepage
 
 \bibliographystyle{natger}
-\bibliography{thesis}
+\bibliography{bib/thesis}
 
 \cleardoublepage
 
