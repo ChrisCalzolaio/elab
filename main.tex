@@ -1,23 +1,24 @@
-  \documentclass[twoside=true, %  doppelseitiger Druck
-    DIV=15,% DIV Faktor für Satzspiegelberechnung, sie Doku zu KOMA Script
-    BCOR=15mm, % Bindekorrektur
+  \documentclass[twoside=false,		% doppelseitiger Druck
+    DIV=15,							% DIV Faktor für Satzspiegelberechnung, sie Doku zu KOMA Script
+    BCOR=15mm,						% Bindekorrektur
     chapterprefix=false,
     headinclude=true,
     footinclude=false,
-    pagesize,%         write pagesize to DVI or PDF
-    fontsize=11pt,%             use this font size
-    paper=a4,%          use ISO A4
-    bibliography=totoc,%         write bibliography-chapter to table of contents
-    index=totoc,%         write index-chapter to table of contents
-    cleardoublepage=plain,% \cleardoublepage generates pages with pagestyle empty
-     headings=big,%       A4/B5
-    listof=flat,%        improved list of tables
+    pagesize,						% write pagesize to DVI or PDF
+    fontsize=11pt,					% use this font size
+    paper=a4,						% use ISO A4
+    bibliography=totoc,				% write bibliography-chapter to table of contents
+    index=totoc,					% write index-chapter to table of contents
+    cleardoublepage=plain,			% \cleardoublepage generates pages with pagestyle empty
+    headings=big,					% A4/B5
+    listof=flat,					% improved list of tables
     numbers=noenddot
   ]{scrbook}
 
 \usepackage{./preamble/preamble}
 
 \begin{document}
+% Document config
 \selectlanguage{ngerman}
 \def\figdir{figures}
 \def\tabledir{tables}
@@ -27,18 +28,18 @@
 
 \pagestyle{scrplain}
 \pagestyle{empty}
-
+% Titel des Dokuments
 \subfile{./chapters/00_title}
 \cleardoubleemptypage
+% Abstract
 \subfile{./chapters/01_abstract}
 \cleardoubleemptypage
-
+% Table of Contents
 \pagestyle{scrplain}
 \pagenumbering{roman}
 \subfile{./chapters/02_toc}
 
 \pagestyle{scrheadings}
-
 
 \addtokomafont{caption}{\small}
 
@@ -47,8 +48,6 @@
 \subfile{./chapters/herleitung}
 % kapitel 2
 \subfile{./chapters/hinweise}
-
-
 
 \appendix
 \subfile{./chapters/90_append}
@@ -60,9 +59,7 @@
 
 \cleardoublepage
 
-
 \footnotesize
 \printindex
-
 
 \end{document}
