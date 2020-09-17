@@ -11,7 +11,7 @@
 \subsection{Rotation}
 \begin{equation}
 	\begin{split}
-		R = & R_{z}(\alpha )\,R_{y}(\beta )\,R_{x}(\gamma ) \\
+		R\begin{pmatrix}\gamma\\\beta\\\alpha\\\end{pmatrix} = & R_{z}(\alpha )\,R_{y}(\beta )\,R_{x}(\gamma ) \\
 		= & \begin{bmatrix}\cos \alpha & -\sin \alpha & 0\\\sin \alpha & \cos \alpha & 0\\0& 0& 1\\\end{bmatrix}
 			\begin{bmatrix}\cos \beta & 0& \sin \beta \\0& 1& 0\\-\sin \beta & 0& \cos \beta \\\end{bmatrix}
 			\begin{bmatrix}1& 0& 0\\0& \cos \gamma & -\sin \gamma \\0& \sin \gamma & \cos \gamma \\\end{bmatrix} \\
@@ -23,10 +23,29 @@
 	\end{split}
 \end{equation}
 
+Um Matrixoperation zu vereinfachen werden Rotationsmatrizen als homogene Transformationsmatrizen gemäß \ref{eq:homTM} mit einem Nullvektor $\mathbf{p} = \mathbf{0}$ als Verschiebung geschrieben.
+
 \subsection[Transformationsmatrix]{Homogene Transformationsmatrix}
 Die Anordnung eines körperfesten Koordinatensystems $\{b\}$ (body-frame) in einem raumfesten Koordinatensystem $\{s\}$ (space-frame) kann beschrieben werden durch die Position des body-frames $p$ in $\{s\}$-Koordinaten und einer Rotationsmatrix $R$, welche die Ausrichtung von $\{b\}$ in $\{s\}$-Koordinaten.
 \begin{equation}
+	\label{eq:homTM}
 	T = \begin{bmatrix}R & p\\0 & 1\end{bmatrix} = \begin{bmatrix}r_{11} & r_{12} & r_{13} & p_1\\r_{21} & r_{22} & r_{23} & p_2\\r_{31} & r_{32} & r_{33} & p_3\\0 & 0 & 0 & 1\end{bmatrix}
+\end{equation}
+
+\subsection{Inverse einer Transformationsmatrix}
+
+Beweis oder Quelle!
+
+\begin{equation}
+	\left(T^b_s\begin{pmatrix}t_x\\t_y\\t_z\end{pmatrix}\right)^{-1} = T^s_b\begin{pmatrix}-t_x\\-t_y\\-t_z\end{pmatrix}
+\end{equation}
+
+\subsection{Inverse einer Rotationsmatrix um eine Achse}
+
+Beweis oder Quelle!
+
+\begin{equation}
+	\left(R^b_s\begin{pmatrix}\gamma\\0\\0\end{pmatrix}\right)^{-1} = R^s_b\begin{pmatrix}-\gamma\\0\\0\end{pmatrix}
 \end{equation}
 
 \section[Maschine]{Kinematik der Maschine}
@@ -64,3 +83,14 @@ Die Transformation beschreibt die Position eines Werkzeugpunktes im Koordinatens
 
 \subsection[Gesamt]{Transformation von Werkzeug- in Werkstückkoordinaten}
 
+Um die Transformation aus dem Werkzeug- in das Werkstückkoordinatensystem zu erhalten setzen wir die beiden Transformationsschritte gleich:
+
+\begin{equation}
+	T_{\mathbf{v}} \begin{pmatrix}a\\b\\c\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\0\\C - \gamma\\\end{pmatrix} \cdot{} \mathbf{p}_{WSt}= T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\\\end{pmatrix} \cdot{} R \begin{pmatrix}-A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix} \cdot{} \mathbf{p}_{WZ}
+\end{equation}
+
+Die Gleichung wird durch Multiplikation mit den Inversen der Transformation- und Rotationsmatrix aufgelöst, sodass die Beschreibung der Transformation von Werkzeug- in Werkstückkoordinaten entsteht.
+
+\begin{equation}
+	 \mathbf{p}_{WSt} = R \begin{pmatrix}0\\0\\-(C - \gamma)\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}-a\\-b\\-c\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\\\end{pmatrix} \cdot{} R \begin{pmatrix}-A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix} \cdot{} \mathbf{p}_{WZ}
+\end{equation}
