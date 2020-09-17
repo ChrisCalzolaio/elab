@@ -31,6 +31,8 @@ Die Anordnung eines körperfesten Koordinatensystems $\{b\}$ (body-frame) in ein
 
 \section[Maschine]{Kinematik der Maschine}
 
+Im Folgenden wird die Kinematik der Maschine beschrieben. Die Kinematik wird für die Betrachtung ausgehend von der Schnittstelle Maschinenbett-Werkstück in zwei Bereiche eingeteilt, für welche jeweils die Koordinatentransformation aufgestellt wird. Ein Bereich betrachtet auf Seite des Werkzeugs die kinematische Kette der Maschine mit den verfahrbaren Achsen, der zweite auf der Seite des Werkstücks die Position und Verdrehwinkel des Werkstückkoordinatensystems im Maschinenbett. Um anschließend die Koordinatentransformation von dem Werkzeugkoordinatensystems ind das Werkstückkoordinatensystems zu erhalten, werden die beiden Terme gleichgesetzt und nach Werkzeugkoordinaten aufgelöst.
+
 \begin{figure}
 	\centering
 	\includegraphics[width=12cm]{maschine_frei}
@@ -38,7 +40,27 @@ Die Anordnung eines körperfesten Koordinatensystems $\{b\}$ (body-frame) in ein
 	\caption{Kinematik der Maschine mit Vorzeichenrichtung der Achsen}
 \end{figure}
 
+\subsection[Werkstück]{Kinematik der Werkstück-Seite}
+
+In die kinematische Kette auf der Werkstückseite \ref{eq:werkstuck} gehen ein Offset des Werkstückkoordinatensystems zum Maschinenkoordinatensystem $\mathbf{p}_{offset} = \begin{pmatrix} a\\b\\c\end{pmatrix}$ und der Verdrehwinkel $C$ ein. Der Offset erlaubt die Fähigkeit ein versetztes Aufspannen des Werkstücks darzustellen und ist im idealen Fall ein Nullvektor. Dem Verdrehwinkel wird ein weiterer Offest $\gamma$ aufgeprägt. Dieser stellt den Fehler des verdrehten Aufspannens dar und erlaubt die Position von Zahn und Zahnlücke des virtuellen Schneckengetriebes zu korrigieren.
 
 \begin{equation}
+	\label{eq:werkstuck}
 	\mathbf{p}_m = T_{\mathbf{v}} \begin{pmatrix}a\\b\\c\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\0\\C - \gamma\\\end{pmatrix} \cdot{} \mathbf{p}_{WSt}
 \end{equation}
+
+Die Transformation beschreibt die Position eines Werkstückpunktes im Koordinatensystems des Maschinenbettes.
+
+\subsection[Werkzeug]{Kinematik der Werkzeug-Seite}
+
+Die kinematische Kette der Werkzeugseite \ref{eq:werkzeug} beinhaltet die verfahrbaren Achsen der Maschine mit ihrem jeweiligen Freiheitsgrad ein. Dabei wird dem y-Achsenfreiheitsgrad ein Offset aufgeprägt, mit dem der Bereich des Werkzeuges im Eingriff verschoben werden kann. Das Werkzeug unterliegt beim Schneiden Verschleiß. Das Werkzeug ist länger als erforderlich und durch Verschieben des Werkzeugs entlang der y-Achse kann der Verschleiß gleichmäßig auf das Werkzeug verteilt werden. Die Drehrichtung des Werkzeuges ist außerdem mathematisch negativ.
+
+\begin{equation}
+	\label{eq:werkzeug}
+	\mathbf{p}_m = T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\\\end{pmatrix} \cdot{} R \begin{pmatrix}-A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix} \cdot{} \mathbf{p}_{WZ}
+\end{equation}
+
+Die Transformation beschreibt die Position eines Werkzeugpunktes im Koordinatensystems des Maschinenbettes.
+
+\subsection[Gesamt]{Transformation von Werkzeug- in Werkstückkoordinaten}
+
