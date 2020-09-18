@@ -58,8 +58,6 @@ Daher ergibt sich für die Inverse der translatorischen Transformationsmatrix.
 	T^b_s\begin{pmatrix}t_x\\t_y\\t_z\end{pmatrix}^{-1} = T^s_b\begin{pmatrix}-t_x\\-t_y\\-t_z\end{pmatrix}
 \end{equation}
 
-Die Transformsrichtungs-Indizes kehren sich um zu beschreiben, dass die Transformationsrichtung jetzt vom body-frame $\{b\}$ in das space-frame $\{s\}$ erfolgt.
-
 \subsection{Inverse einer Rotationsmatrix um eine Achse}
 
 Beweis oder Quelle!
@@ -83,6 +81,8 @@ Das Subscript steht dabei für das Ausgangskoordinatensystem, das Superscript st
 \begin{equation}
 	T_s^b = \begin{bmatrix}R_s^b & p\\0 & 1\end{bmatrix}
 \end{equation}
+
+Bei Invertierung der Transformationsmatrix werden die Indizes getauscht, um zu beschreiben, dass die Transformationsrichtung jetzt vom body-frame $\{b\}$ in das space-frame $\{s\}$ erfolgt.
 
 \section[Maschine]{Kinematik der Maschine}
 
@@ -161,5 +161,25 @@ Um die Transformation aus dem Werkzeug- in das Werkstückkoordinatensystem zu er
 Die Gleichung wird durch Multiplikation mit den Inversen der Transformation- und Rotationsmatrix aufgelöst, sodass die Beschreibung der Transformation von Werkzeug- in Werkstückkoordinaten entsteht.
 
 \begin{equation}
-	 \mathbf{p}_{WSt} = R \begin{pmatrix}0\\0\\-(C - \gamma)\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}-a\\-b\\-c\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\\\end{pmatrix} \cdot{} R \begin{pmatrix}A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix} \cdot{} \mathbf{p}_{WZ}
+	\begin{split}
+		R \begin{pmatrix}0\\0\\-(C - \gamma)\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}-a\\-b\\-c\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\\\end{pmatrix} \cdot{} R \begin{pmatrix}A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix} \cdot{} \mathbf{p}_{WZ} & = \mathbf{p}_{WSt}\\
+		\mathbf{T}^{WZ}_{WSt} \cdot{} \mathbf{p}_{WZ} & = 
+	\end{split}
+\end{equation}
+
+\begin{equation}
+	\begin{split}
+		\mathbf{T}^{WZ}_{WSt} = & R \begin{pmatrix}0\\0\\-(C - \gamma)\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}-a\\-b\\-c\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\\\end{pmatrix} \cdot{} R \begin{pmatrix}A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix}\\
+		= & R \begin{pmatrix}0\\0\\\gamma - C\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}X -a\\-b\\Z-c\\\end{pmatrix} \cdot{} R \begin{pmatrix}A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix}\\
+		= & R \begin{pmatrix}0\\0\\\gamma - B \cdot fC_{WSt,rad}\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}x+B \cdot fX_{WZ,rad} -a\\-b\\z + B \cdot fZ_{WZ,rad}-c\\\end{pmatrix} \cdot{} R \begin{pmatrix}A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix}\\
+		= & \begin{bmatrix}
+			\sigma_2 \cdot \cos{B} + \sigma_1 \cdot \sin{A} \cdot \sin{B} & -\sigma_1 \cdot \cos{A} &  \sigma_1 \cdot \cos{B} \cdot \sin{A} - \sigma_2 \cdot \sin{B} & \sigma_2 \cdot \sigma_3 +\sigma_1 \cdot \sigma_4 \\
+			\sigma_1 \cdot \cos{B} - \sigma_2 \cdot \sin{A} \cdot \sin{B} &  \sigma_2 \cdot \cos{A} & -\sigma_2 \cdot \cos{B} \cdot \sin{A} - \sigma_1 \cdot \sin{B} & \sigma_1 \cdot \sigma_3 -\sigma_2 \cdot \sigma_4 \\
+			\cos{A} \cdot \sin{B} & \sin{A} & \cos{A} \cdot \cos{B} & Z-c+B \cdot fZ_{WZ,rad} +\sin{A} \cdot \sigma_5 \\
+			0 & 0 & 0 & 1 \end{bmatrix}
+	\end{split}
+\end{equation}
+
+\begin{equation}
+	B= \phi_{WZ} + \pi + \arcsin{\left(\dfrac{Z - c - z_{soll} + B_0 \cdot{} fZ_{WZrad} + \sin(A) \cdot{} (Y + Y_{shift} + B_0 \cdot{} fY_{WZrad}) + h_{WZ} \cdot{} \sin(A)}{r_{WZ} \cdot{} \cos(A)}\right)}
 \end{equation}
