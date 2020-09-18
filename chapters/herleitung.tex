@@ -27,6 +27,7 @@ Um Matrixoperation zu vereinfachen werden Rotationsmatrizen als homogene Transfo
 
 \subsection[Transformationsmatrix]{Homogene Transformationsmatrix}
 Die Anordnung eines körperfesten Koordinatensystems $\{b\}$ (body-frame) in einem raumfesten Koordinatensystem $\{s\}$ (space-frame) kann beschrieben werden durch die Position des body-frames $p$ in $\{s\}$-Koordinaten und einer Rotationsmatrix $R$, welche die Ausrichtung von $\{b\}$ in $\{s\}$-Koordinaten.
+
 \begin{equation}
 	\label{eq:homTM}
 	T = \begin{bmatrix}R & p\\0 & 1\end{bmatrix} = \begin{bmatrix}r_{11} & r_{12} & r_{13} & p_1\\r_{21} & r_{22} & r_{23} & p_2\\r_{31} & r_{32} & r_{33} & p_3\\0 & 0 & 0 & 1\end{bmatrix}
@@ -34,29 +35,63 @@ Die Anordnung eines körperfesten Koordinatensystems $\{b\}$ (body-frame) in ein
 
 \subsection{Inverse einer Transformationsmatrix}
 
-Beweis oder Quelle!
+\begin{equation}
+	\begin{split}
+		\mathbf{T}^{-1} & = \begin{bmatrix}R & p\\0 & 1\end{bmatrix}^{-1}\\
+		& = \begin{bmatrix}R^\intercal & -R^\intercal \cdot p\\0 & 1\end{bmatrix}
+	  \end{split}
+\end{equation}
+
+Bei einer linearen Translation ist die Rotationsmatrix die Einheitsmatrix. Daher ergibt sich für die Translationskomponente:
 
 \begin{equation}
-	\left(T^b_s\begin{pmatrix}t_x\\t_y\\t_z\end{pmatrix}\right)^{-1} = T^s_b\begin{pmatrix}-t_x\\-t_y\\-t_z\end{pmatrix}
+	\begin{split}
+		-R^\intercal \cdot p & = (-1) \cdot \begin{bmatrix}1 & 0 & 0\\0 & 1 & 0\\0 & 0 & 1\end{bmatrix}^\intercal \cdot p\\
+							 & = \begin{bmatrix}-1 & 0 & 0\\0 & -1 & 0\\0 & 0 & -1\end{bmatrix} \cdot \begin{pmatrix}t_x\\t_y\\t_z\end{pmatrix}\\
+							 & = \begin{pmatrix}-t_x\\-t_y\\-t_z\end{pmatrix}
+	\end{split}
 \end{equation}
+
+Daher ergibt sich für die Inverse der translatorischen Transformationsmatrix.
+
+\begin{equation}
+	T^b_s\begin{pmatrix}t_x\\t_y\\t_z\end{pmatrix}^{-1} = T^s_b\begin{pmatrix}-t_x\\-t_y\\-t_z\end{pmatrix}
+\end{equation}
+
+Die Transformsrichtungs-Indizes kehren sich um zu beschreiben, dass die Transformationsrichtung jetzt vom body-frame $\{b\}$ in das space-frame $\{s\}$ erfolgt.
 
 \subsection{Inverse einer Rotationsmatrix um eine Achse}
 
 Beweis oder Quelle!
 
 \begin{equation}
-	\left(R^b_s\begin{pmatrix}\gamma\\0\\0\end{pmatrix}\right)^{-1} = R^s_b\begin{pmatrix}-\gamma\\0\\0\end{pmatrix}
+	\left(R_s^b\begin{pmatrix}\gamma\\0\\0\end{pmatrix}\right)^{-1} = R^s_b\begin{pmatrix}-\gamma\\0\\0\end{pmatrix}
+\end{equation}
+
+\subsection{Notation der Indizes}
+
+Um bei einer Transformation zu verdeutlichen aus welchem Koordinatensystem in welches andere Koordinatensystem transformiert wird, werden der Transformationsmatrix Indizes angehängt.
+
+\begin{figure}
+	\includegraphics{frames}
+	\caption{Transformation von space-frame $\{s\}$ nach body-frame $\{b\}$}
+	\label{fig:frames}
+\end{figure}
+
+Das Subscript steht dabei für das Ausgangskoordinatensystem, das Superscript steht für die Zielkoordinatensystem. Die zu Abb.\ \ref{fig:frames} gehörende Transformationsmatrix lautet also:
+
+\begin{equation}
+	T_s^b = \begin{bmatrix}R_s^b & p\\0 & 1\end{bmatrix}
 \end{equation}
 
 \section[Maschine]{Kinematik der Maschine}
 
-Im Folgenden wird die Kinematik der Maschine beschrieben. Die Kinematik wird für die Betrachtung ausgehend von der Schnittstelle Maschinenbett-Werkstück in zwei Bereiche eingeteilt, für welche jeweils die Koordinatentransformation aufgestellt wird. Ein Bereich betrachtet auf Seite des Werkzeugs die kinematische Kette der Maschine mit den verfahrbaren Achsen, der zweite auf der Seite des Werkstücks die Position und Verdrehwinkel des Werkstückkoordinatensystems im Maschinenbett. Um anschließend die Koordinatentransformation von dem Werkzeugkoordinatensystems ind das Werkstückkoordinatensystems zu erhalten, werden die beiden Terme gleichgesetzt und nach Werkzeugkoordinaten aufgelöst.
+Im Folgenden wird die Kinematik der Maschine in Abb.\ \ref{fig:maschine} beschrieben. Die Kinematik wird für die Betrachtung ausgehend von der Schnittstelle Maschinenbett-Werkstück in zwei Bereiche eingeteilt, für welche jeweils die Koordinatentransformation aufgestellt wird. Ein Bereich betrachtet auf Seite des Werkzeugs die kinematische Kette der Maschine mit den verfahrbaren Achsen, der zweite auf der Seite des Werkstücks die Position und Verdrehwinkel des Werkstückkoordinatensystems im Maschinenbett. Um anschließend die Koordinatentransformation von dem Werkzeugkoordinatensystems ind das Werkstückkoordinatensystems zu erhalten, werden die beiden Terme gleichgesetzt und nach Werkzeugkoordinaten aufgelöst.
 
 \begin{figure}
-	\centering
 	\includegraphics[width=12cm]{maschine_frei}
-	\label{fig:maschine}
 	\caption{Kinematik der Maschine mit Vorzeichenrichtung der Achsen}
+	\label{fig:maschine}
 \end{figure}
 
 \subsection[Werkstück]{Kinematik der Werkstück-Seite}
@@ -76,21 +111,55 @@ Die kinematische Kette der Werkzeugseite \ref{eq:werkzeug} beinhaltet die verfah
 
 \begin{equation}
 	\label{eq:werkzeug}
-	\mathbf{p}_m = T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\\\end{pmatrix} \cdot{} R \begin{pmatrix}-A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix} \cdot{} \mathbf{p}_{WZ}
+	\mathbf{p}_m = T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\\\end{pmatrix} \cdot{} R \begin{pmatrix}A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix} \cdot{} \mathbf{p}_{WZ}
 \end{equation}
 
-Die Transformation beschreibt die Position eines Werkzeugpunktes im Koordinatensystems des Maschinenbettes.
+Die Transformation beschreibt die Position eines Werkzeugpunktes im Koordinatensystems des Maschinenbettes.\\
+Zur Vereinfachung der entstehenden Terme bietet sich das Zusammenfassen der Transformationsmatrizen zu einer Transformationsmatrix von Maschinenbett- in Werkzeugkoordinaten an:
+
+\begin{equation}
+	\mathbf{T}^{WZ}_m = T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\\\end{pmatrix} \cdot{} R \begin{pmatrix}A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix}
+\end{equation}
+
+
+\subsection[Vorschübe]{Aufprägung der Vorschübe auf die Achskoordinaten}
+
+Durch die Natur der Fertigung von Verzahnung vergleichbar mit einem Schneckengetriebe hängen die Vorschübe der Achsen von der Rotation des Werkzeugs ab. Dazu wird die Abhängigkeit der Achskoordinaten vom Werkzeugwinkel als Produkt des Werkzeugwinkels und einem Vorschubfaktor beschrieben. Den x-Achsen und z-Achsen Koordinaten wird zusätzlich als linearer Offset die Position der x-Achse von einem Ausgangszustand aufgeprägt. Bei der C-Achse ist dieser Effekt bereits mit dem Winkeloffset $\gamma$ realisiert.
+
+\subsubitem{x-Axchse}
+
+\begin{equation}
+	X = x + B \cdot fX_{WZ,rad}
+\end{equation}
+
+\subsubitem{z-Axchse}
+
+\begin{equation}
+	Z = z + B \cdot fZ_{WZ,rad}
+\end{equation}
+
+\subsubitem{C-Axchse}
+
+\begin{equation}
+	C = B \cdot fC_{WSt,rad}
+\end{equation}
+
+Damit ergibt sich für die Transformationsmatrix von Maschinenbett- in Werkzeugkoordinaten:
+
+\begin{equation}
+	\mathbf{T}^{WZ}_m = T_{\mathbf{v}} \begin{pmatrix}x + B \cdot fX_{WZ,rad}\\0\\z + B \cdot fZ_{WZ,rad}\\\end{pmatrix} \cdot{} R \begin{pmatrix}A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix}
+\end{equation}
 
 \subsection[Gesamt]{Transformation von Werkzeug- in Werkstückkoordinaten}
 
 Um die Transformation aus dem Werkzeug- in das Werkstückkoordinatensystem zu erhalten setzen wir die beiden Transformationsschritte gleich:
 
 \begin{equation}
-	T_{\mathbf{v}} \begin{pmatrix}a\\b\\c\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\0\\C - \gamma\\\end{pmatrix} \cdot{} \mathbf{p}_{WSt}= T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\\\end{pmatrix} \cdot{} R \begin{pmatrix}-A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix} \cdot{} \mathbf{p}_{WZ}
+	T_{\mathbf{v}} \begin{pmatrix}a\\b\\c\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\0\\C - \gamma\\\end{pmatrix} \cdot{} \mathbf{p}_{WSt}= T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\\\end{pmatrix} \cdot{} R \begin{pmatrix}A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix} \cdot{} \mathbf{p}_{WZ}
 \end{equation}
 
 Die Gleichung wird durch Multiplikation mit den Inversen der Transformation- und Rotationsmatrix aufgelöst, sodass die Beschreibung der Transformation von Werkzeug- in Werkstückkoordinaten entsteht.
 
 \begin{equation}
-	 \mathbf{p}_{WSt} = R \begin{pmatrix}0\\0\\-(C - \gamma)\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}-a\\-b\\-c\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\\\end{pmatrix} \cdot{} R \begin{pmatrix}-A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix} \cdot{} \mathbf{p}_{WZ}
+	 \mathbf{p}_{WSt} = R \begin{pmatrix}0\\0\\-(C - \gamma)\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}-a\\-b\\-c\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\\\end{pmatrix} \cdot{} R \begin{pmatrix}A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix} \cdot{} \mathbf{p}_{WZ}
 \end{equation}
