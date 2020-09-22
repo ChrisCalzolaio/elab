@@ -10,10 +10,11 @@
 
 \subsection{Rotation}
 \begin{equation}
+	\label{eq:rotationsmatrix}
 	\begin{split}
 		R\begin{pmatrix}\gamma\\\beta\\\alpha\\\end{pmatrix} = & R_{z}(\alpha )\,R_{y}(\beta )\,R_{x}(\gamma ) \\
-		= & \begin{bmatrix}\cos \alpha & -\sin \alpha & 0\\\sin \alpha & \cos \alpha & 0\\0& 0& 1\\\end{bmatrix}
-			\begin{bmatrix}\cos \beta & 0& \sin \beta \\0& 1& 0\\-\sin \beta & 0& \cos \beta \\\end{bmatrix}
+		= & \begin{bmatrix}\cos \alpha & -\sin \alpha & 0\\\sin \alpha & \cos \alpha & 0\\0& 0& 1\\\end{bmatrix} \cdot
+			\begin{bmatrix}\cos \beta & 0& \sin \beta \\0& 1& 0\\-\sin \beta & 0& \cos \beta \\\end{bmatrix} \cdot
 			\begin{bmatrix}1& 0& 0\\0& \cos \gamma & -\sin \gamma \\0& \sin \gamma & \cos \gamma \\\end{bmatrix} \\
 		= & \begin{bmatrix}
 			\cos \alpha \cos \beta & \cos \alpha \sin \beta \sin \gamma -\sin \alpha \cos \gamma & \cos 	\alpha \sin \beta \cos \gamma +\sin \alpha \sin \gamma \\
@@ -26,21 +27,24 @@
 Um Matrixoperation zu vereinfachen werden Rotationsmatrizen als homogene Transformationsmatrizen gemäß \ref{eq:homTM} mit einem Nullvektor $\mathbf{p} = \mathbf{0}$ als Verschiebung geschrieben.
 
 \subsection[Transformationsmatrix]{Homogene Transformationsmatrix}
-Die Anordnung eines körperfesten Koordinatensystems $\{b\}$ (body-frame) in einem raumfesten Koordinatensystem $\{s\}$ (space-frame) kann beschrieben werden durch die Position des body-frames $p$ in $\{s\}$-Koordinaten und einer Rotationsmatrix $R$, welche die Ausrichtung von $\{b\}$ in $\{s\}$-Koordinaten.
+Die Anordnung eines körperfesten Koordinatensystems $\{b\}$ (body-frame) in einem raumfesten Koordinatensystem $\{s\}$ (space-frame) kann beschrieben werden durch die Position des body-frames $p$ in $\{s\}$-Koordinaten und einer Rotationsmatrix $R$, welche die Ausrichtung von $\{b\}$ in $\{s\}$-Koordinaten beschreibt (siehe Abb. \ref{fig:frames}). Die homogene Transformationsmatrix $\mathbf{T}$ ist die kombinierte Repräsentation von Orientierung und Position als eine Matrix \cite[Ch. 3.3.1]{KevinMLynch2017}:
 
 \begin{equation}
 	\label{eq:homTM}
 	T = \begin{bmatrix}R & p\\0 & 1\end{bmatrix} = \begin{bmatrix}r_{11} & r_{12} & r_{13} & p_1\\r_{21} & r_{22} & r_{23} & p_2\\r_{31} & r_{32} & r_{33} & p_3\\0 & 0 & 0 & 1\end{bmatrix}
 \end{equation}
 
-\subsection{Inverse einer Transformationsmatrix}
+\section{Inverse von Transformationen}
 
+Die Inverse einer Transformationsmatrix ist ebenfalls eine Transformationsmatrix der Form \cite[Prop. 3.15]{KevinMLynch2017}:
 \begin{equation}
 	\begin{split}
 		\mathbf{T}^{-1} & = \begin{bmatrix}R & p\\0 & 1\end{bmatrix}^{-1}\\
 		& = \begin{bmatrix}R^\intercal & -R^\intercal \cdot p\\0 & 1\end{bmatrix}
-	  \end{split}
+	\end{split}
 \end{equation}
+
+\subsection[Translation]{Inverse der linearen Translation}
 
 Bei einer linearen Translation ist die Rotationsmatrix die Einheitsmatrix. Daher ergibt sich für die Translationskomponente:
 
@@ -59,12 +63,52 @@ Daher ergibt sich für die Inverse der translatorischen Transformationsmatrix.
 	T^b_s\begin{pmatrix}t_x\\t_y\\t_z\end{pmatrix}^{-1} = T^s_b\begin{pmatrix}-t_x\\-t_y\\-t_z\end{pmatrix}
 \end{equation}
 
-\subsection{Inverse einer Rotationsmatrix um eine Achse}
+\subsection[Rotation]{Inverse der Rotation um eine Achse}
 
-Beweis oder Quelle!
+Da bei der reinen Rotationsmatrix der Translationsvektor $p$ der Nullvektor ist, folgt, dass die Translationskomponente der inversen Transformationsmatrix ebenfalls der Nullvektor ist.
+\begin{equation}
+	\label{eq:translation}
+	\begin{split}
+		-R^\intercal \cdot p & = (-1) \cdot \begin{bmatrix}1 & 0 & 0\\0 & 1 & 0\\0 & 0 & 1\end{bmatrix}^\intercal \cdot \mathbf{0}\\
+		& = \begin{bmatrix}-1 & 0 & 0\\0 & -1 & 0\\0 & 0 & -1\end{bmatrix} \cdot \begin{pmatrix}0\\0\\0\end{pmatrix}\\
+		& = \begin{pmatrix}0\\0\\0\end{pmatrix}
+	\end{split}
+\end{equation}
+
+Bei Rotation um eine Achse ergibt sich die Rotationskomponente gemäß \ref{eq:rotationsmatrix} beispielhaft für Rotation um die z-Achse zu:
 
 \begin{equation}
-	\left(R_s^b\begin{pmatrix}\gamma\\0\\0\end{pmatrix}\right)^{-1} = R^s_b\begin{pmatrix}-\gamma\\0\\0\end{pmatrix}
+	\begin{split}
+		R\begin{pmatrix}0\\0\\\alpha\end{pmatrix} = & R_{z}(\alpha )\,R_{y}(0)\,R_{x}(0) \\
+		= & \begin{bmatrix}\cos \alpha & -\sin \alpha & 0\\\sin \alpha & \cos \alpha & 0\\0& 0& 1\\\end{bmatrix} \cdot
+		\begin{bmatrix}\cos 0 & 0& \sin 0 \\0& 1& 0\\-\sin 0 & 0& \cos 0 \\\end{bmatrix} \cdot
+		\begin{bmatrix}1& 0& 0\\0& \cos 0 & -\sin 0 \\0& \sin 0 & \cos 0 \\\end{bmatrix} \\
+		= & \begin{bmatrix}\cos \alpha & -\sin \alpha & 0\\\sin \alpha & \cos \alpha & 0\\0& 0& 1\\\end{bmatrix}
+	\end{split}
+\end{equation}
+
+\begin{equation}
+	\label{eq:sincossymm}
+	\begin{split}
+		\sin{-x} = & -\sin{x} \\
+		\cos{-x} = & \cos{x}
+	\end{split}
+\end{equation}
+
+Für die transponierte der Rotationskomponente ergibt sich mit den Symmetriebeziehungen gemäß Gleich. \ref{eq:sincossymm}:
+
+\begin{equation}
+	\begin{split}
+		R_{z}^\intercal(\alpha) = & \begin{bmatrix}\cos \alpha & -\sin \alpha & 0\\\sin \alpha & \cos \alpha & 0\\0& 0& 1\\\end{bmatrix}^\intercal \\
+		= & \begin{bmatrix}\cos \alpha & \sin \alpha & 0\\-\sin \alpha & \cos \alpha & 0\\0& 0& 1\\\end{bmatrix} \\
+		= & R_{z}(-\alpha)
+	\end{split}
+\end{equation}
+
+Damit folgt für die Inverse der Transformationsmatrix der reinen Rotation:
+
+\begin{equation}
+	R_s^b\begin{pmatrix}0\\0\\\alpha\end{pmatrix}^{-1} = R^s_b\begin{pmatrix}0\\0\\-\alpha\end{pmatrix}
 \end{equation}
 
 \subsection{Notation der Indizes}
@@ -77,7 +121,7 @@ Um bei einer Transformation zu verdeutlichen aus welchem Koordinatensystem in we
 	\label{fig:frames}
 \end{figure}
 
-Das Subscript steht dabei für das Ausgangskoordinatensystem, das Superscript steht für die Zielkoordinatensystem. Die zu Abb.\ \ref{fig:frames} gehörende Transformationsmatrix lautet also:
+Das Subscript steht dabei für das Ausgangskoordinatensystem, das Superscript steht für die Zielkoordinatensystem. Die zu Abb. \ref{fig:frames} gehörende Transformationsmatrix lautet also:
 
 \begin{equation}
 	T_s^b = \begin{bmatrix}R_s^b & p\\0 & 1\end{bmatrix}
@@ -87,7 +131,7 @@ Bei Invertierung der Transformationsmatrix werden die Indizes getauscht, um zu b
 
 \section[Maschine]{Kinematik der Maschine}
 
-Im Folgenden wird die Kinematik der Maschine in Abb.\ \ref{fig:maschine} beschrieben. Die Kinematik wird für die Betrachtung ausgehend von der Schnittstelle Maschinenbett-Werkstück in zwei Bereiche eingeteilt, für welche jeweils die Koordinatentransformation aufgestellt wird. Ein Bereich betrachtet auf Seite des Werkzeugs die kinematische Kette der Maschine mit den verfahrbaren Achsen, der zweite auf der Seite des Werkstücks die Position und Verdrehwinkel des Werkstückkoordinatensystems im Maschinenbett. Um anschließend die Koordinatentransformation von dem Werkzeugkoordinatensystems ind das Werkstückkoordinatensystems zu erhalten, werden die beiden Terme gleichgesetzt und nach Werkzeugkoordinaten aufgelöst.
+Im Folgenden wird die Kinematik der Maschine in Abb. \ref{fig:maschine} beschrieben. Die Kinematik wird für die Betrachtung ausgehend von der Schnittstelle Maschinenbett-Werkstück in zwei Bereiche eingeteilt, für welche jeweils die Koordinatentransformation aufgestellt wird. Ein Bereich betrachtet auf Seite des Werkzeugs die kinematische Kette der Maschine mit den verfahrbaren Achsen, der zweite auf der Seite des Werkstücks die Position und Verdrehwinkel des Werkstückkoordinatensystems im Maschinenbett. Um anschließend die Koordinatentransformation von dem Werkzeugkoordinatensystems ind das Werkstückkoordinatensystems zu erhalten, werden die beiden Terme gleichgesetzt und nach Werkzeugkoordinaten aufgelöst.
 
 \begin{figure}
 	\includegraphics[width=12cm]{maschine_frei}
@@ -97,7 +141,7 @@ Im Folgenden wird die Kinematik der Maschine in Abb.\ \ref{fig:maschine} beschri
 
 \subsection[Werkstück]{Kinematik der Werkstück-Seite}
 
-In die kinematische Kette auf der Werkstückseite \ref{eq:werkstuck} gehen ein Offset des Werkstückkoordinatensystems zum Maschinenkoordinatensystem $\mathbf{p}_{offset} = \begin{pmatrix} a\\b\\c\end{pmatrix}$ und der Verdrehwinkel $C$ ein. Der Offset erlaubt die Fähigkeit ein versetztes Aufspannen des Werkstücks darzustellen und ist im idealen Fall ein Nullvektor. Dem Verdrehwinkel wird ein weiterer Offest $\gamma$ aufgeprägt. Dieser stellt den Fehler des verdrehten Aufspannens dar und erlaubt die Position von Zahn und Zahnlücke des virtuellen Schneckengetriebes zu korrigieren.
+In die kinematische Kette auf der Werkstückseite \ref{eq:werkstuck} gehen ein Offset des Werkstückkoordinatensystems zum Maschinenkoordinatensystem $\mathbf{p}_{\mathtt{offset}} = \begin{pmatrix} a\\b\\c\end{pmatrix}$ und der Verdrehwinkel $C$ ein. Der Offset erlaubt die Fähigkeit ein versetztes Aufspannen des Werkstücks darzustellen und ist im idealen Fall ein Nullvektor. Dem Verdrehwinkel wird ein weiterer Offest $\gamma$ aufgeprägt. Dieser stellt den Fehler des verdrehten Aufspannens dar und erlaubt die Position von Zahn und Zahnlücke des virtuellen Schneckengetriebes zu korrigieren.
 
 \begin{equation}
 	\label{eq:werkstuck}
