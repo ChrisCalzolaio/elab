@@ -189,7 +189,7 @@ Zur Vereinfachung der mathematischen Notation wird der Transformationsmatrix $\m
 
 \section[Lösung]{Lösung der relevanten Gleichung}
 
-Bei der gewählten Lösung des Problems soll der Werkzeugwinkel in Abhängigkeit von einer bestimmten z-Position eines Punktes des Werkzeugs bestimmt werden. Um die Operation zu vereinfachen wird angenommen, dass sich die Position des Punktes nur von dem linearen Transformationsbestandteil der Transformationsmatrix abhängt. Gemäß der Gleichung \ref{eq:translation} ist der lineare Bestandteil in z-Richtung ist das 3. Element der 4. Spalte der Transformationsmatrix.
+Bei dem gewählten Lösungsverfahren des Problems soll der Werkzeugwinkel in Abhängigkeit von einer bestimmten z-Position eines Punktes des Werkzeugs bestimmt werden. Um die Operation zu vereinfachen wird angenommen, dass sich die Position des Punktes nur von dem linearen Transformationsbestandteil der Transformationsmatrix abhängt. Gemäß der Gleichung \ref{eq:translation} ist der lineare Bestandteil in z-Richtung ist das 3. Element der 4. Spalte der Transformationsmatrix.
 
 \begin{equation}
 	t_z = T_{3,4}
@@ -244,7 +244,7 @@ Gemäß dem Additionsterm \ref{eq:additionsterm} aus \cite[Gleich. 7.6.1]{Papula
 	\sin(B + \phi_{WZ}) = -\frac{Z - c  - z_{soll} + B \cdot{} fZ_{WZrad} + \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad}) + h_{WZ} \cdot{} \sin(A)}{r_{WZ} \cdot{} \cos(A)}
 \end{equation}
 \begin{equation}
-	B + \phi_{WZ} = \arcsin{-\frac{Z - c  - z_{soll} + B \cdot{} fZ_{WZrad} + \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad}) + h_{WZ} \cdot{} \sin(A)}{r_{WZ} \cdot{} \cos(A)}}
+	B + \phi_{WZ} = \arcsin{\left(-\frac{Z - c  - z_{soll} + B \cdot{} fZ_{WZrad} + \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad}) + h_{WZ} \cdot{} \sin(A)}{r_{WZ} \cdot{} \cos(A)}\right)}
 \end{equation}
 
 \begin{equation}
@@ -253,6 +253,9 @@ Gemäß dem Additionsterm \ref{eq:additionsterm} aus \cite[Gleich. 7.6.1]{Papula
 \end{equation}
 
 Wegen der Punktsymmetrie des Arkussinus \ref{eq:arcsinpunktsymm} ergibt sich:
+\begin{equation}
+	B = -\phi_{WZ} -\arcsin{\left(\frac{Z - c  - z_{soll} + B \cdot{} fZ_{WZrad} + \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad}) + h_{WZ} \cdot{} \sin(A)}{r_{WZ} \cdot{} \cos(A)}\right)}
+\end{equation}
 
 
 Lösung:
