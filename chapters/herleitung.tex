@@ -45,6 +45,7 @@ Die Anordnung eines körperfesten Koordinatensystems $\{b\}$ (body-frame) in ein
 Bei einer linearen Translation ist die Rotationsmatrix die Einheitsmatrix. Daher ergibt sich für die Translationskomponente:
 
 \begin{equation}
+	\label{eq:translation}
 	\begin{split}
 		-R^\intercal \cdot p & = (-1) \cdot \begin{bmatrix}1 & 0 & 0\\0 & 1 & 0\\0 & 0 & 1\end{bmatrix}^\intercal \cdot p\\
 							 & = \begin{bmatrix}-1 & 0 & 0\\0 & -1 & 0\\0 & 0 & -1\end{bmatrix} \cdot \begin{pmatrix}t_x\\t_y\\t_z\end{pmatrix}\\
@@ -180,6 +181,81 @@ Die Gleichung wird durch Multiplikation mit den Inversen der Transformation- und
 	\end{split}
 \end{equation}
 
+Zur Vereinfachung der mathematischen Notation wird der Transformationsmatrix $\mathbf{T}^{WZ}_{WSt}$ eine charakteristische Bezeichnung gegeben. $\mathbf{G}$ steht hierbei für \textit{Gesamt}.
+
+\begin{equation}
+	\mathbf{T}^{WZ}_{WSt} = \mathbf{G}
+\end{equation}
+
+\section[Lösung]{Lösung der relevanten Gleichung}
+
+Bei der gewählten Lösung des Problems soll der Werkzeugwinkel in Abhängigkeit von einer bestimmten z-Position eines Punktes des Werkzeugs bestimmt werden. Um die Operation zu vereinfachen wird angenommen, dass sich die Position des Punktes nur von dem linearen Transformationsbestandteil der Transformationsmatrix abhängt. Gemäß der Gleichung \ref{eq:translation} ist der lineare Bestandteil in z-Richtung ist das 3. Element der 4. Spalte der Transformationsmatrix.
+
+\begin{equation}
+	t_z = T_{3,4}
+\end{equation}
+
+Damit sieht die zu lösende Gleichung folgendermaßen aus:
+\begin{equation}
+	\begin{split}
+		\mathbf{G}_{3,4} = & Z - c + B \cdot{} fZ_{WZrad} + \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad}) + h_{WZ} \cdot{} \sin(A) \\
+						 + & r_{WZ} \cdot{} \cos(A) \cdot{} \cos(B) \cdot{} \sin(\phi_{WZ}) + r_{WZ} \cdot{} cos(A) \cdot{} \sin(B) \cdot{} \cos(\phi_{WZ})
+	\end{split}
+\end{equation}
+
+Die Lösung der Gleichung soll für einen vorgebenen Wert in z-Richung erfolgen.
+\begin{equation}
+	\begin{split}
+		z_{soll} = & Z - c + B \cdot{} fZ_{WZrad} + \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad}) + h_{WZ} \cdot{} \sin(A) \\
+				 + & r_{WZ} \cdot{} \cos(A) \cdot{} \cos(B) \cdot{} \sin(\phi_{WZ}) + r_{WZ} \cdot{} cos(A) \cdot{} \sin(B) \cdot{} \cos(\phi_{WZ})
+	\end{split}
+\end{equation}
+
+Da Lösung der Gleichung durch Finden des Nullpunktes erfolgen soll, muss die Gleichung nach dem Werkzeugwinkel $B$ aufgelöst werden.
+\begin{equation}
+	\begin{split}
+		0 = & Z - c -z_{soll} + B \cdot{} fZ_{WZrad} + \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad}) + h_{WZ} \cdot{} \sin(A) \\
+		  + & r_{WZ} \cdot{} \cos(A) \cdot{} \cos(B) \cdot{} \sin(\phi_{WZ}) + r_{WZ} \cdot{} cos(A) \cdot{} \sin(B) \cdot{} \cos(\phi_{WZ})
+	\end{split}
+\end{equation}
+
+\begin{equation}
+	\label{eq:additionsterm}
+	\sin(x_1 \pm x_2) = \sin(x_1) \cdot{} \cos(x_2) \pm \cos(x_1) \cdot{} \sin(x_2)
+\end{equation}
+
+Gemäß dem Additionsterm \ref{eq:additionsterm} aus \cite[Gleich. 7.6.1]{Papula2017} können die $\sin$- und $\cos$-Terme nach $r_{WZ} \cdot{} cos(A)$ zusammengefasst werden.
+
+\begin{equation}
+	\begin{split}
+	0 =  & Z - c  - z_{soll} + B \cdot{} fZ_{WZrad} + \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad}) + h_{WZ} \cdot{} \sin(A) \\
+	   + & r_{WZ} \cdot{} \cos(A) \cdot{} \sin(B + \phi_{WZ})
+	\end{split}
+\end{equation}
+
+\begin{equation}
+	\begin{split}
+	-r_{WZ} \cdot{} \cos(A) \cdot{} \sin(B + \phi_{WZ}) = & Z - c  - z_{soll} + B \cdot{} fZ_{WZrad} \\
+														+ & \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad}) + h_{WZ} \cdot{} \sin(A)
+	\end{split}
+\end{equation}
+
+\begin{equation}
+	\sin(B + \phi_{WZ}) = -\frac{Z - c  - z_{soll} + B \cdot{} fZ_{WZrad} + \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad}) + h_{WZ} \cdot{} \sin(A)}{r_{WZ} \cdot{} \cos(A)}
+\end{equation}
+\begin{equation}
+	B + \phi_{WZ} = \arcsin{-\frac{Z - c  - z_{soll} + B \cdot{} fZ_{WZrad} + \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad}) + h_{WZ} \cdot{} \sin(A)}{r_{WZ} \cdot{} \cos(A)}}
+\end{equation}
+
+\begin{equation}
+	\label{eq:arcsinpunktsymm}
+	\arcsin{-x} = -\arcsin{x}
+\end{equation}
+
+Wegen der Punktsymmetrie des Arkussinus \ref{eq:arcsinpunktsymm} ergibt sich:
+
+
+Lösung:
 \begin{equation}
 	B= \phi_{WZ} + \pi + \arcsin{\left(\dfrac{Z - c - z_{soll} + B_0 \cdot{} fZ_{WZrad} + \sin(A) \cdot{} (Y + Y_{shift} + B_0 \cdot{} fY_{WZrad}) + h_{WZ} \cdot{} \sin(A)}{r_{WZ} \cdot{} \cos(A)}\right)}
 \end{equation}
