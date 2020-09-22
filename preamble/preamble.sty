@@ -13,13 +13,17 @@
 \usepackage{amsmath,amsfonts,amssymb}            % standard math notation (vectors/sets/...)
 \usepackage{bm}        % standard math notation (fonts)
 \usepackage{fixmath}        % standard math notation (fonts)
+% graphics
 \usepackage{graphicx}
+\usepackage{epstopdf}
+\graphicspath{{figures/}{./figures/}{figures/vector/}{./figures/vector/}{figures/bitmap/}{./figures/bitmap/}} % define the path to graphics
+
 \usepackage[facing=yes]{floatrow}       % mehrere Gleitobjekte nebeneinander/caption neben Bild/Tabelle
 \usepackage[labelfont=bf,sf,font=small,labelsep=space,format=plain]{caption}
 \usepackage{subcaption}
 \usepackage{scrlayer-scrpage}
 % \usepackage{pstool}  % einbinden falls psfrag verwendet werden soll
-\usepackage{epstopdf}
+
 \usepackage[ngerman]{babel}
 \usepackage{ellipsis}  % Korrigiert den Weißraum um Auslassungspunkte
 \usepackage{microtype}  % optischer Randausgleich etc.
@@ -37,8 +41,7 @@
 
 %\typearea[current]{calc}
 
-% define the path to graphics
-\graphicspath{{figures/}{./figures/}{figures/vector/}{./figures/vector/}{figures/bitmap/}{./figures/bitmap/}}
+
 
 % Einstellungen für Bild-/Tabellenbeschriftung neben dem Bild
 \floatsetup[figure]{capbesideposition={inside,top}}
