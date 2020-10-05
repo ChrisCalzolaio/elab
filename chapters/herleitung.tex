@@ -154,6 +154,12 @@ Die Transformation beschreibt die Position eines Werkstückpunktes im Koordinate
 
 Die kinematische Kette der Werkzeugseite \ref{eq:werkzeug} beinhaltet die verfahrbaren Achsen der Maschine mit ihrem jeweiligen Freiheitsgrad ein. Dabei wird dem y-Achsenfreiheitsgrad ein Offset aufgeprägt, mit dem der Bereich des Werkzeuges im Eingriff verschoben werden kann. Das Werkzeug unterliegt beim Schneiden Verschleiß. Das Werkzeug ist länger als erforderlich und durch Verschieben des Werkzeugs entlang der y-Achse kann der Verschleiß gleichmäßig auf das Werkzeug verteilt werden. Die Drehrichtung des Werkzeuges ist außerdem mathematisch negativ.
 
+b-Achse negativ wegen Spanabfall!
+
+\begin{equation}
+	Y = y + B \cdot fY_{WZ,rad} + Y_{\mathtt{shift}}
+\end{equation}
+
 \begin{equation}
 	\label{eq:werkzeug}
 	\mathbf{p}_m = T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\\\end{pmatrix} \cdot{} R \begin{pmatrix}A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix} \cdot{} \mathbf{p}_{WZ}
