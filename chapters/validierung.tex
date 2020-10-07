@@ -1,0 +1,12 @@
+\documentclass[../main.tex]{subfiles}
+\chapter{Validierung}
+\label{c:validierung}
+
+Die zugrunde liegende Maschine mit 6 Freiheitsgraden recht komplex und die positive Richtung dieser Freiheitsgrade ist nicht streng an die mathematisch positive Richtung des Standardkoordinatensystems gehalten. Eine visuelle Validierung der in Kap.\ \ref{c:herleitung} entwickelten linearen Algebra anhand einer erprobten Methode ist also sinnvoll.
+
+\section{mechanisches Modell der Maschine}
+
+Anhand der schematischen Darstellung einer Wälzfräsmaschine in Abb.\ \ref{fig:maschine} wurde in Creo Parametric eine 3 dimensionales Modell erstellt. Die Komponenten der Maschine wurden im Mechanismus-Modus zu einem kinematischen Modell verknüpft. Dieses kinematische Modell wurde anschließend mittels einer Softwareschnittstelle in ein Simscape Multibody Modell konvertiert. Bei der Software Simscape\texttrademark\xspace handelt es sich um eine Reihe von Blockbibliotheken und speziellen Simulationsfunktionen zur Modellierung physikalischer Systeme in der Simulink\textregistered-Umgebung. Sie verwendet den Physical Network-Ansatz, der sich von dem Standard-Simulink-Modellierungsansatz unterscheidet und sich besonders für die Simulation von Systemen eignet, die aus realen physikalischen Komponenten bestehen. \cite{mwSim}
+
+\subsection{Skelettmodell}
+
