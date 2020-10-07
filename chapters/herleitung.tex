@@ -5,6 +5,7 @@
 \section[Operatoren]{Operatoren für Transformationen}
 \subsection{Translation}
 \begin{equation}
+	\label{eq:translation}
 	T_{\mathbf{v}} \begin{pmatrix}t_x\\t_y\\t_z\\\end{pmatrix}= \begin{bmatrix}1 & 0 & 0 & t_x\\0 & 1 & 0 & t_y\\0 & 0 & 0 & t_z\\0 & 0 & 0 & 1\end{bmatrix}
 \end{equation}
 
@@ -49,7 +50,7 @@ Die Inverse einer Transformationsmatrix ist ebenfalls eine Transformationsmatrix
 Bei einer linearen Translation ist die Rotationsmatrix die Einheitsmatrix. Daher ergibt sich für die Translationskomponente:
 
 \begin{equation}
-	\label{eq:translation}
+	\label{eq:invtrans}
 	\begin{split}
 		-R^\intercal \cdot p & = (-1) \cdot \begin{bmatrix}1 & 0 & 0\\0 & 1 & 0\\0 & 0 & 1\end{bmatrix}^\intercal \cdot p\\
 							 & = \begin{bmatrix}-1 & 0 & 0\\0 & -1 & 0\\0 & 0 & -1\end{bmatrix} \cdot \begin{pmatrix}t_x\\t_y\\t_z\end{pmatrix}\\
@@ -67,7 +68,7 @@ Daher ergibt sich für die Inverse der translatorischen Transformationsmatrix.
 
 Da bei der reinen Rotationsmatrix der Translationsvektor $p$ der Nullvektor ist, folgt, dass die Translationskomponente der inversen Transformationsmatrix ebenfalls der Nullvektor ist.
 \begin{equation}
-	\label{eq:translation}
+	\label{eq:inverserot}
 	\begin{split}
 		-R^\intercal \cdot p & = (-1) \cdot \begin{bmatrix}1 & 0 & 0\\0 & 1 & 0\\0 & 0 & 1\end{bmatrix}^\intercal \cdot \mathbf{0}\\
 		& = \begin{bmatrix}-1 & 0 & 0\\0 & -1 & 0\\0 & 0 & -1\end{bmatrix} \cdot \begin{pmatrix}0\\0\\0\end{pmatrix}\\
