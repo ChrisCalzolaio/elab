@@ -59,35 +59,14 @@ Zweitprüfer: \> Prof.\ Dr.\
 
 \end{titlepage}
 
-\cleardoubleemptypage
+% einbinden der erklärungsseite
+\begin{tikzpicture}[remember picture,overlay]
+	\node at (current page.center) {\includegraphics{erklaerung}};
+	\begin{scope}[shift={(current page.south west)},every node/.style={anchor=base west}]
+		\node at (5.5cm,18.975cm) {\sffamily\today};
+	\end{scope}
+\end{tikzpicture}
 
-{
-\large
-\thispagestyle{empty}
-\vspace*{\fill}
-
-\noindent
-\textsc{Erklärung}
-
-\medskip
-
-\noindent
-Ich versichere, dass ich diese Arbeit selbstständig
-angefertigt, nicht anderweitig für Prüfungszwecke
-vorgelegt, keine anderen als die angegebenen Quellen
-oder Hilfsmittel benützt sowie wörtliche und
-sinngemäße Zitate als solche gekennzeichnet habe.
-
-\bigskip
-
-\noindent
-Rosenheim, den tt.mm.jjjj
-
-\vspace*{2cm}
-
-\noindent
-Vor- und Zuname
-}
 
 %%% Local Variables: 
 %%% mode: latex
