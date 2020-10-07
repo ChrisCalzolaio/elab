@@ -1,61 +1,19 @@
 \documentclass[../main.tex]{subfiles}
 
 \begin{titlepage}
-
-%\sffamily
-
-\raggedleft
-
-\vspace*{-2cm}
-
-%\includegraphics{logo-th-rosenheim-2019_master_quer_2c}
-
-\vfill
-
-\centering
-\LARGE
-% \vspace*{\fill}
-%-----------
-Fakultät Maschinenbau und Mechatronik  \vspace{0.5cm}\\
-\Large
-Studiengang Maschinenbau
-
-\vspace{2cm}
-
-\LARGE
-
-\batitel
-
-\vspace{2cm}
-
-\Large
-Bachelor Thesis
-
-\vspace{1.5cm}
-
-
-\Large
-von
-
-\vspace{0.5cm}
-
-%\vspace*{\fill}
-
-\LARGE
-\student \vspace{1cm}
-
-\vspace{1cm}
-
-\flushleft
- \Large
-\vspace*{\fill}
-
-\begin{tabbing}
-Datum der Abgabe: \= tt.mm.jjjj \kill
-Datum der Abgabe: \> \today \\
-Erstprüfer: \> \scherbarth \\
-Zweitprüfer: \> Prof.\ Dr.\
-\end{tabbing}
+	
+\begin{tikzpicture}[remember picture,overlay]
+	\node at (current page.center) {\includegraphics{titel}};
+	\begin{scope}[shift={(current page.center)},every node/.style={anchor=center}]
+		\node at (0cm,4.1cm) {\sffamily \LARGE \batitel};
+		\node at (0cm,1.8cm) {\sffamily \Large \batitelen};
+	\end{scope}
+	\begin{scope}[shift={(current page.south west)},every node/.style={anchor=base west}]
+		\node at (2.3cm,5cm) {\sffamily \Large \student};
+		\node at (11.1cm,5cm) {\sffamily \Large \scherbarth};
+		\node at (6.4cm,4cm) {\sffamily \Large \today};
+	\end{scope}
+\end{tikzpicture}
 
 \end{titlepage}
 
