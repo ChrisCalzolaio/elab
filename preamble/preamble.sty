@@ -16,7 +16,9 @@
 % graphics
 \usepackage{graphicx}
 \usepackage{epstopdf}
-\graphicspath{{figures/}{./figures/}{figures/vector/}{./figures/vector/}{figures/bitmap/}{./figures/bitmap/}} % define the path to graphics
+\usepackage[final]{pdfpages}
+\usepackage{tikz}
+\graphicspath{{figures/}{./figures/}{figures/vector/}{./figures/vector/}{figures/bitmap/}{./figures/bitmap/}{figures/pdf/}{./figures/pdf/}} % define the path to graphics
 
 \usepackage[facing=yes]{floatrow}       % mehrere Gleitobjekte nebeneinander/caption neben Bild/Tabelle
 \usepackage[labelfont=bf,sf,font=small,labelsep=space,format=plain]{caption}
