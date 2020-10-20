@@ -153,24 +153,42 @@ Die Transformation beschreibt die Position eines Werkstückpunktes im Koordinate
 
 \subsection[Werkzeug]{Kinematik der Werkzeug-Seite}
 
-Die kinematische Kette der Werkzeugseite \ref{eq:werkzeug} beinhaltet die verfahrbaren Achsen der Maschine mit ihrem jeweiligen Freiheitsgrad ein. Dabei wird dem y-Achsenfreiheitsgrad ein Offset aufgeprägt, mit dem der Bereich des Werkzeuges im Eingriff verschoben werden kann. Das Werkzeug unterliegt beim Schneiden Verschleiß. Das Werkzeug ist länger als erforderlich und durch Verschieben des Werkzeugs entlang der y-Achse kann der Verschleiß gleichmäßig auf das Werkzeug verteilt werden. Die Drehrichtung des Werkzeuges ist außerdem mathematisch negativ.
-
-b-Achse negativ wegen Spanabfall!
+Die kinematische Kette der Werkzeugseite \ref{eq:werkzeug} beinhaltet die verfahrbaren Achsen der Maschine mit ihrem jeweiligen Freiheitsgrad ein. Dabei wird dem y-Achsenfreiheitsgrad ein Offset aufgeprägt, mit dem der Bereich des Werkzeuges im Eingriff verschoben werden kann. Das Werkzeug unterliegt beim Schneiden Verschleiß. Das Werkzeug ist länger als erforderlich und durch Verschieben des Werkzeugs entlang der y-Achse kann der Verschleiß gleichmäßig auf das Werkzeug verteilt werden. 
 
 \begin{equation}
 	Y = y + B \cdot fY_{WZ,rad} + Y_{\mathtt{shift}}
 \end{equation}
 
+Da der Spanabfall in Drehrichtung des Werkzeugs erfolgen soll ist diese mathematisch negativ einzutragen. Das Werkzeug hat außerdem ein eigenes Koordinatensystem, bei welchem sich die z-Achse entlang der Drehrichtung des Werkzeuges erstreckt.
+Es bietet sich an, die Ausrichtung des Koordinatensystems durch Drehung um $\pi/2$ um die x-Achse zu definieren.
+So kann man mit sehr wenig Aufwand das Werkzeug in einem Polarkoordinatensystem anlegen und die Punktewolke in kartesische Koordinaten umrechnen.
+
 \begin{equation}
-	\label{eq:werkzeug}
-	\mathbf{p}_m = T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\\\end{pmatrix} \cdot{} R \begin{pmatrix}A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix} \cdot{} \mathbf{p}_{WZ}
+	\mathbf{p}_{WZ,kart} = \begin{pmatrix}x = & r \cdot{} \cos{\phi}\\
+		                                  y = & r \cdot{} \sin{\phi}\\
+		                                  z = & h\end{pmatrix}
 \end{equation}
 
-Die Transformation beschreibt die Position eines Werkzeugpunktes im Koordinatensystems des Maschinenbettes.\\
+\begin{figure}
+	\includegraphics{hobspindle_coord}
+	\caption{Ausrichtung des Werkzeugkoordinatensystems}
+	\label{fig:hobspindle_coord}
+\end{figure}
+
+\begin{equation}
+	\label{eq:werkzeug}
+	\mathbf{p}_m = T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\\\end{pmatrix} \cdot{} R \begin{pmatrix}A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}\pi/2\\0\\0\\\end{pmatrix} \cdot{} \mathbf{p}_{WZ}
+\end{equation}
+
+\begin{equation}
+	R \begin{pmatrix}\pi/2\\0\\0\\\end{pmatrix} = \begin{bmatrix}1 & 0 & 0 & 0\\0 & 0 &-1 & 0\\0 & 1 & 0 & 0\\0 & 0 & 0 & 1\end{bmatrix}
+\end{equation}
+
+Die Transformation beschreibt die Position eines Werkzeugpunktes im Koordinatensystems des Maschinenbettes.
 Zur Vereinfachung der entstehenden Terme bietet sich das Zusammenfassen der Transformationsmatrizen zu einer Transformationsmatrix von Maschinenbett- in Werkzeugkoordinaten an:
 
 \begin{equation}
-	\mathbf{T}^{WZ}_m = T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\\\end{pmatrix} \cdot{} R \begin{pmatrix}A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix}
+	\mathbf{T}^{WZ}_m = T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\\\end{pmatrix} \cdot{} R \begin{pmatrix}A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}\pi/2\\0\\0\\\end{pmatrix}
 \end{equation}
 
 
@@ -238,19 +256,25 @@ Zur Vereinfachung der mathematischen Notation wird der Transformationsmatrix $\m
 	\mathbf{T}^{WZ}_{WSt} = \mathbf{G}
 \end{equation}
 
-\section[Lösung]{Lösung der relevanten Gleichung}
-
-Bei dem gewählten Lösungsverfahren des Problems soll der Werkzeugwinkel in Abhängigkeit von einer bestimmten z-Position eines Punktes des Werkzeugs bestimmt werden. Um die Operation zu vereinfachen wird angenommen, dass sich die Position des Punktes nur von dem linearen Transformationsbestandteil der Transformationsmatrix abhängt. Gemäß der Gleichung \ref{eq:translation} ist der lineare Bestandteil in z-Richtung ist das 3. Element der 4. Spalte der Transformationsmatrix.
+Es folgt für die Beschreibung eines Punktes mit Werkzeugkoordinaten in Maschinenkoordinaten:
 
 \begin{equation}
-	t_z = T_{3,4}
+	\mathbf{p}_{Wst} = \mathbf{G} \cdot{} \mathbf{p}_{WZ}
+\end{equation}
+
+\section[Lösung]{Lösung der relevanten Gleichung}
+
+Bei dem gewählten Lösungsverfahren des Problems soll der Werkzeugwinkel in Abhängigkeit von einer vorgegebenen Höhe eines Werkzeugpunktes in z-Richtung bestimmt werden. Es gilt die Formel zu lösen die sich bei Anwendung der allgemeinen Transformationsmatrix auf einen Werkzeugpunkt in der z-Komponente des Ergebnisses ergibt.
+
+\begin{equation}
+		\begin{pmatrix}p_{Wst,x}\\p_{Wst,y}\\p_{Wst,z}\\1\end{pmatrix} = \mathbf{G} \cdot{} \begin{pmatrix}p_{WZ,x}\\p_{WZ,y}\\p_{WZ,z}\\1\end{pmatrix}
 \end{equation}
 
 Damit sieht die zu lösende Gleichung folgendermaßen aus:
 \begin{equation}
 	\begin{split}
-		\mathbf{G}_{3,4} = & Z - c + B \cdot{} fZ_{WZrad} + \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad}) + h_{WZ} \cdot{} \sin(A) \\
-						 + & r_{WZ} \cdot{} \cos(A) \cdot{} \cos(B) \cdot{} \sin(\phi_{WZ}) + r_{WZ} \cdot{} cos(A) \cdot{} \sin(B) \cdot{} \cos(\phi_{WZ})
+		p_{Wst,z} = & Z - c + B \cdot{} fZ_{WZrad} + \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad}) + h_{WZ} \cdot{} \sin(A) \\
+				  + & r_{WZ} \cdot{} \cos(A) \cdot{} \cos(B) \cdot{} \sin(\phi_{WZ}) + r_{WZ} \cdot{} cos(A) \cdot{} \sin(B) \cdot{} \cos(\phi_{WZ})
 	\end{split}
 \end{equation}
 
