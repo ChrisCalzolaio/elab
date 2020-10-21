@@ -28,7 +28,8 @@
 Um Matrixoperation zu vereinfachen werden Rotationsmatrizen als homogene Transformationsmatrizen gemäß \ref{eq:homTM} mit einem Nullvektor $\mathbf{p} = \mathbf{0}$ als Verschiebung geschrieben.
 
 \subsection[Transformationsmatrix]{Homogene Transformationsmatrix}
-Die Anordnung eines körperfesten Koordinatensystems $\{b\}$ (body-frame) in einem raumfesten Koordinatensystem $\{s\}$ (space-frame) kann beschrieben werden durch die Position des body-frames $p$ in $\{s\}$-Koordinaten und einer Rotationsmatrix $R$, welche die Ausrichtung von $\{b\}$ in $\{s\}$-Koordinaten beschreibt (siehe Abb. \ref{fig:frames}). Die homogene Transformationsmatrix $\mathbf{T}$ ist die kombinierte Repräsentation von Orientierung und Position als eine Matrix \cite[Ch. 3.3.1]{KevinMLynch2017}:
+Die Anordnung eines körperfesten Koordinatensystems $\{b\}$ (body-frame) in einem raumfesten Koordinatensystem $\{s\}$ (space-frame) kann beschrieben werden durch die Position des body-frames $p$ in $\{s\}$-Koordinaten und einer Rotationsmatrix $R$, welche die Ausrichtung von $\{b\}$ in $\{s\}$-Koordinaten beschreibt (siehe Abb. \ref{fig:frames}).
+Die homogene Transformationsmatrix $\mathbf{T}$ ist die kombinierte Repräsentation von Orientierung und Position als eine Matrix \cite[Ch. 3.3.1]{KevinMLynch2017}:
 
 \begin{equation}
 	\label{eq:homTM}
@@ -47,7 +48,8 @@ Die Inverse einer Transformationsmatrix ist ebenfalls eine Transformationsmatrix
 
 \subsection[Translation]{Inverse der linearen Translation}
 
-Bei einer linearen Translation ist die Rotationsmatrix die Einheitsmatrix. Daher ergibt sich für die Translationskomponente:
+Bei einer linearen Translation ist die Rotationsmatrix die Einheitsmatrix.
+Daher ergibt sich für die Translationskomponente:
 
 \begin{equation}
 	\label{eq:invtrans}
@@ -122,7 +124,8 @@ Um bei einer Transformation zu verdeutlichen aus welchem Koordinatensystem in we
 	\label{fig:frames}
 \end{figure}
 
-Das Subscript steht dabei für das Ausgangskoordinatensystem, das Superscript steht für die Zielkoordinatensystem. Die zu Abb. \ref{fig:frames} gehörende Transformationsmatrix lautet also:
+Das Subscript steht dabei für das Ausgangskoordinatensystem, das Superscript steht für die Zielkoordinatensystem.
+Die zu Abb. \ref{fig:frames} gehörende Transformationsmatrix lautet also:
 
 \begin{equation}
 	T_s^b = \begin{bmatrix}R_s^b & p\\0 & 1\end{bmatrix}
@@ -132,7 +135,10 @@ Bei Invertierung der Transformationsmatrix werden die Indizes getauscht, um zu b
 
 \section[Maschine]{Kinematik der Maschine}
 
-Im Folgenden wird die Kinematik der Maschine in Abb. \ref{fig:maschine} beschrieben. Die Kinematik wird für die Betrachtung ausgehend von der Schnittstelle Maschinenbett-Werkstück in zwei Bereiche eingeteilt, für welche jeweils die Koordinatentransformation aufgestellt wird. Ein Bereich betrachtet auf Seite des Werkzeugs die kinematische Kette der Maschine mit den verfahrbaren Achsen, der zweite auf der Seite des Werkstücks die Position und Verdrehwinkel des Werkstückkoordinatensystems im Maschinenbett. Um anschließend die Koordinatentransformation von dem Werkzeugkoordinatensystems ind das Werkstückkoordinatensystems zu erhalten, werden die beiden Terme gleichgesetzt und nach Werkzeugkoordinaten aufgelöst.
+Im Folgenden wird die Kinematik der Maschine in Abb. \ref{fig:maschine} beschrieben.
+Die Kinematik wird für die Betrachtung ausgehend von der Schnittstelle Maschinenbett-Werkstück in zwei Bereiche eingeteilt, für welche jeweils die Koordinatentransformation aufgestellt wird.
+Ein Bereich betrachtet auf Seite des Werkzeugs die kinematische Kette der Maschine mit den verfahrbaren Achsen, der zweite auf der Seite des Werkstücks die Position und Verdrehwinkel des Werkstückkoordinatensystems im Maschinenbett.
+Um anschließend die Koordinatentransformation von dem Werkzeugkoordinatensystems in das Werkstückkoordinatensystems zu erhalten, werden die beiden Terme gleichgesetzt und nach Werkzeugkoordinaten aufgelöst.
 
 \begin{figure}
 	\includegraphics[width=12cm]{maschine_frei}
@@ -142,7 +148,10 @@ Im Folgenden wird die Kinematik der Maschine in Abb. \ref{fig:maschine} beschrie
 
 \subsection[Werkstück]{Kinematik der Werkstück-Seite}
 
-In die kinematische Kette auf der Werkstückseite \ref{eq:werkstuck} gehen ein Offset des Werkstückkoordinatensystems zum Maschinenkoordinatensystem $\mathbf{p}_{\mathtt{offset}} = \begin{pmatrix} a\\b\\c\end{pmatrix}$ und der Verdrehwinkel $C$ ein. Der Offset erlaubt die Fähigkeit ein versetztes Aufspannen des Werkstücks darzustellen und ist im idealen Fall ein Nullvektor. Dem Verdrehwinkel wird ein weiterer Offest $\gamma$ aufgeprägt. Dieser stellt den Fehler des verdrehten Aufspannens dar und erlaubt die Position von Zahn und Zahnlücke des virtuellen Schneckengetriebes zu korrigieren.
+In die kinematische Kette auf der Werkstückseite \ref{eq:werkstuck} gehen ein Offset des Werkstückkoordinatensystems zum Maschinenkoordinatensystem $\mathbf{p}_{\mathtt{offset}} = \begin{pmatrix} a\\b\\c\end{pmatrix}$ und der Verdrehwinkel $C$ ein.
+Der Offset erlaubt die Fähigkeit ein versetztes Aufspannen des Werkstücks darzustellen und ist im idealen Fall ein Nullvektor.
+Dem Verdrehwinkel wird ein weiterer Offest $\gamma$ aufgeprägt.
+Dieser stellt den Fehler des verdrehten Aufspannens dar und erlaubt die Position von Zahn und Zahnlücke des virtuellen Schneckengetriebes zu korrigieren.
 
 \begin{equation}
 	\label{eq:werkstuck}
@@ -153,30 +162,55 @@ Die Transformation beschreibt die Position eines Werkstückpunktes im Koordinate
 
 \subsection[Werkzeug]{Kinematik der Werkzeug-Seite}
 
-Die kinematische Kette der Werkzeugseite \ref{eq:werkzeug} beinhaltet die verfahrbaren Achsen der Maschine mit ihrem jeweiligen Freiheitsgrad ein. Dabei wird dem y-Achsenfreiheitsgrad ein Offset aufgeprägt, mit dem der Bereich des Werkzeuges im Eingriff verschoben werden kann. Das Werkzeug unterliegt beim Schneiden Verschleiß. Das Werkzeug ist länger als erforderlich und durch Verschieben des Werkzeugs entlang der y-Achse kann der Verschleiß gleichmäßig auf das Werkzeug verteilt werden. Die Drehrichtung des Werkzeuges ist außerdem mathematisch negativ.
-
-b-Achse negativ wegen Spanabfall!
+Die kinematische Kette der Werkzeugseite \ref{eq:werkzeug} beinhaltet die verfahrbaren Achsen der Maschine mit ihrem jeweiligen Freiheitsgrad ein.
+Dabei wird dem y-Achsenfreiheitsgrad ein Offset aufgeprägt, mit dem der Bereich des Werkzeuges im Eingriff verschoben werden kann.
+Das Werkzeug unterliegt beim Schneiden Verschleiß.
+Das Werkzeug ist länger als erforderlich und durch Verschieben des Werkzeugs entlang der y-Achse kann der Verschleiß gleichmäßig auf das Werkzeug verteilt werden.
 
 \begin{equation}
 	Y = y + B \cdot fY_{WZ,rad} + Y_{\mathtt{shift}}
 \end{equation}
 
+Da der Spanabfall in Drehrichtung des Werkzeugs erfolgen soll ist diese mathematisch negativ einzutragen.
+Das Werkzeug hat außerdem ein eigenes Koordinatensystem, bei welchem sich die z-Achse entlang der Drehrichtung des Werkzeuges erstreckt.
+Es bietet sich an, die Ausrichtung des Koordinatensystems durch Drehung um $\pi/2$ um die x-Achse zu definieren.
+So kann man mit sehr wenig Aufwand das Werkzeug in einem Polarkoordinatensystem anlegen und die Punktewolke in kartesische Koordinaten umrechnen.
+
 \begin{equation}
-	\label{eq:werkzeug}
-	\mathbf{p}_m = T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\\\end{pmatrix} \cdot{} R \begin{pmatrix}A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix} \cdot{} \mathbf{p}_{WZ}
+	\mathbf{p}_{WZ,kart} = \begin{pmatrix}x = & r \cdot{} \cos{\phi}\\
+		                                  y = & r \cdot{} \sin{\phi}\\
+		                                  z = & h\end{pmatrix}
 \end{equation}
 
-Die Transformation beschreibt die Position eines Werkzeugpunktes im Koordinatensystems des Maschinenbettes.\\
+\begin{figure}
+	\includegraphics{hobspindle_coord}
+	\caption{Ausrichtung des Werkzeugkoordinatensystems}
+	\label{fig:hobspindle_coord}
+\end{figure}
+
+\begin{equation}
+	\label{eq:werkzeug}
+	\mathbf{p}_m = T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\\\end{pmatrix} \cdot{} R \begin{pmatrix}A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}\pi/2\\0\\0\\\end{pmatrix} \cdot{} \mathbf{p}_{WZ}
+\end{equation}
+
+\begin{equation}
+	R \begin{pmatrix}\pi/2\\0\\0\\\end{pmatrix} = \begin{bmatrix}1 & 0 & 0 & 0\\0 & 0 &-1 & 0\\0 & 1 & 0 & 0\\0 & 0 & 0 & 1\end{bmatrix}
+\end{equation}
+
+Die Transformation beschreibt die Position eines Werkzeugpunktes im Koordinatensystems des Maschinenbettes.
 Zur Vereinfachung der entstehenden Terme bietet sich das Zusammenfassen der Transformationsmatrizen zu einer Transformationsmatrix von Maschinenbett- in Werkzeugkoordinaten an:
 
 \begin{equation}
-	\mathbf{T}^{WZ}_m = T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\\\end{pmatrix} \cdot{} R \begin{pmatrix}A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix}
+	\mathbf{T}^{WZ}_m = T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\\\end{pmatrix} \cdot{} R \begin{pmatrix}A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}\pi/2\\0\\0\\\end{pmatrix}
 \end{equation}
 
 
 \subsection[Vorschübe]{Aufprägung der Vorschübe auf die Achskoordinaten}
 
-Durch die Natur der Fertigung von Verzahnung vergleichbar mit einem Schneckengetriebe hängen die Vorschübe der Achsen von der Rotation des Werkzeugs ab. Dazu wird die Abhängigkeit der Achskoordinaten vom Werkzeugwinkel als Produkt des Werkzeugwinkels und einem Vorschubfaktor beschrieben. Den x-Achsen und z-Achsen Koordinaten wird zusätzlich als linearer Offset die Position der x-Achse von einem Ausgangszustand aufgeprägt. Bei der C-Achse ist dieser Effekt bereits mit dem Winkeloffset $\gamma$ realisiert.
+Durch die Natur der Fertigung von Verzahnung vergleichbar mit einem Schneckengetriebe hängen die Vorschübe der Achsen von der Rotation des Werkzeugs ab.
+Dazu wird die Abhängigkeit der Achskoordinaten vom Werkzeugwinkel als Produkt des Werkzeugwinkels und einem Vorschubfaktor beschrieben.
+Den x-Achsen und z-Achsen Koordinaten wird zusätzlich als linearer Offset die Position der x-Achse von einem Ausgangszustand aufgeprägt.
+Bei der C-Achse ist dieser Effekt bereits mit dem Winkeloffset $\gamma$ realisiert.
 
 \subsubitem{x-Axchse}
 
@@ -232,25 +266,33 @@ Die Gleichung wird durch Multiplikation mit den Inversen der Transformation- und
 	\end{split}
 \end{equation}
 
-Zur Vereinfachung der mathematischen Notation wird der Transformationsmatrix $\mathbf{T}^{WZ}_{WSt}$ eine charakteristische Bezeichnung gegeben. $\mathbf{G}$ steht hierbei für \textit{Gesamt}.
+Zur Vereinfachung der mathematischen Notation wird der Transformationsmatrix $\mathbf{T}^{WZ}_{WSt}$ eine charakteristische Bezeichnung gegeben.
+$\mathbf{G}$ steht hierbei für \textit{Gesamt}.
 
 \begin{equation}
 	\mathbf{T}^{WZ}_{WSt} = \mathbf{G}
 \end{equation}
 
-\section[Lösung]{Lösung der relevanten Gleichung}
-
-Bei dem gewählten Lösungsverfahren des Problems soll der Werkzeugwinkel in Abhängigkeit von einer bestimmten z-Position eines Punktes des Werkzeugs bestimmt werden. Um die Operation zu vereinfachen wird angenommen, dass sich die Position des Punktes nur von dem linearen Transformationsbestandteil der Transformationsmatrix abhängt. Gemäß der Gleichung \ref{eq:translation} ist der lineare Bestandteil in z-Richtung ist das 3. Element der 4. Spalte der Transformationsmatrix.
+Es folgt für die Beschreibung eines Punktes mit Werkzeugkoordinaten in Maschinenkoordinaten:
 
 \begin{equation}
-	t_z = T_{3,4}
+	\mathbf{p}_{Wst} = \mathbf{G} \cdot{} \mathbf{p}_{WZ}
+\end{equation}
+
+\section[Lösung]{Lösung der relevanten Gleichung}
+
+Bei dem gewählten Lösungsverfahren des Problems soll der Werkzeugwinkel in Abhängigkeit von einer vorgegebenen Höhe eines Werkzeugpunktes in z-Richtung bestimmt werden.
+Es gilt die Formel zu lösen die sich bei Anwendung der allgemeinen Transformationsmatrix auf einen Werkzeugpunkt in der z-Komponente des Ergebnisses ergibt.
+
+\begin{equation}
+		\begin{pmatrix}p_{Wst,x}\\p_{Wst,y}\\p_{Wst,z}\\1\end{pmatrix} = \mathbf{G} \cdot{} \begin{pmatrix}p_{WZ,x}\\p_{WZ,y}\\p_{WZ,z}\\1\end{pmatrix}
 \end{equation}
 
 Damit sieht die zu lösende Gleichung folgendermaßen aus:
 \begin{equation}
 	\begin{split}
-		\mathbf{G}_{3,4} = & Z - c + B \cdot{} fZ_{WZrad} + \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad}) + h_{WZ} \cdot{} \sin(A) \\
-						 + & r_{WZ} \cdot{} \cos(A) \cdot{} \cos(B) \cdot{} \sin(\phi_{WZ}) + r_{WZ} \cdot{} cos(A) \cdot{} \sin(B) \cdot{} \cos(\phi_{WZ})
+		p_{Wst,z} = & Z - c + B \cdot{} fZ_{WZrad} + \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad}) + h_{WZ} \cdot{} \sin(A) \\
+				  + & r_{WZ} \cdot{} \cos(A) \cdot{} \cos(B) \cdot{} \sin(\phi_{WZ}) + r_{WZ} \cdot{} cos(A) \cdot{} \sin(B) \cdot{} \cos(\phi_{WZ})
 	\end{split}
 \end{equation}
 
