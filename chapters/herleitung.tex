@@ -6,17 +6,17 @@
 \subsection{Translation}
 \begin{equation}
 	\label{eq:translation}
-	T_{\mathbf{v}} \begin{pmatrix}t_x\\t_y\\t_z\\\end{pmatrix}= \begin{bmatrix}1 & 0 & 0 & t_x\\0 & 1 & 0 & t_y\\0 & 0 & 0 & t_z\\0 & 0 & 0 & 1\end{bmatrix}
+	T_{\mathbf{v}} \begin{pmatrix}t_x\\t_y\\t_z\end{pmatrix}= \begin{bmatrix}1 & 0 & 0 & t_x\\0 & 1 & 0 & t_y\\0 & 0 & 0 & t_z\\0 & 0 & 0 & 1\end{bmatrix}
 \end{equation}
 
 \subsection{Rotation}
 \begin{equation}
 	\label{eq:rotationsmatrix}
 	\begin{split}
-		R\begin{pmatrix}\gamma\\\beta\\\alpha\\\end{pmatrix} = & R_{z}(\alpha )\,R_{y}(\beta )\,R_{x}(\gamma ) \\
-		= & \begin{bmatrix}\cos \alpha & -\sin \alpha & 0\\\sin \alpha & \cos \alpha & 0\\0& 0& 1\\\end{bmatrix} \cdot
-			\begin{bmatrix}\cos \beta & 0& \sin \beta \\0& 1& 0\\-\sin \beta & 0& \cos \beta \\\end{bmatrix} \cdot
-			\begin{bmatrix}1& 0& 0\\0& \cos \gamma & -\sin \gamma \\0& \sin \gamma & \cos \gamma \\\end{bmatrix} \\
+		R\begin{pmatrix}\gamma\\\beta\\\alpha\end{pmatrix} = & R_{z}(\alpha )\,R_{y}(\beta )\,R_{x}(\gamma ) \\
+		= & \begin{bmatrix}\cos \alpha & -\sin \alpha & 0\\\sin \alpha & \cos \alpha & 0\\0& 0& 1\end{bmatrix} \cdot
+			\begin{bmatrix}\cos \beta & 0& \sin \beta \\0& 1& 0\\-\sin \beta & 0& \cos \beta \end{bmatrix} \cdot
+			\begin{bmatrix}1& 0& 0\\0& \cos \gamma & -\sin \gamma \\0& \sin \gamma & \cos \gamma \end{bmatrix} \\
 		= & \begin{bmatrix}
 			\cos \alpha \cos \beta & \cos \alpha \sin \beta \sin \gamma -\sin \alpha \cos \gamma & \cos 	\alpha \sin \beta \cos \gamma +\sin \alpha \sin \gamma \\
 			\sin \alpha \cos \beta & \sin \alpha \sin \beta \sin \gamma +\cos \alpha \cos \gamma & \sin \alpha \sin \beta \cos \gamma -\cos \alpha \sin \gamma \\
@@ -83,10 +83,10 @@ Bei Rotation um eine Achse ergibt sich die Rotationskomponente gemäß \ref{eq:r
 \begin{equation}
 	\begin{split}
 		R\begin{pmatrix}0\\0\\\alpha\end{pmatrix} = & R_{z}(\alpha )\,R_{y}(0)\,R_{x}(0) \\
-		= & \begin{bmatrix}\cos \alpha & -\sin \alpha & 0\\\sin \alpha & \cos \alpha & 0\\0& 0& 1\\\end{bmatrix} \cdot
-		\begin{bmatrix}\cos 0 & 0& \sin 0 \\0& 1& 0\\-\sin 0 & 0& \cos 0 \\\end{bmatrix} \cdot
-		\begin{bmatrix}1& 0& 0\\0& \cos 0 & -\sin 0 \\0& \sin 0 & \cos 0 \\\end{bmatrix} \\
-		= & \begin{bmatrix}\cos \alpha & -\sin \alpha & 0\\\sin \alpha & \cos \alpha & 0\\0& 0& 1\\\end{bmatrix}
+		= & \begin{bmatrix}\cos \alpha & -\sin \alpha & 0\\\sin \alpha & \cos \alpha & 0\\0& 0& 1\end{bmatrix} \cdot
+		\begin{bmatrix}\cos 0 & 0& \sin 0 \\0& 1& 0\\-\sin 0 & 0& \cos 0 \end{bmatrix} \cdot
+		\begin{bmatrix}1& 0& 0\\0& \cos 0 & -\sin 0 \\0& \sin 0 & \cos 0 \end{bmatrix} \\
+		= & \begin{bmatrix}\cos \alpha & -\sin \alpha & 0\\\sin \alpha & \cos \alpha & 0\\0& 0& 1\end{bmatrix}
 	\end{split}
 \end{equation}
 
@@ -102,8 +102,8 @@ Für die transponierte der Rotationskomponente ergibt sich mit den Symmetriebezi
 
 \begin{equation}
 	\begin{split}
-		R_{z}^\intercal(\alpha) = & \begin{bmatrix}\cos \alpha & -\sin \alpha & 0\\\sin \alpha & \cos \alpha & 0\\0& 0& 1\\\end{bmatrix}^\intercal \\
-		= & \begin{bmatrix}\cos \alpha & \sin \alpha & 0\\-\sin \alpha & \cos \alpha & 0\\0& 0& 1\\\end{bmatrix} \\
+		R_{z}^\intercal(\alpha) = & \begin{bmatrix}\cos \alpha & -\sin \alpha & 0\\\sin \alpha & \cos \alpha & 0\\0& 0& 1\end{bmatrix}^\intercal \\
+		= & \begin{bmatrix}\cos \alpha & \sin \alpha & 0\\-\sin \alpha & \cos \alpha & 0\\0& 0& 1\end{bmatrix} \\
 		= & R_{z}(-\alpha)
 	\end{split}
 \end{equation}
@@ -152,13 +152,29 @@ In die kinematische Kette auf der Werkstückseite \ref{eq:werkstuck} gehen ein O
 Der Offset erlaubt die Fähigkeit ein versetztes Aufspannen des Werkstücks darzustellen und ist im idealen Fall ein Nullvektor.
 Dem Verdrehwinkel wird ein weiterer Offest $\gamma$ aufgeprägt.
 Dieser stellt den Fehler des verdrehten Aufspannens dar und erlaubt die Position von Zahn und Zahnlücke des virtuellen Schneckengetriebes zu korrigieren.
+$C$ ist außerdem Funktion des Werkzeugwinkels und dem Achsvorschub.
+Der Achsvorschub der $C$-Achse ist das Übersetzungsverhältnis des gedachten Schneckengetriebes.
 
 \begin{equation}
-	\label{eq:werkstuck}
-	\mathbf{p}_m = T_{\mathbf{v}} \begin{pmatrix}a\\b\\c\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\0\\C - \gamma\\\end{pmatrix} \cdot{} \mathbf{p}_{WSt}
+	fC_{WSt,rad} = \frac{n_{Schneidreihen}}{n_{Zähne}}
+\end{equation}
+
+Die vollständige Formulierung des Werkstückwinkels $C$ lautet:
+
+\begin{equation}
+	C = B \cdot{} fC_{WSt,rad} + \gamma
 \end{equation}
 
 Die Transformation beschreibt die Position eines Werkstückpunktes im Koordinatensystems des Maschinenbettes.
+
+\begin{equation}
+	\label{eq:werkstuck}
+	\mathbf{p}_m = T_{\mathbf{v}} \begin{pmatrix}a\\b\\c \end{pmatrix}
+			\cdot{} R \begin{pmatrix}0\\0\\C\end{pmatrix}
+			\cdot{} \mathbf{p}_{WSt}
+\end{equation}
+
+
 
 \subsection[Werkzeug]{Kinematik der Werkzeug-Seite}
 
@@ -188,20 +204,33 @@ So kann man mit sehr wenig Aufwand das Werkzeug in einem Polarkoordinatensystem 
 	\label{fig:hobspindle_coord}
 \end{figure}
 
+Die Transformation beschreibt die Position eines Werkzeugpunktes im Koordinatensystems des Maschinenbettes.
+
 \begin{equation}
 	\label{eq:werkzeug}
-	\mathbf{p}_m = T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\\\end{pmatrix} \cdot{} R \begin{pmatrix}A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}\pi/2\\0\\0\\\end{pmatrix} \cdot{} \mathbf{p}_{WZ}
+	\mathbf{p}_m = T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\end{pmatrix}
+			\cdot{} R \begin{pmatrix}A\\0\\0\end{pmatrix}
+			\cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y\\0\end{pmatrix}
+			\cdot{} R \begin{pmatrix}0\\-B\\0\end{pmatrix}
+			\cdot{} R \begin{pmatrix}\pi/2\\0\\0\end{pmatrix}
+			\cdot{} \mathbf{p}_{WZ}
 \end{equation}
+
+Zur Verdeutlichung, die ausformulierte Form der Transformationsmatrix zur Drehung des Werkzeugkoordinatensystems lautet:
 
 \begin{equation}
-	R \begin{pmatrix}\pi/2\\0\\0\\\end{pmatrix} = \begin{bmatrix}1 & 0 & 0 & 0\\0 & 0 &-1 & 0\\0 & 1 & 0 & 0\\0 & 0 & 0 & 1\end{bmatrix}
+	R \begin{pmatrix}\pi/2\\0\\0\end{pmatrix} = \begin{bmatrix}1 & 0 & 0 & 0\\0 & 0 &-1 & 0\\0 & 1 & 0 & 0\\0 & 0 & 0 & 1\end{bmatrix}
 \end{equation}
 
-Die Transformation beschreibt die Position eines Werkzeugpunktes im Koordinatensystems des Maschinenbettes.
+
 Zur Vereinfachung der entstehenden Terme bietet sich das Zusammenfassen der Transformationsmatrizen zu einer Transformationsmatrix von Maschinenbett- in Werkzeugkoordinaten an:
 
 \begin{equation}
-	\mathbf{T}^{WZ}_m = T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\\\end{pmatrix} \cdot{} R \begin{pmatrix}A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}\pi/2\\0\\0\\\end{pmatrix}
+	\mathbf{T}^{WZ}_m = T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\end{pmatrix}
+				\cdot{} R \begin{pmatrix}A\\0\\0\end{pmatrix}
+				\cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y\\0\end{pmatrix}
+				\cdot{} R \begin{pmatrix}0\\-B\\0\end{pmatrix}
+				\cdot{} R \begin{pmatrix}\pi/2\\0\\0\end{pmatrix}
 \end{equation}
 
 
@@ -230,10 +259,14 @@ Bei der C-Achse ist dieser Effekt bereits mit dem Winkeloffset $\gamma$ realisie
 	C = B \cdot fC_{WSt,rad}
 \end{equation}
 
-Damit ergibt sich für die Transformationsmatrix von Maschinenbett- in Werkzeugkoordinaten:
+Damit ergibt sich für die Transformationsmatrix von Maschinenbett- nach Werkzeugkoordinaten in ausführlicher Form:
 
 \begin{equation}
-	\mathbf{T}^{WZ}_m = T_{\mathbf{v}} \begin{pmatrix}x + B \cdot fX_{WZ,rad}\\0\\z + B \cdot fZ_{WZ,rad}\\\end{pmatrix} \cdot{} R \begin{pmatrix}A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix}
+	\mathbf{T}^{WZ}_m = T_{\mathbf{v}} \begin{pmatrix}x + B \cdot fX_{WZ,rad}\\0\\z + B \cdot fZ_{WZ,rad}\end{pmatrix}
+				\cdot{} R \begin{pmatrix}A\\0\\0\end{pmatrix}
+				\cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\y + B \cdot fY_{WZ,rad} + Y_{\mathtt{shift}}\\0\end{pmatrix}
+				\cdot{} R \begin{pmatrix}0\\-B\\0\end{pmatrix}
+				\cdot{} R \begin{pmatrix}\pi/2\\0\\0\end{pmatrix}
 \end{equation}
 
 \subsection[Gesamt]{Transformation von Werkzeug- in Werkstückkoordinaten}
@@ -241,24 +274,66 @@ Damit ergibt sich für die Transformationsmatrix von Maschinenbett- in Werkzeugk
 Um die Transformation aus dem Werkzeug- in das Werkstückkoordinatensystem zu erhalten setzen wir die beiden Transformationsschritte gleich:
 
 \begin{equation}
-	T_{\mathbf{v}} \begin{pmatrix}a\\b\\c\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\0\\C - \gamma\\\end{pmatrix} \cdot{} \mathbf{p}_{WSt}= T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\\\end{pmatrix} \cdot{} R \begin{pmatrix}A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix} \cdot{} \mathbf{p}_{WZ}
+			T_{\mathbf{v}} \begin{pmatrix}a\\b\\c\end{pmatrix}
+	\cdot{} R \begin{pmatrix}0\\0\\C\end{pmatrix}
+	\cdot{} \mathbf{p}_{WSt} =
+			T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\end{pmatrix}
+	\cdot{} R \begin{pmatrix}A\\0\\0\end{pmatrix}
+	\cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y\\0\end{pmatrix}
+	\cdot{} R \begin{pmatrix}0\\-B\\0\end{pmatrix}
+	\cdot{} R \begin{pmatrix}\pi/2\\0\\0\end{pmatrix}
+	\cdot{} \mathbf{p}_{WZ}
 \end{equation}
 
 Die Gleichung wird durch Multiplikation mit den Inversen der Transformation- und Rotationsmatrix aufgelöst, sodass die Beschreibung der Transformation von Werkzeug- in Werkstückkoordinaten entsteht.
 
 \begin{equation}
 	\begin{split}
-		R \begin{pmatrix}0\\0\\-(C - \gamma)\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}-a\\-b\\-c\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\\\end{pmatrix} \cdot{} R \begin{pmatrix}A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix} \cdot{} \mathbf{p}_{WZ} & = \mathbf{p}_{WSt}\\
-		\mathbf{T}^{WZ}_{WSt} \cdot{} \mathbf{p}_{WZ} & = 
+				R \begin{pmatrix} 0 \\ 0 \\ -C \end{pmatrix}
+		\cdot{} T_{\mathbf{v}} \begin{pmatrix} -a \\ -b \\ -c \end{pmatrix}
+		\cdot{} T_{\mathbf{v}} \begin{pmatrix} X \\ 0 \\ Z \end{pmatrix}
+		\cdot{} R \begin{pmatrix} A \\ 0 \\ 0 \end{pmatrix}
+		\cdot{} T_{\mathbf{v}} \begin{pmatrix} 0 \\ Y \\ 0 \end{pmatrix}
+		\cdot{} R \begin{pmatrix} 0 \\ -B \\ 0 \end{pmatrix}
+		\cdot{} R \begin{pmatrix}\pi/2\\0\\0\end{pmatrix}
+		\cdot{} \mathbf{p}_{WZ} & =
+				\mathbf{p}_{WSt}
+		\\
+				\mathbf{T}^{WZ}_{WSt}
+		\cdot{} \mathbf{p}_{WZ} & =
 	\end{split}
 \end{equation}
 
 \begin{equation}
 	\begin{split}
-		\mathbf{T}^{WZ}_{WSt} = & R \begin{pmatrix}0\\0\\-(C - \gamma)\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}-a\\-b\\-c\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\\\end{pmatrix} \cdot{} R \begin{pmatrix}A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix}\\
-		= & R \begin{pmatrix}0\\0\\\gamma - C\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}X -a\\-b\\Z-c\\\end{pmatrix} \cdot{} R \begin{pmatrix}A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix}\\
-		= & R \begin{pmatrix}0\\0\\\gamma - B \cdot fC_{WSt,rad}\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}x+B \cdot fX_{WZ,rad} -a\\-b\\z + B \cdot fZ_{WZ,rad}-c\\\end{pmatrix} \cdot{} R \begin{pmatrix}A\\0\\0\\\end{pmatrix} \cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y+s\\0\\\end{pmatrix} \cdot{} R \begin{pmatrix}0\\-B\\0\\\end{pmatrix}\\
-		= & \begin{bmatrix}
+		\mathbf{T}^{WZ}_{WSt} = &
+				R \begin{pmatrix} 0 \\ 0 \\ -C \end{pmatrix}
+		\cdot{} T_{\mathbf{v}} \begin{pmatrix} -a \\ -b \\ -c \end{pmatrix}
+		\cdot{} T_{\mathbf{v}} \begin{pmatrix} X \\ 0 \\ Z \end{pmatrix}
+		\cdot{} R \begin{pmatrix} A \\ 0 \\ 0 \end{pmatrix}
+		\cdot{} T_{\mathbf{v}} \begin{pmatrix} 0 \\ Y \\ 0 \end{pmatrix}
+		\cdot{} R \begin{pmatrix} 0 \\ -B \\ 0 \end{pmatrix}
+		\cdot{} R \begin{pmatrix}\pi/2\\0\\0\end{pmatrix}
+		\\= &
+				R \begin{pmatrix} 0 \\ 0 \\ -C \end{pmatrix}
+		\cdot{} T_{\mathbf{v}} \begin{pmatrix} X - a \\ -b \\ Z - c \end{pmatrix}
+		\cdot{} R \begin{pmatrix} A \\ 0 \\ 0 \end{pmatrix}
+		\cdot{} T_{\mathbf{v}} \begin{pmatrix} 0 \\ Y \\ 0 \end{pmatrix}
+		\cdot{} R \begin{pmatrix} 0 \\ -B \\ 0 \end{pmatrix}
+		\cdot{} R \begin{pmatrix}\pi/2\\0\\0\end{pmatrix}
+		\\= &
+				R \begin{pmatrix} 0 \\ 0 \\ -(B \cdot{} fC_{WSt,rad} + \gamma) \end{pmatrix}
+		\cdot{} T_{\mathbf{v}} \begin{pmatrix}	x + B \cdot fX_{WZ,rad} -a\\
+																		-b\\
+												z + B \cdot fZ_{WZ,rad} -c	\end{pmatrix}
+		\cdot{} R \begin{pmatrix} A \\ 0 \\ 0 \end{pmatrix}
+		\cdot{} T_{\mathbf{v}} \begin{pmatrix}												0 \\
+												y + B \cdot fY_{WZ,rad} + Y_{\mathtt{shift}} \\
+																							0 \end{pmatrix}
+		\cdot{} R \begin{pmatrix} 0 \\ -B \\ 0 \end{pmatrix}
+		\cdot{} R \begin{pmatrix}\pi/2\\0\\0\end{pmatrix}
+		\\= &
+		\begin{bmatrix}
 			\sigma_2 \cdot \cos{B} + \sigma_1 \cdot \sin{A} \cdot \sin{B} & -\sigma_1 \cdot \cos{A} &  \sigma_1 \cdot \cos{B} \cdot \sin{A} - \sigma_2 \cdot \sin{B} & \sigma_2 \cdot \sigma_3 +\sigma_1 \cdot \sigma_4 \\
 			\sigma_1 \cdot \cos{B} - \sigma_2 \cdot \sin{A} \cdot \sin{B} &  \sigma_2 \cdot \cos{A} & -\sigma_2 \cdot \cos{B} \cdot \sin{A} - \sigma_1 \cdot \sin{B} & \sigma_1 \cdot \sigma_3 -\sigma_2 \cdot \sigma_4 \\
 			\cos{A} \cdot \sin{B} & \sin{A} & \cos{A} \cdot \cos{B} & Z-c+B \cdot fZ_{WZ,rad} +\sin{A} \cdot \sigma_5 \\
@@ -284,31 +359,30 @@ Es folgt für die Beschreibung eines Punktes mit Werkzeugkoordinaten in Maschine
 Bei dem gewählten Lösungsverfahren des Problems soll der Werkzeugwinkel in Abhängigkeit von einer vorgegebenen Höhe eines Werkzeugpunktes in z-Richtung bestimmt werden.
 Es gilt die Formel zu lösen die sich bei Anwendung der allgemeinen Transformationsmatrix auf einen Werkzeugpunkt in der z-Komponente des Ergebnisses ergibt.
 
-\begin{equation}
-		\begin{pmatrix}p_{Wst,x}\\p_{Wst,y}\\p_{Wst,z}\\1\end{pmatrix} = \mathbf{G} \cdot{} \begin{pmatrix}p_{WZ,x}\\p_{WZ,y}\\p_{WZ,z}\\1\end{pmatrix}
-\end{equation}
+\subsection[Polarkoordinaten]{Werkzeug in Polarkoordinaten definiert}
 
-Damit sieht die zu lösende Gleichung folgendermaßen aus:
 \begin{equation}
-	\begin{split}
-		p_{Wst,z} = & Z - c + B \cdot{} fZ_{WZrad} + \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad}) + h_{WZ} \cdot{} \sin(A) \\
-				  + & r_{WZ} \cdot{} \cos(A) \cdot{} \cos(B) \cdot{} \sin(\phi_{WZ}) + r_{WZ} \cdot{} cos(A) \cdot{} \sin(B) \cdot{} \cos(\phi_{WZ})
-	\end{split}
+			\begin{pmatrix} p_{Wst,x} \\ p_{Wst,y} \\ p_{Wst,z} \\ 1 \end{pmatrix}
+	= \mathbf{G}
+		\cdot{} \begin{pmatrix} r_{WZ} \cdot{} \cos{\phi} \\ r_{WZ} \cdot{} \sin{\phi} \\ h_{WZ} \\ 1 \end{pmatrix}
 \end{equation}
 
 Die Lösung der Gleichung soll für einen vorgebenen Wert in z-Richung erfolgen.
 \begin{equation}
 	\begin{split}
-		z_{soll} = & Z - c + B \cdot{} fZ_{WZrad} + \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad}) + h_{WZ} \cdot{} \sin(A) \\
-				 + & r_{WZ} \cdot{} \cos(A) \cdot{} \cos(B) \cdot{} \sin(\phi_{WZ}) + r_{WZ} \cdot{} cos(A) \cdot{} \sin(B) \cdot{} \cos(\phi_{WZ})
+		p_{Wst,z} = z_{soll} = Z - c + B \cdot{} fZ_{WZrad} + & \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad}) \\
+							+ & \sin(A) \cdot{} h_{WZ} \\
+							+ & \cos(A) \cdot{} r_{WZ} \cdot{} \sin(\phi_{WZ}) \cdot{} \cos(B)\\
+							+ & \cos(A) \cdot{} r_{WZ} \cdot{} \cos(\phi_{WZ}) \cdot{} \sin(B)
 	\end{split}
 \end{equation}
 
 Da Lösung der Gleichung durch Finden des Nullpunktes erfolgen soll, muss die Gleichung nach dem Werkzeugwinkel $B$ aufgelöst werden.
 \begin{equation}
 	\begin{split}
-		0 = & Z - c -z_{soll} + B \cdot{} fZ_{WZrad} + \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad}) + h_{WZ} \cdot{} \sin(A) \\
-		  + & r_{WZ} \cdot{} \cos(A) \cdot{} \cos(B) \cdot{} \sin(\phi_{WZ}) + r_{WZ} \cdot{} cos(A) \cdot{} \sin(B) \cdot{} \cos(\phi_{WZ})
+		0 = Z - c -z_{soll} + B \cdot{} fZ_{WZrad} + & \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad} + h_{WZ}) \\
+			+ & \cos(A) \cdot{} r_{WZ} \cdot{} \sin(\phi_{WZ}) \cdot{} \cos(B) \\
+			+ & \cos(A) \cdot{} r_{WZ} \cdot{} \cos(\phi_{WZ}) \cdot{} \sin(B)
 	\end{split}
 \end{equation}
 
@@ -321,23 +395,26 @@ Gemäß dem Additionsterm \ref{eq:additionsterm} aus \cite[Gleich. 7.6.1]{Papula
 
 \begin{equation}
 	\begin{split}
-	0 =  & Z - c  - z_{soll} + B \cdot{} fZ_{WZrad} + \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad}) + h_{WZ} \cdot{} \sin(A) \\
-	   + & r_{WZ} \cdot{} \cos(A) \cdot{} \sin(B + \phi_{WZ})
+	0 = Z - c  - z_{soll} + B \cdot{} fZ_{WZrad} + & \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad} + h_{WZ}) \\
+												   + & \cos(A) \cdot{} r_{WZ} \cdot{} \sin(B + \phi_{WZ})
 	\end{split}
 \end{equation}
 
 \begin{equation}
 	\begin{split}
-	-r_{WZ} \cdot{} \cos(A) \cdot{} \sin(B + \phi_{WZ}) = & Z - c  - z_{soll} + B \cdot{} fZ_{WZrad} \\
-														+ & \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad}) + h_{WZ} \cdot{} \sin(A)
+	-r_{WZ} \cdot{} \cos(A) \cdot{} \sin(B + \phi_{WZ}) = & \\
+	Z - c  - z_{soll} + B \cdot{} fZ_{WZrad} + & \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad} + h_{WZ})
 	\end{split}
 \end{equation}
 
 \begin{equation}
-	\sin(B + \phi_{WZ}) = -\frac{Z - c  - z_{soll} + B \cdot{} fZ_{WZrad} + \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad}) + h_{WZ} \cdot{} \sin(A)}{r_{WZ} \cdot{} \cos(A)}
+	\sin(B + \phi_{WZ}) = -\frac{Z - c  - z_{soll} + B \cdot{} fZ_{WZrad} + \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad} + h_{WZ})}
+	{r_{WZ} \cdot{} \cos(A)}
 \end{equation}
+
 \begin{equation}
-	B + \phi_{WZ} = \arcsin{\left(-\frac{Z - c  - z_{soll} + B \cdot{} fZ_{WZrad} + \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad}) + h_{WZ} \cdot{} \sin(A)}{r_{WZ} \cdot{} \cos(A)}\right)}
+	B + \phi_{WZ} = \arcsin{\left(-\frac{Z - c  - z_{soll} + B \cdot{} fZ_{WZrad} + \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad} + h_{WZ})}
+		{r_{WZ} \cdot{} \cos(A)}\right)}
 \end{equation}
 
 \begin{equation}
@@ -347,11 +424,77 @@ Gemäß dem Additionsterm \ref{eq:additionsterm} aus \cite[Gleich. 7.6.1]{Papula
 
 Wegen der Punktsymmetrie des Arkussinus \ref{eq:arcsinpunktsymm} ergibt sich:
 \begin{equation}
-	B = -\phi_{WZ} -\arcsin{\left(\frac{Z - c  - z_{soll} + B \cdot{} fZ_{WZrad} + \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad}) + h_{WZ} \cdot{} \sin(A)}{r_{WZ} \cdot{} \cos(A)}\right)}
+	B = -\phi_{WZ} -\arcsin{\left(\frac{Z - c  - z_{soll} + B \cdot{} fZ_{WZrad} + \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad} + h_{WZ})}
+		{r_{WZ} \cdot{} \cos(A)}\right)}
 \end{equation}
 
 
 Lösung:
 \begin{equation}
-	B= \phi_{WZ} + \pi + \arcsin{\left(\dfrac{Z - c - z_{soll} + B_0 \cdot{} fZ_{WZrad} + \sin(A) \cdot{} (Y + Y_{shift} + B_0 \cdot{} fY_{WZrad}) + h_{WZ} \cdot{} \sin(A)}{r_{WZ} \cdot{} \cos(A)}\right)}
+	B = \phi_{WZ} + \pi + \arcsin{\left(\dfrac{Z - c - z_{soll} + B_0 \cdot{} fZ_{WZrad} + \sin(A) \cdot{} (Y + Y_{shift} + B_0 \cdot{} fY_{WZrad} + h_{WZ})}
+		{r_{WZ} \cdot{} \cos(A)}\right)}
+\end{equation}
+
+\subsection[kartesische Koordinaten]{Werkstück in kartesischen Koordinaten definiert}
+
+\begin{equation}
+	\begin{pmatrix}p_{Wst,x}\\p_{Wst,y}\\p_{Wst,z}\\1\end{pmatrix} = \mathbf{G} \cdot{} \begin{pmatrix}p_{WZ,x}\\p_{WZ,y}\\p_{WZ,z}\\1\end{pmatrix}
+\end{equation}
+
+\begin{equation}
+	\begin{split}
+		p_{Wst,z} = z_{soll} = z - c + B \cdot{} fZ_{WZrad} + & \sin(A) \cdot{} (y + Y_{shift} + B \cdot{} fY_{WZrad}) \\
+							- & \sin(A) \cdot{} z_{WZ} \\
+							+ & \cos(A) \cdot{} y_{WZ} \cdot{} \cos(B) \\
+							+ & \cos(A) \cdot{} x_{WZ} \cdot{} \sin(B)
+	\end{split}
+\end{equation}
+
+Mit Additionsterm \ref{eq:additionsterm}:
+\begin{equation}
+	\begin{split}
+		0 = z - c - z_{soll} + B \cdot{} fZ_{WZ,rad} + & \sin(A) \cdot{} (y + Y_{shift} + B \cdot{} fY_{WZrad} - z_{WZ}) \\
+												+ & \cos{(A)} \cdot{} (y_{WZ} \cdot{} \cos(B) + x_{WZ} \cdot{} \sin(B))
+	\end{split}
+\end{equation}
+
+\begin{equation}
+	\tan{x} = \frac{\sin{x}}{\cos{x}}
+\end{equation}
+
+\begin{equation}
+	\begin{split}
+		0 = z - c - z_{soll} + B \cdot{} fZ_{WZ,rad} + & \sin(A) \cdot{} (y + Y_{shift} + B \cdot{} fY_{WZrad} - z_{WZ}) \\
+		+ & \cos{(A)} \cdot{} (y_{WZ} + x_{WZ} \cdot{} \tan(B))
+	\end{split}
+\end{equation}
+
+\begin{equation}
+	\begin{split}
+		-\cos{(A)} \cdot{} (y_{WZ} + x_{WZ} \cdot{} \tan(B)) = & \\
+		 z - c - z_{soll} + B \cdot{} fZ_{WZ,rad} + & \sin(A) \cdot{} (y + Y_{shift} + B \cdot{} fY_{WZrad} - z_{WZ}) \\
+	\end{split}
+\end{equation}
+
+\begin{equation}
+	y_{WZ} + x_{WZ} \cdot{} \tan(B) = -\frac{z - c - z_{soll} + B \cdot{} fZ_{WZ,rad} + \sin(A) \cdot{} (y + Y_{shift} + B \cdot{} fY_{WZrad} - z_{WZ})}{\cos{(A)}}
+\end{equation}
+
+\begin{equation}
+	x_{WZ} \cdot{} \tan(B) =
+					-\frac{z - c - z_{soll} + B \cdot{} fZ_{WZ,rad}}{\cos{(A)}}
+					- y_{WZ}
+					- \frac{\sin(A)}{\cos{(A)}} \cdot{} (y + Y_{shift} + B \cdot{} fY_{WZrad} - z_{WZ})
+\end{equation}
+
+\begin{equation}
+	\tan(B) = -\frac{z - c - z_{soll} + B \cdot{} fZ_{WZ,rad}}{\cos{(A)} \cdot{} x_{WZ}}
+				- \frac{y_{WZ}}{x_{WZ}}
+				- \tan{(A)} \cdot{} \frac{y + Y_{shift} + B \cdot{} fY_{WZrad} - z_{WZ}}{x_{WZ}}
+				| \arctan{()}
+\end{equation}
+
+\begin{equation}
+	B = -\arctan{\left(\frac{z - c - z_{soll} + B \cdot{} fZ_{WZ,rad}}{\cos{(A)} \cdot{} x_{WZ}} +\frac{y_{WZ}}{x_{WZ}}\right)}
+		- A \cdot{} \frac{y + Y_{shift} + B \cdot{} fY_{WZrad} - z_{WZ}}{x_{WZ}}
 \end{equation}
