@@ -6,14 +6,14 @@
 \subsection{Translation}
 \begin{equation}
 	\label{eq:translation}
-	T_{\mathbf{v}} \begin{pmatrix}t_x\\t_y\\t_z\end{pmatrix}= \begin{bmatrix}1 & 0 & 0 & t_x\\0 & 1 & 0 & t_y\\0 & 0 & 0 & t_z\\0 & 0 & 0 & 1\end{bmatrix}
+	\transtm{t_x}{t_y}{t_z} = \begin{bmatrix}1 & 0 & 0 & t_x\\0 & 1 & 0 & t_y\\0 & 0 & 0 & t_z\\0 & 0 & 0 & 1\end{bmatrix}
 \end{equation}
 
 \subsection{Rotation}
 \begin{equation}
 	\label{eq:rotationsmatrix}
 	\begin{split}
-		R\begin{pmatrix}\gamma\\\beta\\\alpha\end{pmatrix} = & R_{z}(\alpha )\,R_{y}(\beta )\,R_{x}(\gamma ) \\
+		\rottm{\gamma}{\beta}{\alpha} = & R_{z}(\alpha )\,R_{y}(\beta )\,R_{x}(\gamma ) \\
 		= & \begin{bmatrix}\cos \alpha & -\sin \alpha & 0\\\sin \alpha & \cos \alpha & 0\\0& 0& 1\end{bmatrix} \cdot
 			\begin{bmatrix}\cos \beta & 0& \sin \beta \\0& 1& 0\\-\sin \beta & 0& \cos \beta \end{bmatrix} \cdot
 			\begin{bmatrix}1& 0& 0\\0& \cos \gamma & -\sin \gamma \\0& \sin \gamma & \cos \gamma \end{bmatrix} \\
@@ -54,16 +54,16 @@ Daher ergibt sich für die Translationskomponente:
 \begin{equation}
 	\label{eq:invtrans}
 	\begin{split}
-		-R^\intercal \cdot p & = (-1) \cdot \begin{bmatrix}1 & 0 & 0\\0 & 1 & 0\\0 & 0 & 1\end{bmatrix}^\intercal \cdot p\\
-							 & = \begin{bmatrix}-1 & 0 & 0\\0 & -1 & 0\\0 & 0 & -1\end{bmatrix} \cdot \begin{pmatrix}t_x\\t_y\\t_z\end{pmatrix}\\
-							 & = \begin{pmatrix}-t_x\\-t_y\\-t_z\end{pmatrix}
+		-R^\intercal \cdot p & = (-1) \cdot \begin{bmatrix}1 & 0 & 0\\0 & 1 & 0\\0 & 0 & 1\end{bmatrix}^\intercal \cdot p \\
+							 & = \begin{bmatrix}-1 & 0 & 0\\0 & -1 & 0\\0 & 0 & -1\end{bmatrix} \cdot \tm{}{t_x}{t_y}{t_z} \\
+							 & = \tm{}{-t_x}{-t_y}{-t_z}
 	\end{split}
 \end{equation}
 
 Daher ergibt sich für die Inverse der translatorischen Transformationsmatrix.
 
 \begin{equation}
-	T^b_s\begin{pmatrix}t_x\\t_y\\t_z\end{pmatrix}^{-1} = T^s_b\begin{pmatrix}-t_x\\-t_y\\-t_z\end{pmatrix}
+	\tm{T^b_s}{t_x}{t_y}{t_z} ^{-1} = \tm{T^s_b}{-t_x}{-t_y}{-t_z}
 \end{equation}
 
 \subsection[Rotation]{Inverse der Rotation um eine Achse}
@@ -73,8 +73,8 @@ Da bei der reinen Rotationsmatrix der Translationsvektor $p$ der Nullvektor ist,
 	\label{eq:inverserot}
 	\begin{split}
 		-R^\intercal \cdot p & = (-1) \cdot \begin{bmatrix}1 & 0 & 0\\0 & 1 & 0\\0 & 0 & 1\end{bmatrix}^\intercal \cdot \mathbf{0}\\
-		& = \begin{bmatrix}-1 & 0 & 0\\0 & -1 & 0\\0 & 0 & -1\end{bmatrix} \cdot \begin{pmatrix}0\\0\\0\end{pmatrix}\\
-		& = \begin{pmatrix}0\\0\\0\end{pmatrix}
+		& = \begin{bmatrix}-1 & 0 & 0\\0 & -1 & 0\\0 & 0 & -1\end{bmatrix} \cdot \tm{}{0}{0}{0} \\
+		& = \tm{}{0}{0}{0}
 	\end{split}
 \end{equation}
 
@@ -82,11 +82,11 @@ Bei Rotation um eine Achse ergibt sich die Rotationskomponente gemäß \ref{eq:r
 
 \begin{equation}
 	\begin{split}
-		R\begin{pmatrix}0\\0\\\alpha\end{pmatrix} = & R_{z}(\alpha )\,R_{y}(0)\,R_{x}(0) \\
-		= & \begin{bmatrix}\cos \alpha & -\sin \alpha & 0\\\sin \alpha & \cos \alpha & 0\\0& 0& 1\end{bmatrix} \cdot
-		\begin{bmatrix}\cos 0 & 0& \sin 0 \\0& 1& 0\\-\sin 0 & 0& \cos 0 \end{bmatrix} \cdot
-		\begin{bmatrix}1& 0& 0\\0& \cos 0 & -\sin 0 \\0& \sin 0 & \cos 0 \end{bmatrix} \\
-		= & \begin{bmatrix}\cos \alpha & -\sin \alpha & 0\\\sin \alpha & \cos \alpha & 0\\0& 0& 1\end{bmatrix}
+		\rottm{0}{0}{\alpha} = & R_{z}(\alpha )\,R_{y}(0)\,R_{x}(0) \\
+							= & \begin{bmatrix}\cos \alpha & -\sin \alpha & 0\\\sin \alpha & \cos \alpha & 0\\0& 0& 1\end{bmatrix}
+						\cdot	\begin{bmatrix}\cos 0 & 0& \sin 0 \\0& 1& 0\\-\sin 0 & 0& \cos 0 \end{bmatrix}
+						\cdot	\begin{bmatrix}1& 0& 0\\0& \cos 0 & -\sin 0 \\0& \sin 0 & \cos 0 \end{bmatrix} \\
+							= & \begin{bmatrix}\cos \alpha & -\sin \alpha & 0\\\sin \alpha & \cos \alpha & 0\\0& 0& 1\end{bmatrix}
 	\end{split}
 \end{equation}
 
@@ -111,7 +111,7 @@ Für die transponierte der Rotationskomponente ergibt sich mit den Symmetriebezi
 Damit folgt für die Inverse der Transformationsmatrix der reinen Rotation:
 
 \begin{equation}
-	R_s^b\begin{pmatrix}0\\0\\\alpha\end{pmatrix}^{-1} = R^s_b\begin{pmatrix}0\\0\\-\alpha\end{pmatrix}
+	\tm{R^b_s}{0}{0}{\alpha} ^{-1} = \tm{R^s_b}{0}{0}{-\alpha}
 \end{equation}
 
 \subsection{Notation der Indizes}
@@ -148,7 +148,7 @@ Um anschließend die Koordinatentransformation von dem Werkzeugkoordinatensystem
 
 \subsection[Werkstück]{Kinematik der Werkstück-Seite}
 
-In die kinematische Kette auf der Werkstückseite \ref{eq:werkstuck} gehen ein Offset des Werkstückkoordinatensystems zum Maschinenkoordinatensystem $\mathbf{p}_{\mathtt{offset}} = \begin{pmatrix} a\\b\\c\end{pmatrix}$ und der Verdrehwinkel $C$ ein.
+In die kinematische Kette auf der Werkstückseite \ref{eq:werkstuck} gehen ein Offset des Werkstückkoordinatensystems zum Maschinenkoordinatensystem $\mathbf{p}_{\mathtt{offset}} = \tm{}{a}{b}{c}$ und der Verdrehwinkel $C$ ein.
 Der Offset erlaubt die Fähigkeit ein versetztes Aufspannen des Werkstücks darzustellen und ist im idealen Fall ein Nullvektor.
 Dem Verdrehwinkel wird ein weiterer Offest $\gamma$ aufgeprägt.
 Dieser stellt den Fehler des verdrehten Aufspannens dar und erlaubt die Position von Zahn und Zahnlücke des virtuellen Schneckengetriebes zu korrigieren.
@@ -169,8 +169,8 @@ Die Transformation beschreibt die Position eines Werkstückpunktes im Koordinate
 
 \begin{equation}
 	\label{eq:werkstuck}
-	\mathbf{p}_m = T_{\mathbf{v}} \begin{pmatrix}a\\b\\c \end{pmatrix}
-			\cdot{} R \begin{pmatrix}0\\0\\C\end{pmatrix}
+	\mathbf{p}_m = \transtm{a}{b}{c}
+			\cdot{} \rottm{0}{0}{C}
 			\cdot{} \mathbf{p}_{WSt}
 \end{equation}
 
@@ -193,9 +193,9 @@ Es bietet sich an, die Ausrichtung des Koordinatensystems durch Drehung um $\pi/
 So kann man mit sehr wenig Aufwand das Werkzeug in einem Polarkoordinatensystem anlegen und die Punktewolke in kartesische Koordinaten umrechnen.
 
 \begin{equation}
-	\mathbf{p}_{WZ,kart} = \begin{pmatrix}x = & r \cdot{} \cos{\phi}\\
-		                                  y = & r \cdot{} \sin{\phi}\\
-		                                  z = & h\end{pmatrix}
+	\mathbf{p}_{WZ,kart} = \begin{pmatrix}  x = & r \cdot{} \cos{\phi}\\
+											y = & r \cdot{} \sin{\phi}\\
+											z = & h\end{pmatrix}
 \end{equation}
 
 \begin{figure}
@@ -208,29 +208,30 @@ Die Transformation beschreibt die Position eines Werkzeugpunktes im Koordinatens
 
 \begin{equation}
 	\label{eq:werkzeug}
-	\mathbf{p}_m = T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\end{pmatrix}
-			\cdot{} R \begin{pmatrix}A\\0\\0\end{pmatrix}
-			\cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y\\0\end{pmatrix}
-			\cdot{} R \begin{pmatrix}0\\-B\\0\end{pmatrix}
-			\cdot{} R \begin{pmatrix}\pi/2\\0\\0\end{pmatrix}
+	\mathbf{p}_m =  \transtm{X}{0}{Z}
+			\cdot{} \rottm{A}{0}{0}
+			\cdot{} \transtm{0}{Y}{0}
+			\cdot{} \rottm{0}{-B}{0}
+			\cdot{} \rottm{pi/2}{0}{0}
 			\cdot{} \mathbf{p}_{WZ}
 \end{equation}
 
 Zur Verdeutlichung, die ausformulierte Form der Transformationsmatrix zur Drehung des Werkzeugkoordinatensystems lautet:
 
 \begin{equation}
-	R \begin{pmatrix}\pi/2\\0\\0\end{pmatrix} = \begin{bmatrix}1 & 0 & 0 & 0\\0 & 0 &-1 & 0\\0 & 1 & 0 & 0\\0 & 0 & 0 & 1\end{bmatrix}
+	\rottm{pi/2}{0}{0}
+	= \begin{bmatrix}1 & 0 & 0 & 0\\0 & 0 &-1 & 0\\0 & 1 & 0 & 0\\0 & 0 & 0 & 1\end{bmatrix}
 \end{equation}
 
 
 Zur Vereinfachung der entstehenden Terme bietet sich das Zusammenfassen der Transformationsmatrizen zu einer Transformationsmatrix von Maschinenbett- in Werkzeugkoordinaten an:
 
 \begin{equation}
-	\mathbf{T}^{WZ}_m = T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\end{pmatrix}
-				\cdot{} R \begin{pmatrix}A\\0\\0\end{pmatrix}
-				\cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y\\0\end{pmatrix}
-				\cdot{} R \begin{pmatrix}0\\-B\\0\end{pmatrix}
-				\cdot{} R \begin{pmatrix}\pi/2\\0\\0\end{pmatrix}
+	\mathbf{T}^{WZ}_m = \transtm{X}{0}{Z}
+				\cdot{} \rottm{A}{0}{0}
+				\cdot{} \transtm{0}{Y}{0}
+				\cdot{} \rottm{0}{-B}{0}
+				\cdot{} \rottm{pi/2}{0}{0}
 \end{equation}
 
 
@@ -262,11 +263,15 @@ Bei der C-Achse ist dieser Effekt bereits mit dem Winkeloffset $\gamma$ realisie
 Damit ergibt sich für die Transformationsmatrix von Maschinenbett- nach Werkzeugkoordinaten in ausführlicher Form:
 
 \begin{equation}
-	\mathbf{T}^{WZ}_m = T_{\mathbf{v}} \begin{pmatrix}x + B \cdot fX_{WZ,rad}\\0\\z + B \cdot fZ_{WZ,rad}\end{pmatrix}
-				\cdot{} R \begin{pmatrix}A\\0\\0\end{pmatrix}
-				\cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\y + B \cdot fY_{WZ,rad} + Y_{\mathtt{shift}}\\0\end{pmatrix}
-				\cdot{} R \begin{pmatrix}0\\-B\\0\end{pmatrix}
-				\cdot{} R \begin{pmatrix}\pi/2\\0\\0\end{pmatrix}
+	\mathbf{T}^{WZ}_m = \transtm{x + B \cdot fX_{WZ,rad}}
+								{0}
+								{z + B \cdot fZ_{WZ,rad}}
+				\cdot{} \rottm{A}{0}{0}
+				\cdot{} \transtm{0}
+								{y + B \cdot fY_{WZ,rad} + Y_{\mathtt{shift}}}
+								{0}
+				\cdot{} \rottm{0}{-B}{0}
+				\cdot{} \rottm{\pi/2}{0}{0}
 \end{equation}
 
 \subsection[Gesamt]{Transformation von Werkzeug- in Werkstückkoordinaten}
@@ -274,14 +279,14 @@ Damit ergibt sich für die Transformationsmatrix von Maschinenbett- nach Werkzeu
 Um die Transformation aus dem Werkzeug- in das Werkstückkoordinatensystem zu erhalten setzen wir die beiden Transformationsschritte gleich:
 
 \begin{equation}
-			T_{\mathbf{v}} \begin{pmatrix}a\\b\\c\end{pmatrix}
-	\cdot{} R \begin{pmatrix}0\\0\\C\end{pmatrix}
+			\transtm{a}{b}{c}
+	\cdot{} \rottm{0}{0}{C}
 	\cdot{} \mathbf{p}_{WSt} =
-			T_{\mathbf{v}} \begin{pmatrix}X\\0\\Z\end{pmatrix}
-	\cdot{} R \begin{pmatrix}A\\0\\0\end{pmatrix}
-	\cdot{} T_{\mathbf{v}} \begin{pmatrix}0\\Y\\0\end{pmatrix}
-	\cdot{} R \begin{pmatrix}0\\-B\\0\end{pmatrix}
-	\cdot{} R \begin{pmatrix}\pi/2\\0\\0\end{pmatrix}
+			\transtm{X}{0}{Z}
+	\cdot{} \rottm{A}{0}{0}
+	\cdot{} \transtm{0}{Y}{0}
+	\cdot{} \rottm{0}{-B}{0}
+	\cdot{} \rottm{\pi/2}{0}{0}
 	\cdot{} \mathbf{p}_{WZ}
 \end{equation}
 
@@ -289,13 +294,13 @@ Die Gleichung wird durch Multiplikation mit den Inversen der Transformation- und
 
 \begin{equation}
 	\begin{split}
-				R \begin{pmatrix} 0 \\ 0 \\ -C \end{pmatrix}
-		\cdot{} T_{\mathbf{v}} \begin{pmatrix} -a \\ -b \\ -c \end{pmatrix}
-		\cdot{} T_{\mathbf{v}} \begin{pmatrix} X \\ 0 \\ Z \end{pmatrix}
-		\cdot{} R \begin{pmatrix} A \\ 0 \\ 0 \end{pmatrix}
-		\cdot{} T_{\mathbf{v}} \begin{pmatrix} 0 \\ Y \\ 0 \end{pmatrix}
-		\cdot{} R \begin{pmatrix} 0 \\ -B \\ 0 \end{pmatrix}
-		\cdot{} R \begin{pmatrix}\pi/2\\0\\0\end{pmatrix}
+				\rottm{0}{0}{-C}
+		\cdot{} \transtm{-a}{-b}{-c}
+		\cdot{} \transtm{X}{0}{Z}
+		\cdot{} \rottm{A}{0}{0}
+		\cdot{} \transtm{0}{Y}{0}
+		\cdot{} \rottm{0}{-B}{0}
+		\cdot{} \rottm{\pi/2}{0}{0}
 		\cdot{} \mathbf{p}_{WZ} & =
 				\mathbf{p}_{WSt}
 		\\
@@ -307,31 +312,27 @@ Die Gleichung wird durch Multiplikation mit den Inversen der Transformation- und
 \begin{equation}
 	\begin{split}
 		\mathbf{T}^{WZ}_{WSt} = &
-				R \begin{pmatrix} 0 \\ 0 \\ -C \end{pmatrix}
-		\cdot{} T_{\mathbf{v}} \begin{pmatrix} -a \\ -b \\ -c \end{pmatrix}
-		\cdot{} T_{\mathbf{v}} \begin{pmatrix} X \\ 0 \\ Z \end{pmatrix}
-		\cdot{} R \begin{pmatrix} A \\ 0 \\ 0 \end{pmatrix}
-		\cdot{} T_{\mathbf{v}} \begin{pmatrix} 0 \\ Y \\ 0 \end{pmatrix}
-		\cdot{} R \begin{pmatrix} 0 \\ -B \\ 0 \end{pmatrix}
-		\cdot{} R \begin{pmatrix}\pi/2\\0\\0\end{pmatrix}
+				\rottm{0}{0}{-C}
+		\cdot{} \transtm{-a}{-b}{-c}
+		\cdot{} \transtm{X}{0}{Z}
+		\cdot{} \rottm{A}{0}{0}
+		\cdot{} \transtm{0}{Y}{0}
+		\cdot{} \rottm{0}{-B}{0}
+		\cdot{} \rottm{\pi/2}{0}{0}
 		\\= &
-				R \begin{pmatrix} 0 \\ 0 \\ -C \end{pmatrix}
-		\cdot{} T_{\mathbf{v}} \begin{pmatrix} X - a \\ -b \\ Z - c \end{pmatrix}
-		\cdot{} R \begin{pmatrix} A \\ 0 \\ 0 \end{pmatrix}
-		\cdot{} T_{\mathbf{v}} \begin{pmatrix} 0 \\ Y \\ 0 \end{pmatrix}
-		\cdot{} R \begin{pmatrix} 0 \\ -B \\ 0 \end{pmatrix}
-		\cdot{} R \begin{pmatrix}\pi/2\\0\\0\end{pmatrix}
+				\rottm{0}{0}{-C}
+		\cdot{} \transtm{X - a}{-b}{Z - c}
+		\cdot{} \rottm{A}{0}{0}
+		\cdot{} \transtm{0}{Y}{0}
+		\cdot{} \rottm{0}{-B}{0}
+		\cdot{} \rottm{\pi/2}{0}{0}
 		\\= &
-				R \begin{pmatrix} 0 \\ 0 \\ -(B \cdot{} fC_{WSt,rad} + \gamma) \end{pmatrix}
-		\cdot{} T_{\mathbf{v}} \begin{pmatrix}	x + B \cdot fX_{WZ,rad} -a\\
-																		-b\\
-												z + B \cdot fZ_{WZ,rad} -c	\end{pmatrix}
-		\cdot{} R \begin{pmatrix} A \\ 0 \\ 0 \end{pmatrix}
-		\cdot{} T_{\mathbf{v}} \begin{pmatrix}												0 \\
-												y + B \cdot fY_{WZ,rad} + Y_{\mathtt{shift}} \\
-																							0 \end{pmatrix}
-		\cdot{} R \begin{pmatrix} 0 \\ -B \\ 0 \end{pmatrix}
-		\cdot{} R \begin{pmatrix}\pi/2\\0\\0\end{pmatrix}
+				\rottm{0}{0}{-(B \cdot{} fC_{WSt,rad} + \gamma)}
+		\cdot{} \transtm{x + B \cdot fX_{WZ,rad} -a}{-b}{z + B \cdot fZ_{WZ,rad} -c}
+		\cdot{} \rottm{A}{0}{0}
+		\cdot{} \transtm{0}{y + B \cdot fY_{WZ,rad} + Y_{\mathtt{shift}}}{0}
+		\cdot{} \rottm{0}{-B}{0}
+		\cdot{} \rottm{\pi/2}{0}{0}
 		\\= &
 		\begin{bmatrix}
 			\sigma_2 \cdot \cos{B} + \sigma_1 \cdot \sin{A} \cdot \sin{B} & -\sigma_1 \cdot \cos{A} &  \sigma_1 \cdot \cos{B} \cdot \sin{A} - \sigma_2 \cdot \sin{B} & \sigma_2 \cdot \sigma_3 +\sigma_1 \cdot \sigma_4 \\
