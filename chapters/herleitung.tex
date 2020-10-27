@@ -242,17 +242,27 @@ Dazu wird die Abhängigkeit der Achskoordinaten vom Werkzeugwinkel als Produkt d
 Den x-Achsen und z-Achsen Koordinaten wird zusätzlich als linearer Offset die Position der x-Achse von einem Ausgangszustand aufgeprägt.
 Bei der C-Achse ist dieser Effekt bereits mit dem Winkeloffset $\gamma$ realisiert.
 
-\subsubitem{x-Axchse}
+\begin{itemize}
+	\item{x-Axchse}
+		\begin{equation}
+			X = x + B \cdot fX_{WZ,rad}
+		\end{equation}
 
-\begin{equation}
-	X = x + B \cdot fX_{WZ,rad}
-\end{equation}
+	\item{z-Axchse}
+		\begin{equation}
+			\label{eq:zaxisfeedrate}
+			Z = z + B \cdot fZ_{WZ,rad}
+		\end{equation}
+\end{itemize}
 
-\subsubitem{z-Axchse}
-
-\begin{equation}
-	Z = z + B \cdot fZ_{WZ,rad}
-\end{equation}
+Erläuterung der Nomenklatur für Vorschub-Variablen anhand Gl. \ref{eq:zaxisfeedrate}. Die Vorschübe beziehen sich immer auf die Drehung des Werkzeuges.
+\begin{itemize}
+	\item $f$: Vorschub (engl.: feed rate)
+	\item $Z$: Achsrichtung (z-Achse)
+	\item $Wz$: bezogen auf die Werkzeugrotation
+	\item $rad$: Einheit (Bogenmaß)
+\end{itemize}
+Der Faktor lässt sich also definieren als Vorschub auf der z-Achse pro 1 Umdrehung des Werkzeugs $(2 \cdot \pi)$.
 
 Damit ergibt sich für die Transformationsmatrix von Maschinenbett- nach Werkzeugkoordinaten in ausführlicher Form:
 
@@ -445,7 +455,7 @@ Lösung:
 	\end{split}
 \end{equation}
 
-Mit Additionsterm \ref{eq:additionsterm}:
+
 \begin{equation}
 	\begin{split}
 		0 = z - c - z_{soll} + B \cdot{} fZ_{WZ,rad} + & \sin(A) \cdot{} (y + Y_{shift} + B \cdot{} fY_{WZrad} - z_{WZ}) \\
