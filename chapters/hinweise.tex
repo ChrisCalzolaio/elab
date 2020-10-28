@@ -18,9 +18,9 @@ Insbesondere sollten Sie Latex \emph{niemals} dazu zwingen, Bilder genau an der 
 Es gibt dann für Latex keine Freiheit mehr, den Text richtig zu setzen, was unschöne Lücken zur Folgen hat.
 Zudem wird durch ein Platzieren mitten im Text der Lesefluss unterbrochen.
 
-\begin{shaded*}
+%\begin{shaded*}
 Gleitobjekte sollten daher immer mit [t] oder [tb] positioniert werden, oder bei großen Bildern auf Einzelseiten bzw.\ wenn mehrere Objekte auf einer textfreien Seite gesammelt werden sollen mit [p], alternativ mit [tbp].
-\end{shaded*}
+%\end{shaded*}
 
 Falls dadurch Bilder immer weiter vom eigentlichen Text wegrutschen, dann ist das ein Hinweise darauf, dass Sie im Verhältnis zu den Bildern zu wenig erläuternden Text geschrieben haben \dots
 
@@ -71,20 +71,6 @@ Entsprechend funktioniert dies für Tabellen mit tcapside.
 Die Einstellungen wurden so gewählt, dass die Beschriftung immer an der Innenseite ist (für doppelseitigen Druck).
 Für eine korrekte Darstellung sind evtl.\ mehrere Latex-Läufe nötig.
 
-\begin{figure}[t]
-\fcapside
-{\caption{Beschreibung neben dem Bild mit fcapside. Für Tabellen wird tcapside verwendet}
-\label{fig:beschreibung-neben-bild}}
-{\includegraphics[width=0.35\textwidth]{\figdir/handorig}}
-\end{figure}
-
-\begin{figure}[t]
-\fcapside
-{\caption{Beschreibung neben dem Bild mit fcapside. Für Tabellen wird tcapside verwendet}
-\label{fig:beschreibung-neben-bild-2}}
-{\includegraphics[width=0.35\textwidth]{\figdir/handorig}}
-\end{figure}
-
 
 \section{Seitenumbrüche}
 Überlassen Sie Seitenumbrüche Latex, verwenden Sie kein newpage oder pagebreak.
@@ -134,7 +120,7 @@ f(x) = \frac{1}{3} x + 5, \quad x \in \real.
 Und noch eine:
 \begin{equation}
 \label{eq:cvp:matvec}
-\bm{M}  = \bm{Ax} \pi, \quad \bm{A} \in \real^{2 \times 2}, \bm{x} \in \real^2.
+\mathbf{M}  = \mathbf{Ax} \pi, \quad \mathbf{A} \in \real^{2 \times 2}, \mathbf{x} \in \real^2.
 \end{equation}
 
 Eine Referenz auf eine Formel: \eqref{eq:cvp:test}.
