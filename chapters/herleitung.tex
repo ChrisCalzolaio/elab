@@ -148,8 +148,8 @@ Um anschließend die Koordinatentransformation von dem Werkzeugkoordinatensystem
 
 \subsection[Werkstück]{Kinematik der Werkstück-Seite}
 
-In die kinematische Kette auf der Werkstückseite \ref{eq:werkstuck} gehen ein Offset des Werkstückkoordinatensystems zum Maschinenkoordinatensystem $\mathbf{p}_{\mathtt{offset}} = \tm{}{a}{b}{c}$ und der Verdrehwinkel $C$ ein.
-Der Offset erlaubt die Fähigkeit ein versetztes Aufspannen des Werkstücks darzustellen und ist im idealen Fall ein Nullvektor.
+Für die kinematische Kette auf der Werkstückseite gehen in die Gleichungen \ref{eq:werkstuckv1} und \ref{eq:werkstuck21} ein Offset des Werkstückkoordinatensystems zum Maschinenkoordinatensystem $\mathbf{p}_{\mathtt{offset}} = \tm{}{a}{b}{c}$ und der Verdrehwinkel $C$ ein.
+Der Offset erlaubt es ein versetztes Aufspannen des Werkstücks darzustellen und ist im idealen Fall ein Nullvektor.
 Dem Verdrehwinkel wird ein weiterer Offest $\gamma$ aufgeprägt.
 Dieser stellt den Fehler des verdrehten Aufspannens dar und erlaubt die Position von Zahn und Zahnlücke des virtuellen Schneckengetriebes zu korrigieren.
 $C$ ist außerdem Funktion des Werkzeugwinkels und dem Achsvorschub.
@@ -165,15 +165,32 @@ Die vollständige Formulierung des Werkstückwinkels $C$ lautet:
 	C = B \cdot{} fC_{WSt,rad} + \gamma
 \end{equation}
 
+Die Kinematik kann durch Änderung der Reihenfolge der Freiheitsgrade auf zwei verschiedene Arten aufgebaut werden.
+Bei Variante 1 liegt das Bauteil zentriert auf dem Bearbeitungstisch, der sich um die C-Achse dreht.
+Allerdings gehen die X-,Y- und Z-Achse nicht durch Mittelpunkt des Werkstücktisches sondern sind um $\mathbf{p}_{\mathtt{offset}}$ versetzt.
+Bei Variante 2 liegt das Bauteil nicht zentrisch auf dem Bearbeitungstisch, der sich um die C-Achse dreht, sondern ist um $\mathbf{p}_{\mathtt{offset}}$ versetzt.
+Die X-,Y- und Z-Achse starten dann im Mittelpunkt des Bearbeitungstisches.
+
+\subsubsection[versetzter Bearbeitungstisch]{Variante 1: versetzter Bearbeitungstisch}
+
 Die Transformation beschreibt die Position eines Werkstückpunktes im Koordinatensystems des Maschinenbettes.
 
 \begin{equation}
-	\label{eq:werkstuck}
+	\label{eq:werkstuckv1}
 	\mathbf{p}_m = \transtm{a}{b}{c}
 			\cdot{} \rottm{0}{0}{C}
 			\cdot{} \mathbf{p}_{WSt}
 \end{equation}
 
+\subsubsection[versetztes Werkstück]{Variante 2: versetztes Werkstück}
+
+\begin{equation}
+	\label{eq:werkstuckv2}
+	\mathbf{p}_m =
+					\rottm{0}{0}{C}
+			\cdot{} \transtm{a}{b}{c}
+			\cdot{} \mathbf{p}_{WSt}
+\end{equation}
 
 
 \subsection[Werkzeug]{Kinematik der Werkzeug-Seite}
