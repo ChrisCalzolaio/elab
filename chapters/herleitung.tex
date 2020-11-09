@@ -463,14 +463,14 @@ Lösung:
 	\begin{pmatrix}p_{Wst,x}\\p_{Wst,y}\\p_{Wst,z}\\1\end{pmatrix} = \mathbf{G} \cdot{} \begin{pmatrix}p_{WZ,x}\\p_{WZ,y}\\p_{WZ,z}\\1\end{pmatrix}
 \end{equation}
 
-\begin{equation}
+\begin{equation*}
 	\begin{split}
 		p_{Wst,z} = z_{soll} = z - c + B \cdot{} fZ_{WZrad} + & \sin(A) \cdot{} (y + Y_{shift} + B \cdot{} fY_{WZrad}) \\
 							- & \sin(A) \cdot{} z_{WZ} \\
 							+ & \cos(A) \cdot{} y_{WZ} \cdot{} \cos(B) \\
-							+ & \cos(A) \cdot{} x_{WZ} \cdot{} \sin(B)
+							+ & \cos(A) \cdot{} x_{WZ} \cdot{} \sin(B) | -z_{soll}
 	\end{split}
-\end{equation}
+\end{equation*}
 
 
 \begin{equation}
@@ -478,6 +478,53 @@ Lösung:
 		0 = z - c - z_{soll} + B \cdot{} fZ_{WZ,rad} + & \sin(A) \cdot{} (y + Y_{shift} + B \cdot{} fY_{WZrad} - z_{WZ}) \\
 												+ & \cos{(A)} \cdot{} (y_{WZ} \cdot{} \cos(B) + x_{WZ} \cdot{} \sin(B))
 	\end{split}
+\end{equation}
+
+Mit:
+\begin{equation}
+	\begin{split}
+		\beta & = z - c - z_{soll} + B \cdot{} fZ_{WZ,rad}\\
+		\alpha &= y + Y_{shift} + B \cdot{} fY_{WZrad} - z_{WZ}
+	\end{split}
+\end{equation}
+
+\begin{equation}
+	\begin{split}
+		0 = \beta +
+			\sin(A) \cdot{} \alpha +
+			\cos{(A)} \cdot{} (y_{WZ} \cdot{} \cos(B) + x_{WZ} \cdot{} \sin(B)) | - \cos{(A)} \cdot (\dots)
+	\end{split}
+\end{equation}
+
+\begin{equation}
+	(-1) \cdot (\cos{(A)} \cdot{} (y_{WZ} \cdot{} \cos(B) + x_{WZ} \cdot{} \sin(B))) = 
+	\beta +	\sin(A) \cdot{} \alpha | \cdot (-1) \cdot \frac{1}{\cos{A}}
+\end{equation}
+
+\begin{equation}
+	y_{WZ} \cdot{} \cos(B) + x_{WZ} \cdot{} \sin(B) = 
+	(-1) \cdot \left(
+	\frac{\beta}{\cos{(A)}} +
+	\frac{\sin(A)}{\cos{(A)}} \cdot{} \alpha \right) | \cdot \frac{1}{\cos{(B)}}
+\end{equation}
+
+\begin{equation}
+	y_{WZ} + x_{WZ} \cdot{} \frac{\sin(B)}{\cos{B}} = 
+	(-1) \cdot \left(
+	\frac{\beta}{\cos{A} \cdot \cos{B}} +
+	\frac{\sin(A)}{\cos{A} \cdot \cos{B}} \cdot{} \alpha \right)
+\end{equation}
+
+\begin{equation}
+	(-1) \cdot (y_{WZ} + x_{WZ} \cdot{} \frac{\sin(B)}{\cos{(B)}}) = 
+	\frac{\beta}{\cos{(A)} \cdot \cos{(B)}} +
+	\frac{\tan{(A)}}{\cos{(B)}} \cdot{} (y + Y_{shift} + B \cdot{} fY_{WZrad} - z_{WZ}) | + y_{WZ}
+\end{equation}
+
+\begin{equation}
+	- x_{WZ} \cdot{} \tan{B} = 
+	\frac{\beta}{\cos{(A)} \cdot \cos{(B)}} +
+	\frac{\tan{(A)}}{\cos{(B)}} \cdot{} (y + Y_{shift} + B \cdot{} fY_{WZrad} - z_{WZ}) + y_{WZ}
 \end{equation}
 
 \begin{equation}
