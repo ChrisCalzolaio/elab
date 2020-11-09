@@ -9,6 +9,7 @@
 	\begin{itemize}
 		\item als anonyme Funktion, Funktionshandle
 		\item hardgecoded, eingefroren
+		\item Verwendung der Formel mit Polarkoordinaten
 	\end{itemize}
 	\item Startwert für $B_0$ annehmen
 	\begin{itemize}
@@ -16,4 +17,35 @@
 		\item bei jeder weiteren Ausführung kann man den Lösungswert des vorhergehenden Schrittes verwenden
 	\end{itemize}
 	\item Lösen der Funktion bis die Differenz $B - B_0$ ein Abbruchkriterium erreicht
+\end{itemize}
+
+\section{Verfahren 2}
+
+\begin{itemize}
+	\item Funktion $f(B) = p_{Wst,z}(B) - z_{soll}$ aufstellen
+	\begin{itemize}
+		\item alle bekannten Werte substituieren mit \code{subs}
+		\item Funktions-Handle aus symbolischer Funktion mit \code{matlabFunction}
+	\end{itemize}
+	\item Startwert für \code{fzero} annehmen
+	\begin{itemize}
+		\item bei erster Ausführung ist das ein geratener, geschätzter Wert
+		\item bei jeder weiteren Ausführung kann man den Lösungswert des vorhergehenden Schrittes verwenden
+	\end{itemize}
+\end{itemize}
+
+\section{Verfahren 3}
+
+\begin{itemize}
+	\item Verwendung eines angenäherten Sinus
+\end{itemize}
+
+\section{Verfahren 4}
+
+\begin{itemize}
+	\item Funktion $z_{soll} = p_{Wst,z}$ aufstellen
+	\begin{itemize}
+		\item bekannte Werte substituieren mit \code{subs}
+	\end{itemize}
+	\item lösen nach $B$ mit \code{solve(@(B) fun, B)}
 \end{itemize}
