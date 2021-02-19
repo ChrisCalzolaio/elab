@@ -148,20 +148,21 @@ Um anschließend die Koordinatentransformation von dem Werkzeugkoordinatensystem
 
 \subsection[Werkstück]{Kinematik der Werkstück-Seite}
 
-Für die kinematische Kette auf der Werkstückseite gehen in die Gleichungen \ref{eq:werkstuckv1} und \ref{eq:werkstuck21} ein Offset des Werkstückkoordinatensystems zum Maschinenkoordinatensystem $\mathbf{p}_{\mathtt{offset}} = \tm{}{a}{b}{c}$ und der Verdrehwinkel $C$ ein.
+Für die kinematische Kette auf der Werkstückseite gehen in die Gleichungen \ref{eq:werkstuckv1} und \ref{eq:werkstuckv2} ein Offset des Werkstückkoordinatensystems zum Maschinenkoordinatensystem $\mathbf{p}_{\mathtt{offset}} = \tm{}{a}{b}{c}$ und der Verdrehwinkel $C$ ein.
 Der Offset erlaubt es ein versetztes Aufspannen des Werkstücks darzustellen und ist im idealen Fall ein Nullvektor.
 Dem Verdrehwinkel wird ein weiterer Offest $\gamma$ aufgeprägt.
 Dieser stellt den Fehler des verdrehten Aufspannens dar und erlaubt die Position von Zahn und Zahnlücke des virtuellen Schneckengetriebes zu korrigieren.
-$C$ ist außerdem Funktion des Werkzeugwinkels und dem Achsvorschub.
+$C$ ist außerdem Funktion des Werkzeugwinkels und des Achsvorschubess.
 Der Achsvorschub der $C$-Achse ist das Übersetzungsverhältnis des gedachten Schneckengetriebes.
 
-\begin{equation}
-	fC_{WSt,rad} = \frac{n_{Schneidreihen}}{n_{Zähne}}
-\end{equation}
+\begin{equation*}
+	fC_{WSt,rad} = \frac{n_{Schneidreihen}}{n_{Z"ahne}}
+\end{equation*}
 
 Die vollständige Formulierung des Werkstückwinkels $C$ lautet:
 
 \begin{equation}
+	\label{eq:wrkstwinkel}
 	C = B \cdot{} fC_{WSt,rad} + \gamma
 \end{equation}
 
@@ -262,6 +263,7 @@ Bei der C-Achse ist dieser Effekt bereits mit dem Winkeloffset $\gamma$ realisie
 \begin{itemize}
 	\item{x-Axchse}
 		\begin{equation}
+			\label{eq:xaxisfun}
 			X = x + B \cdot fX_{WZ,rad}
 		\end{equation}
 
