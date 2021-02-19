@@ -82,4 +82,17 @@ Das Ergebnis wird mit einem Simulink-PS Converter in ein Physical Signal konvert
 
 Im Werkzeugpfad wird zunächst innerhalb des Maschinenbettes (File Solid Block) das Koordinatensystem gedreht, sodass der folgende Prismatic Joint der Maschinen-X-Achse entlang der z-Achse wirken kann.
 Durch Multiplikation des Werkzeugwinkels mit dem Vorfaktor $fX_{WZ,rad}$, der die Einheit $\left[\si{\milli\meter\per\radian}\right]$ hat, und Addition eines Offsets gemäß Gleichung \ref{eq:xaxisfun} erhalten wir den Wert der Translation.
-In Folge wird 
+Dieser wird wieder konvertiert und dem Block als Positionsziel vorgegeben.
+In Folge wird der File Solid Block mit dem Maschinen-X-Schlitten geschaltet, in dem die Transformation des Koordinatensystems erfolgt, sodass z-Achse parallel zur Maschinen-Z-Achse ist.
+Der Block ist in diesem Fall so eingebaut, dass das aus dem CAD-Skelettmodell stammende Koordinatensystem als Ausgang verwendet wird, also in Richtung des folgenden Freiheitsgrades zeigt.
+Es muss deswegen ein transformiertes Koordinatensystem konstruiert werden, das parallel zu dem aus dem Maschinenbett übergebenen Koordinatensystem liegt, und als Eingang in den Block definiert werden.
+
+Die folgenden Schritte des Modells bedienen sich bei Strategien der beschrieben Modellausschnitten.
+Am Ende der kinematischen Kette erhalten wir das Werkzeugkoordinatensystem in welches wir den betrachteten Punkt konstruieren können.
+Durch verschieben des Ursprungs um die Koordinaten des Punktes erhalten wir ein Koordinatensystem, das sich wie der Punkt im Raum referenziert ist.
+Die Verschiebung zwischen diesem Koordinatensystem und dem Ausgang des Werkstückpfades können wir mit einem Transform Sensor Block erfassen.
+Schlussendlich können die Komponenten der Translation ausgegeben werden, zu einem Signal gemuxed werden, und dem Basis-Workspace zur Verarbeitung zur Verfügung stellen.
+
+\section{Durchführen der Validierung}
+
+
