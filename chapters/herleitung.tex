@@ -39,12 +39,10 @@ Die homogene Transformationsmatrix $\mathbf{T}$ ist die kombinierte Repräsentat
 \section{Inverse von Transformationen}
 
 Die Inverse einer Transformationsmatrix ist ebenfalls eine Transformationsmatrix der Form \cite[Prop. 3.15]{KevinMLynch2017}:
-\begin{equation}
-	\begin{split}
-		\mathbf{T}^{-1} & = \begin{bmatrix}R & p\\0 & 1\end{bmatrix}^{-1}\\
-		& = \begin{bmatrix}R^\intercal & -R^\intercal \cdot p\\0 & 1\end{bmatrix}
-	\end{split}
-\end{equation}
+\begin{align*}
+	\mathbf{T}^{-1} & = \begin{bmatrix}R & p\\0 & 1\end{bmatrix}^{-1}\\
+	& = \begin{bmatrix}R^\intercal & -R^\intercal \cdot p\\0 & 1\end{bmatrix}
+\end{align*}
 
 \subsection[Translation]{Inverse der linearen Translation}
 
@@ -142,7 +140,7 @@ Um anschließend die Koordinatentransformation von dem Werkzeugkoordinatensystem
 
 \begin{figure}
 	\includegraphics[width=12cm]{maschine_frei}
-	\caption{Kinematik der Maschine mit Vorzeichenrichtung der Achsen; das Koordinatensystem ist Maschinenbett-fest}
+	\caption[Kinematik der Maschine]{Kinematik der Maschine mit Vorzeichenrichtung der Achsen; das Koordinatensystem ist Maschinenbett-fest}
 	\label{fig:maschine}
 \end{figure}
 
