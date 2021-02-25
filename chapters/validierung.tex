@@ -7,26 +7,26 @@ Die der Simulation zugrunde liegende Maschine hat 6 geführte Freiheitsgrade.
 Von diesen sind 4 über einen Vorschub an die Drehzahl des Werkzeugs gekoppelt.
 Die positive Richtung dieser Freiheitsgrade ist außerdem nicht streng anhand der mathematisch positive Richtung des Standardkoordinatensystems definiert.
 Um Vorzeichen-, Drehmittelpunkts- und Fehler in der Anwendungsreihenfolge der Abbildungsmatrizen zu verhindern ist eine visuelle Validierung der in Kap.\ \ref{c:herleitung} entwickelten linearen Algebra anhand einer erprobten Methode also sinnvoll.
-Diese Methode sollte Teil der \matlab Toolchain sein, erlauben das Modell extern zu bedaten und eine grafische Ausgabe zur Verfügung stellen.
+Diese Methode sollte Teil der \matlab-Toolchain sein, erlauben das Modell extern zu bedaten und eine grafische Ausgabe zur Verfügung stellen.
 Es wurde entschieden das kinematische Modell als Simscape Multibody Modell aufzubauen.
-Bei Simscape\texttrademark\xspace handelt es sich um eine Reihe von Blockbibliotheken und speziellen Simulationsfunktionen zur Modellierung physikalischer Systeme in der Simulink\textregistered-Umgebung.
-Sie verwendet den Physical Network-Ansatz, der sich von dem Standard-Simulink-Modellierungsansatz unterscheidet und sich besonders für die Simulation von Systemen eignet, die aus realen physikalischen Komponenten bestehen. \cite{mwSim}
-Vergleichbar zu Simulink wird hier ein Signalflussplan erstellt, der die Wechselwirkung von, zu Blöcken zusammengefassten, Funktionsgruppen mit Hilfe von Verbindungen beschriebt.
-Diese Verbindungen stellen in Simulink Signale dar, üblicherweise zeitdiskrete Zahlenwerte oder logische Zustände.
-In Simscape stellen diese Verbindungen allerdings die Position und Ausrichtung eines Koordinatensystems im Raum dar.
+Bei \simscape handelt es sich um eine Reihe von Blockbibliotheken und speziellen Simulationsfunktionen zur Modellierung physikalischer Systeme in der \simulink-Umgebung.
+Sie verwendet den Physical Network-Ansatz, der sich von dem Standard \simulink Modellierungsansatz unterscheidet und sich besonders für die Simulation von Systemen eignet, die aus realen physikalischen Komponenten bestehen. \cite{mwSim}
+Vergleichbar zu \simulink wird hier ein Signalflussplan erstellt, der die Wechselwirkung von, zu Blöcken zusammengefassten, Funktionsgruppen mit Hilfe von Verbindungen beschriebt.
+Diese Verbindungen stellen in \simulink Signale dar, üblicherweise zeitdiskrete Zahlenwerte oder logische Zustände.
+In \simscape stellen diese Verbindungen allerdings die Position und Ausrichtung eines Koordinatensystems im Raum dar.
 Diese verschiedenen Formen der Modellierung können in einem Blockschaltbild koexistieren und mit Hilfe von ,,Physical Signal Converters'' vereint werden.
-So kann ein Simulink-Signal in eine zeitdiskrete Transformation eines Koordinatensystem gewandelt werden, oder Position und Ausrichtung eines Koordinatensystems in einem Signal erfasst werden.
+So kann ein \simulink-Signal in eine zeitdiskrete Transformation eines Koordinatensystem gewandelt werden, oder Position und Ausrichtung eines Koordinatensystems in einem Signal erfasst werden.
 
 \section{Mechanisches Modell der Maschine}
 
 Anhand der schematischen Darstellung einer Wälzfräsmaschine in Abb.\ \ref{fig:maschine} wurde in Creo Parametric ein dreidimensionales Modell erstellt.
 Die Komponenten der Maschine wurden im Mechanismus-Modus zu einem kinematischen Modell verknüpft.
-Dieses kinematische CAD-Modell wurde anschließend mittels einer Softwareschnittstelle in ein Simscape Multibody Modell konvertiert.
+Dieses kinematische CAD-Modell wurde anschließend mittels einer Softwareschnittstelle in ein \simscape Multibody Modell konvertiert.
 
 Ursprung des CAD-Modells ist das Maschinenbett-Koordinatensystem.
 Anfänglich wurden alle Komponenten der Maschine auf dieses Standard-Koordinatensystem konstruiert.
 Nach Konvertierung der CAD-Komponenten in ein neutrales Datenformat beinhalten alle Teile dieses Koordinatensystem als Ursprung.
-Dadurch sollte der Aufbau des Simscale Modells vereinfachen werden, da alle Komponenten ohne linearen oder rotatorischen Versatz auf des world-Koordinatensystem referenziert werden können.
+Dadurch sollte der Aufbau des \simscape Modells vereinfachen werden, da alle Komponenten ohne linearen oder rotatorischen Versatz auf des world-Koordinatensystem referenziert werden können.
 
 \begin{figure}
 	\includegraphics{skelettmodell}
@@ -34,7 +34,7 @@ Dadurch sollte der Aufbau des Simscale Modells vereinfachen werden, da alle Komp
 	\label{fig:skelettmodell}
 \end{figure}
 
-Die in Simscape zur Verfügung stehenden Blöcke verwenden als primäre Achse allerdings immer die z-Achse; Translationen können ausschließlich entlang der z-Achse erfolgen, Rotationen ausschließlich um diese herum.
+Die in \simscape zur Verfügung stehenden Blöcke verwenden als primäre Achse allerdings immer die z-Achse; Translationen können ausschließlich entlang der z-Achse erfolgen, Rotationen ausschließlich um diese herum.
 Es ist also notwendig, den Komponenten zweckmäßige und individuelle Koordinatensysteme aufzuprägen.
 Als Ursprung für ein solches Koordinatensystem bietet sich der Schnittpunkt von Hauptachsen der Koordinatensysteme der Mutter- und Tochter-Komponenten (vgl. Abb.\ \ref{fig:skelettmodell}) an.
 Die Ausrichtung sollte mit Blick auf die Transformation der Tochter-Komponenten so gewählt werden, dass keine weitere Transformation innerhalb der Komponente notwendig ist.
@@ -44,7 +44,7 @@ Das Koordinatensystem muss also um einen Offset verschoben und so gedreht werden
 Das Koordinatensystem des in der kinematischen Kette nachfolgend liegende Teiles, der Schlitten der z-Achse ist dann wiederum translatorisch verschoben, damit der Ursprung auf der Rotationsachse der Werkzeugspindel liegt.
 Dieses muss dann im nächsten Schritt noch so gedreht werden, dass die z-Achse in Richtung der Rotationsachse der A-Achse zeigt.
 
-Eine mechanische Komponente wird innerhalb von Simscape als ,,File Solid'' Block repräsentiert.
+Eine mechanische Komponente wird innerhalb von \simscape als ,,File Solid'' Block repräsentiert.
 Dieser Block hat, wie andere mechanische Blöcke, einen Koordinatensystem-Eingang und es können ein oder mehrere Ausgänge ergänzt werden.
 Maskiert innerhalb des Blockes kann eine feste Transformation von Eingang zu Ausgangskoordinatensystem definiert werden.
 Als Ursprung eines sekundären Koordinatensystems kann lediglich ein Koordinatensystem, der Massenschwerpunkt des Körpers sowie der Flächenschwerpunkt einer frei wählbaren Fläche, nicht etwa ein definierbarer Punkt im Raum.
@@ -58,7 +58,7 @@ Es ist also notwendig, solche Koordinatensysteme bereits im CAD vorzusehen.
 	\label{fig:simscapemdl}
 \end{figure}
 
-Abbildung \ref{fig:simscapemdl} zeigt den Signalflussplan des zur Validierung eingesetzten Simscape Modells.
+Abbildung \ref{fig:simscapemdl} zeigt den Signalflussplan des zur Validierung eingesetzten \simscape Modells.
 Ausgehend vom Ursprung des Modells, das ,,world''-Koordinatensystem, breiten sich die gleichen zwei Pfade aus, die weiter oben bereits beschrieben wurden.
 
 Im Werkstück-Pfad muss zunächst der Versatz des Bearbeitungstisches berücksichtigt werden.
@@ -87,12 +87,37 @@ In Folge wird der File Solid Block mit dem Maschinen-X-Schlitten geschaltet, in 
 Der Block ist in diesem Fall so eingebaut, dass das aus dem CAD-Skelettmodell stammende Koordinatensystem als Ausgang verwendet wird, also in Richtung des folgenden Freiheitsgrades zeigt.
 Es muss deswegen ein transformiertes Koordinatensystem konstruiert werden, das parallel zu dem aus dem Maschinenbett übergebenen Koordinatensystem liegt, und als Eingang in den Block definiert werden.
 
-Die folgenden Schritte des Modells bedienen sich bei Strategien der beschrieben Modellausschnitten.
-Am Ende der kinematischen Kette erhalten wir das Werkzeugkoordinatensystem in welches wir den betrachteten Punkt konstruieren können.
-Durch verschieben des Ursprungs um die Koordinaten des Punktes erhalten wir ein Koordinatensystem, das sich wie der Punkt im Raum referenziert ist.
+Zur Modellierung folgenden Freiheitsgrade wurde sich bei Strategien der bisher beschrieben Modellausschnitten bedient.
+Am Ende der kinematischen Kette erhält man das Werkzeugkoordinatensystem in welches der betrachtete Punkt, Point of Interest (PoI), konstruiert werden kann.
+Durch Verschieben des Ursprungs um die Koordinaten des Punktes, welche aus dem Basis-Workspace gelesen werden, erhält man ein Koordinatensystem, das wie der Punkt im Raum referenziert ist.
 Die Verschiebung zwischen diesem Koordinatensystem und dem Ausgang des Werkstückpfades können wir mit einem Transform Sensor Block erfassen.
-Schlussendlich können die Komponenten der Translation ausgegeben werden, zu einem Signal gemuxed werden, und dem Basis-Workspace zur Verarbeitung zur Verfügung stellen.
+Dieser Block misst die zeitabhängige Beziehung zwischen zwei Frames.
+Zu den Parametern, die dieser Sensor misst, gehören die rotatorische und translatorische Position des Follower-Frames im Base-Frame, sowie die Ableitungen davon, Geschwindigkeit und Beschleunigung \cite{mwTfSens}.
+Obwohl der Block einen Port hat, der Base-Frame heißt, muss in der Maske definiert werden, dass als Referenz der Messung das als Basis eingehängte Koordinatensystem, und nicht der Standardwert world-Frame verwendet werden soll.
+Die Komponenten der Translation werden einzeln ausgegeben.
+Es bietet sich an, diese mit einem \simulink Mux-Block zu einem vektoriellem Signal zusammenzuführen.
+Dieses kann dann geloggt und dem Basis-Workspace, als Matrix aus Spaltenvektoren der Koordinaten über Zeit, zur Verarbeitung zu Verfügung gestellt werden.
 
 \section{Durchführen der Validierung}
+In einem Skript wird zunächst die Berechnung der Trajektorie des PoI mit der oben entwickelten linearen Algebra durchgeführt.
+Dazu wird ein Vektor der diskreten Werkzeugwinkel, die bei einer festen zeitlichen Schrittweite bis zu einer Stopp-Zeit durchlaufen werden, generiert.
+Geschieht dies in die dritte Dimension, wird durch Anwendung der \code{subs}-Funktion auf eine Transformationsmatrix $\mathbf{G}$ ein Tensor aufgespannt.
+Diese ist von Datentyp Symbolic Math und nur noch abhängig vom Werkzeugwinkel, alle weiteren oben diskutierten Freiheitsgrade werden definiert.
+Nach Substituierung der Werte für $B$ wird der Datentyp des Tensors noch durch verkettete Anwendung von \code{vpa} und \code{double}, zunächst in Variable Precision Arithmetic und dann in Typ double konvertiert.
+Die Matrizen des Tensors entsprechen dann der Transformation zu jedem Zeitschritt, bzw. Werkzeugwinkel.
+Durch Anwendung dieser Transformationsmatrizen auf die Koordinaten des PoI ergeben sich die Positionen entlang der Trajektorie des Punktes.
 
+In Folge wird aus dem Skript heraus das \simulink Modell gestartet, welches dann die selben Werte für die Variablen aus dem Basis-Workspace einliest, wie zuvor die lineare Algebra.
+Es wird ein Datensatz zurück gegeben, der neben Metadaten Logs gewählter Signale enthält.
+Diese sind noch gegen die sehr viel dichter gerasterte Simulationszeit aufgetragen, und es muss ein Downsampling auf die oben beschriebenen Zeitschritte durchgeführt werden.
+Während der Simulation wird das Ergebnis der linearen Algebra Methode mit einem Spline-Block geladen und, eingehängt auf das Werkstück-Koordinatensystem, im Mechanics Explorer zusammen mit der Maschine dargestellt (vgl. Abb. \ref{fig:mechexplorer}).
 
+\begin{figure}
+	\includegraphics[width=12cm]{mechexplorer}
+	\caption{Screenshot der Ausgabe des \simscape Modells im Mechanics Explorer}
+	\label{fig:mechexplorer}
+\end{figure}
+
+Diese Darstellung ist eine erste, sehr intuitive Visualisierung der Ergebnisse.
+Hier können systematische Fehler direkt erkannt und eine sehr einfache Fehlersuche betrieben werden.
+So konnte beispielsweise festgestellt werden, dass die ursprüngliche Definition der Werkzeugkoordinaten entlang der 
