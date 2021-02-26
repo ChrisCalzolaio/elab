@@ -2,7 +2,7 @@
 \chapter{Lösungsmethoden}
 \label{c:losungsmethoden}
 
-\section{Verfahren 1}
+\section[Verfahren 1]{Verfahren 1 - Iteration mit Polarkoordinaten}
 
 \begin{itemize}
 	\item Funktion $B = f(B_0)$ aufstellen
@@ -19,7 +19,7 @@
 	\item Lösen der Funktion bis die Differenz $B - B_0$ ein Abbruchkriterium erreicht
 \end{itemize}
 
-\section{Verfahren 2}
+\section[Verfahren 2]{Verfahren 2 - Lösung mit \code{fzero}}
 
 \begin{itemize}
 	\item Funktion $f(B) = p_{Wst,z}(B) - z_{soll}$ aufstellen
@@ -34,13 +34,13 @@
 	\end{itemize}
 \end{itemize}
 
-\section{Verfahren 3}
+\section[Verfahren 3]{Verfahren 3 - Sinus Approximation}
 
 \begin{itemize}
 	\item Verwendung eines angenäherten Sinus
 \end{itemize}
 
-\section{Verfahren 4}
+\section[Verfahren 4]{Verfahren 4 - Lösung mit \code{solve}}
 
 \begin{itemize}
 	\item Funktion $z_{soll} = p_{Wst,z}$ aufstellen
@@ -49,3 +49,5 @@
 	\end{itemize}
 	\item lösen nach $B$ mit \code{solve(@(B) fun, B)}
 \end{itemize}
+
+\section[Verfahren 5]{Verfahren 5 - Newton Algorithmus}

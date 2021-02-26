@@ -39,12 +39,10 @@ Die homogene Transformationsmatrix $\mathbf{T}$ ist die kombinierte Repräsentat
 \section{Inverse von Transformationen}
 
 Die Inverse einer Transformationsmatrix ist ebenfalls eine Transformationsmatrix der Form \cite[Prop. 3.15]{KevinMLynch2017}:
-\begin{equation}
-	\begin{split}
-		\mathbf{T}^{-1} & = \begin{bmatrix}R & p\\0 & 1\end{bmatrix}^{-1}\\
-		& = \begin{bmatrix}R^\intercal & -R^\intercal \cdot p\\0 & 1\end{bmatrix}
-	\end{split}
-\end{equation}
+\begin{align*}
+	\mathbf{T}^{-1} & = \begin{bmatrix}R & p\\0 & 1\end{bmatrix}^{-1}\\
+	& = \begin{bmatrix}R^\intercal & -R^\intercal \cdot p\\0 & 1\end{bmatrix}
+\end{align*}
 
 \subsection[Translation]{Inverse der linearen Translation}
 
@@ -142,26 +140,27 @@ Um anschließend die Koordinatentransformation von dem Werkzeugkoordinatensystem
 
 \begin{figure}
 	\includegraphics[width=12cm]{maschine_frei}
-	\caption{Kinematik der Maschine mit Vorzeichenrichtung der Achsen; das Koordinatensystem ist Maschinenbett-fest}
+	\caption[Kinematik der Maschine]{Kinematik der Maschine mit Vorzeichenrichtung der Achsen; das Koordinatensystem ist Maschinenbett-fest}
 	\label{fig:maschine}
 \end{figure}
 
 \subsection[Werkstück]{Kinematik der Werkstück-Seite}
 
-Für die kinematische Kette auf der Werkstückseite gehen in die Gleichungen \ref{eq:werkstuckv1} und \ref{eq:werkstuck21} ein Offset des Werkstückkoordinatensystems zum Maschinenkoordinatensystem $\mathbf{p}_{\mathtt{offset}} = \tm{}{a}{b}{c}$ und der Verdrehwinkel $C$ ein.
+Für die kinematische Kette auf der Werkstückseite gehen in die Gleichungen \ref{eq:werkstuckv1} und \ref{eq:werkstuckv2} ein Offset des Werkstückkoordinatensystems zum Maschinenkoordinatensystem $\mathbf{p}_{\mathtt{offset}} = \tm{}{a}{b}{c}$ und der Verdrehwinkel $C$ ein.
 Der Offset erlaubt es ein versetztes Aufspannen des Werkstücks darzustellen und ist im idealen Fall ein Nullvektor.
 Dem Verdrehwinkel wird ein weiterer Offest $\gamma$ aufgeprägt.
 Dieser stellt den Fehler des verdrehten Aufspannens dar und erlaubt die Position von Zahn und Zahnlücke des virtuellen Schneckengetriebes zu korrigieren.
-$C$ ist außerdem Funktion des Werkzeugwinkels und dem Achsvorschub.
+$C$ ist außerdem Funktion des Werkzeugwinkels und des Achsvorschubess.
 Der Achsvorschub der $C$-Achse ist das Übersetzungsverhältnis des gedachten Schneckengetriebes.
 
-\begin{equation}
-	fC_{WSt,rad} = \frac{n_{Schneidreihen}}{n_{Zähne}}
-\end{equation}
+\begin{equation*}
+	fC_{WSt,rad} = \frac{n_{Schneidreihen}}{n_{Z"ahne}}
+\end{equation*}
 
 Die vollständige Formulierung des Werkstückwinkels $C$ lautet:
 
 \begin{equation}
+	\label{eq:wrkstwinkel}
 	C = B \cdot{} fC_{WSt,rad} + \gamma
 \end{equation}
 
@@ -210,6 +209,7 @@ Es bietet sich an, die Ausrichtung des Koordinatensystems durch Drehung um $\pi/
 So kann man mit sehr wenig Aufwand das Werkzeug in einem Polarkoordinatensystem anlegen und die Punktewolke in kartesische Koordinaten umrechnen.
 
 \begin{equation}
+	\label{eq:wkzgkoord}
 	\mathbf{p}_{WZ,kart} = \begin{pmatrix}  x = & r \cdot{} \cos{\phi}\\
 											y = & r \cdot{} \sin{\phi}\\
 											z = & h\end{pmatrix}
@@ -262,6 +262,7 @@ Bei der C-Achse ist dieser Effekt bereits mit dem Winkeloffset $\gamma$ realisie
 \begin{itemize}
 	\item{x-Axchse}
 		\begin{equation}
+			\label{eq:xaxisfun}
 			X = x + B \cdot fX_{WZ,rad}
 		\end{equation}
 
