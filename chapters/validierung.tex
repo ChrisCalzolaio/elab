@@ -119,5 +119,59 @@ Während der Simulation wird das Ergebnis der linearen Algebra Methode mit einem
 \end{figure}
 
 Diese Darstellung ist eine erste, sehr intuitive Visualisierung der Ergebnisse.
-Hier können systematische Fehler direkt erkannt und eine sehr einfache Fehlersuche betrieben werden.
-So konnte beispielsweise festgestellt werden, dass die ursprüngliche Definition der Werkzeugkoordinaten entlang der 
+Das Ergebnis der linearen Algebra und die \simscape Methode stimmt dann über ein, wenn sich das Frame des PoI entlang der berechneten Trajektorie bewegt.
+Zwar kann in der grafischen Ausgabe die Sichtbarkeit der Frames eingestellt werden, die Anzeige wird aber schnell unübersichtlich.
+Deshalb wurde die Position des PoI durch Einhängen eines Sphere Solid Blocks in einer auffälligen Farbe markiert.
+
+Durch eine Abweichung des PoIs von der Trajektorie kann ein systematischer Fehler direkt erkannt und eine sehr einfache Fehlersuche betrieben werden.
+So konnte beispielsweise festgestellt werden, dass zu Beginn der Entwicklung der linearen Algebra die Reihenfolge bei Definition der Werkzeugkoordinaten inkorrekt war.
+Ursprünglich war ein Punkt in Werkzeugkoordinaten folgendermaßen definiert:
+
+\begin{equation*}
+	\mathbf{p}_{WZ,kart} = \begin{pmatrix}  x = & r \cdot{} \cos{\phi}\\
+		y = & h\\
+		z = & r \cdot{} \sin{\phi}\end{pmatrix}
+\end{equation*}
+
+Allerdings war eine Abweichung des PoIs von der Trajektorie zu erkennen.
+Diese verschwand nur als die Reihenfolge beim Einlesen der Koordinaten für die Transformation des PoI vertauscht wurde.
+Es war also klar, dass das Werkzeug ein Koordinatensystem mit z-Achse in Richtung der Rotationsachse benötigt, damit, wie in Abbildung \ref{fig:hobspindle_coord} gezeigt, das Polar- und kartesische Koordinatensystem vorteilhaft aufeinander liegen.
+So ergab sich die Definition der Werkzeugkoordinaten gemäß Gleichung \ref{eq:wkzgkoord}.
+
+\begin{figure}
+	\includegraphics{koordkomps}
+	\caption[Komponenten der Trajektorien-Koordinaten]{Komponenten der Trajektorien-Koordinaten aufgetragen gegen den Winkel des Werkstückes}
+	\label{fig:koordkomps}
+\end{figure}
+
+Im nächsten Schritt werden die Koordinaten der erzeugten Trajektorien analysiert.
+Es bietet sich an, die Daten wie in Abb. \ref{fig:koordkomps} gegen den Winkel des Werkstückes aufzutragen, da sich Fehler typischerweise periodisch mit der Werkstückumdrehung gezeigt haben.
+Um ein grundsätzliches Verständnis dafür zu bekommen, wie sich beide Methoden zueinander verhalten, sich den Abstand $d$ der Bahnen zu jedem Zeitpunkt anzusehen.
+
+\begin{equation*}
+	d = \sqrt{\left(x_2-x_1\right)^2 + \left(y_2-y_1\right)^2 + \left(z_2-z_1\right)^2}
+\end{equation*}
+
+Dieser Abstand wird wieder über den Winkel des Werkzeugs aufgetragen, und ist 0 wenn sich beide Methoden gleich verhalten.
+Man stellt allerdings fest, dass sich eine bleibende Abweichung einstellt, auch wenn die Lösungen grundsätzlich übereinstimmen (vgl. Abb. \ref{fig:koorddist}).
+Die genau Ursache für diese Abweichung wurde nicht ausfindig gemacht.
+Es wird allerdings vermutet, dass es sich um eine Überlagerung von Ungenauigkeiten beider Methoden handelt.
+
+\begin{figure}
+	\includegraphics{koorddist}
+	\caption[Abweichung der Methoden]{Abweichung der Methoden zueinander gegen den Werkstückwinkel}
+	\label{fig:koorddist}
+\end{figure}
+
+Dafür spricht, dass der Fehler augenscheinlich die gleiche Frequenz wie die Plots der Koordinatenkompenten hat.
+Außerdem ändert sich der Wert um den der Fehler schwingt nicht mit dem Werkstückwinkel.
+Das selbe Verhalten zeigt sich auch bei einer Analyse der Abweichung je Komponente anhand Abb. \ref{fig:xkomps}, wobei hier noch eine tieferfrequente Funktion überlagert zu sein scheint.
+Die Frequenz dieser überlagerten Funktion entspricht wohl der Kreisfrequenz des Werkstückes.
+
+\begin{figure}
+	\includegraphics{xkomps}
+	\caption[Fehler der x-Komponenten]{x-Komponenten beider Methoden und respektiver Fehler $\delta$ gegen den Werkstückwinkel}
+	\label{fig:xkomps}
+\end{figure}
+
+Trotz dieser unerklärten Abweichung ist die Methode geeignet, da ohnehin nur eine qualitative Aussage gefordert wurde.
