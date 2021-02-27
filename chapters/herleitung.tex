@@ -60,9 +60,9 @@ Daher ergibt sich für die Translationskomponente:
 
 Daher ergibt sich für die Inverse der translatorischen Transformationsmatrix.
 
-\begin{equation}
+\begin{equation*}
 	\tm{T^b_s}{t_x}{t_y}{t_z} ^{-1} = \tm{T^s_b}{-t_x}{-t_y}{-t_z}
-\end{equation}
+\end{equation*}
 
 \subsection[Rotation]{Inverse der Rotation um eine Achse}
 
@@ -78,7 +78,7 @@ Da bei der reinen Rotationsmatrix der Translationsvektor $p$ der Nullvektor ist,
 
 Bei Rotation um eine Achse ergibt sich die Rotationskomponente gemäß \ref{eq:rotationsmatrix} beispielhaft für Rotation um die z-Achse zu:
 
-\begin{equation}
+\begin{equation*}
 	\begin{split}
 		\rottm{0}{0}{\alpha} = & R_{z}(\alpha )\,R_{y}(0)\,R_{x}(0) \\
 							= & \begin{bmatrix}\cos \alpha & -\sin \alpha & 0\\\sin \alpha & \cos \alpha & 0\\0& 0& 1\end{bmatrix}
@@ -86,7 +86,7 @@ Bei Rotation um eine Achse ergibt sich die Rotationskomponente gemäß \ref{eq:r
 						\cdot	\begin{bmatrix}1& 0& 0\\0& \cos 0 & -\sin 0 \\0& \sin 0 & \cos 0 \end{bmatrix} \\
 							= & \begin{bmatrix}\cos \alpha & -\sin \alpha & 0\\\sin \alpha & \cos \alpha & 0\\0& 0& 1\end{bmatrix}
 	\end{split}
-\end{equation}
+\end{equation*}
 
 \begin{equation}
 	\label{eq:sincossymm}
@@ -98,19 +98,19 @@ Bei Rotation um eine Achse ergibt sich die Rotationskomponente gemäß \ref{eq:r
 
 Für die transponierte der Rotationskomponente ergibt sich mit den Symmetriebeziehungen gemäß Gleich. \ref{eq:sincossymm}:
 
-\begin{equation}
+\begin{equation*}
 	\begin{split}
 		R_{z}^\intercal(\alpha) = & \begin{bmatrix}\cos \alpha & -\sin \alpha & 0\\\sin \alpha & \cos \alpha & 0\\0& 0& 1\end{bmatrix}^\intercal \\
 		= & \begin{bmatrix}\cos \alpha & \sin \alpha & 0\\-\sin \alpha & \cos \alpha & 0\\0& 0& 1\end{bmatrix} \\
 		= & R_{z}(-\alpha)
 	\end{split}
-\end{equation}
+\end{equation*}
 
 Damit folgt für die Inverse der Transformationsmatrix der reinen Rotation:
 
-\begin{equation}
+\begin{equation*}
 	\tm{R^b_s}{0}{0}{\alpha} ^{-1} = \tm{R^s_b}{0}{0}{-\alpha}
-\end{equation}
+\end{equation*}
 
 \subsection{Notation der Indizes}
 
@@ -125,9 +125,9 @@ Um bei einer Transformation zu verdeutlichen aus welchem Koordinatensystem in we
 Das Subscript steht dabei für das Ausgangskoordinatensystem, das Superscript steht für die Zielkoordinatensystem.
 Die zu Abb. \ref{fig:frames} gehörende Transformationsmatrix lautet also:
 
-\begin{equation}
+\begin{equation*}
 	T_s^b = \begin{bmatrix}R_s^b & p\\0 & 1\end{bmatrix}
-\end{equation}
+\end{equation*}
 
 Bei Invertierung der Transformationsmatrix werden die Indizes getauscht, um zu beschreiben, dass die Transformationsrichtung jetzt vom body-frame $\{b\}$ in das space-frame $\{s\}$ erfolgt.
 
@@ -199,9 +199,9 @@ Dabei wird dem y-Achsenfreiheitsgrad ein Offset aufgeprägt, mit dem der Bereich
 Das Werkzeug unterliegt beim Schneiden Verschleiß.
 Das Werkzeug ist länger als erforderlich und durch Verschieben des Werkzeugs entlang der y-Achse kann der Verschleiß gleichmäßig auf das Werkzeug verteilt werden.
 
-\begin{equation}
+\begin{equation*}
 	Y = y + B \cdot fY_{WZ,rad} + Y_{\mathtt{shift}}
-\end{equation}
+\end{equation*}
 
 Da der Spanabfall in Drehrichtung des Werkzeugs erfolgen soll ist diese mathematisch negativ einzutragen.
 Das Werkzeug hat außerdem ein eigenes Koordinatensystem, bei welchem sich die z-Achse entlang der Drehrichtung des Werkzeuges erstreckt.
@@ -235,21 +235,21 @@ Die Transformation beschreibt die Position eines Werkzeugpunktes im Koordinatens
 
 Zur Verdeutlichung, die ausformulierte Form der Transformationsmatrix zur Drehung des Werkzeugkoordinatensystems lautet:
 
-\begin{equation}
+\begin{equation*}
 	\rottm{\pi/2}{0}{0}
 	= \begin{bmatrix}1 & 0 & 0 & 0\\0 & 0 &-1 & 0\\0 & 1 & 0 & 0\\0 & 0 & 0 & 1\end{bmatrix}
-\end{equation}
+\end{equation*}
 
 
 Zur Vereinfachung der entstehenden Terme bietet sich das Zusammenfassen der Transformationsmatrizen zu einer Transformationsmatrix von Maschinenbett- in Werkzeugkoordinaten an:
 
-\begin{equation}
+\begin{equation*}
 	\mathbf{T}^{WZ}_m = \transtm{X}{0}{Z}
 				\cdot{} \rottm{A}{0}{0}
 				\cdot{} \transtm{0}{Y}{0}
 				\cdot{} \rottm{0}{-B}{0}
 				\cdot{} \rottm{\pi/2}{0}{0}
-\end{equation}
+\end{equation*}
 
 
 \subsection[Vorschübe]{Aufprägung der Vorschübe auf die Achskoordinaten}
@@ -284,7 +284,7 @@ Der Faktor lässt sich also definieren als Vorschub auf der z-Achse pro 1 Umdreh
 
 Damit ergibt sich für die Transformationsmatrix von Maschinenbett- nach Werkzeugkoordinaten in ausführlicher Form:
 
-\begin{equation}
+\begin{equation*}
 	\mathbf{T}^{WZ}_m = \transtm{x + B \cdot fX_{WZ,rad}}
 								{0}
 								{z + B \cdot fZ_{WZ,rad}}
@@ -294,13 +294,13 @@ Damit ergibt sich für die Transformationsmatrix von Maschinenbett- nach Werkzeu
 								{0}
 				\cdot{} \rottm{0}{-B}{0}
 				\cdot{} \rottm{\pi/2}{0}{0}
-\end{equation}
+\end{equation*}
 
 \subsection[Gesamt]{Transformation von Werkzeug- in Werkstückkoordinaten}
 
 Um die Transformation aus dem Werkzeug- in das Werkstückkoordinatensystem zu erhalten setzen wir die beiden Transformationsschritte gleich:
 
-\begin{equation}
+\begin{equation*}
 			\transtm{a}{b}{c}
 	\cdot{} \rottm{0}{0}{C}
 	\cdot{} \mathbf{p}_{WSt} =
@@ -310,11 +310,11 @@ Um die Transformation aus dem Werkzeug- in das Werkstückkoordinatensystem zu er
 	\cdot{} \rottm{0}{-B}{0}
 	\cdot{} \rottm{\pi/2}{0}{0}
 	\cdot{} \mathbf{p}_{WZ}
-\end{equation}
+\end{equation*}
 
 Die Gleichung wird durch Multiplikation mit den Inversen der Transformation- und Rotationsmatrix aufgelöst, sodass die Beschreibung der Transformation von Werkzeug- in Werkstückkoordinaten entsteht.
 
-\begin{equation}
+\begin{equation*}
 	\begin{split}
 				\rottm{0}{0}{-C}
 		\cdot{} \transtm{-a}{-b}{-c}
@@ -329,53 +329,59 @@ Die Gleichung wird durch Multiplikation mit den Inversen der Transformation- und
 				\mathbf{T}^{WZ}_{WSt}
 		\cdot{} \mathbf{p}_{WZ} & =
 	\end{split}
-\end{equation}
+\end{equation*}
 
-\begin{equation}
-	\begin{split}
-		\mathbf{T}^{WZ}_{WSt} = &
-				\rottm{0}{0}{-C}
-		\cdot{} \transtm{-a}{-b}{-c}
-		\cdot{} \transtm{X}{0}{Z}
-		\cdot{} \rottm{A}{0}{0}
-		\cdot{} \transtm{0}{Y}{0}
-		\cdot{} \rottm{0}{-B}{0}
-		\cdot{} \rottm{\pi/2}{0}{0}
-		\\= &
-				\rottm{0}{0}{-C}
-		\cdot{} \transtm{X - a}{-b}{Z - c}
-		\cdot{} \rottm{A}{0}{0}
-		\cdot{} \transtm{0}{Y}{0}
-		\cdot{} \rottm{0}{-B}{0}
-		\cdot{} \rottm{\pi/2}{0}{0}
-		\\= &
-				\rottm{0}{0}{-(B \cdot{} fC_{WSt,rad} + \gamma)}
+Die Transformationsmatrix wird ausmultipliziert:
+
+\begin{align*}
+	\mathbf{T}^{WZ}_{WSt} = &
+	\rottm{0}{0}{-C}
+	\cdot{} \transtm{-a}{-b}{-c}
+	\cdot{} \transtm{X}{0}{Z}
+	\cdot{} \rottm{A}{0}{0}
+	\cdot{} \transtm{0}{Y}{0}
+	\cdot{} \rottm{0}{-B}{0}
+	\cdot{} \rottm{\pi/2}{0}{0}
+	\\= &
+	\rottm{0}{0}{-C}
+	\cdot{} \transtm{X - a}{-b}{Z - c}
+	\cdot{} \rottm{A}{0}{0}
+	\cdot{} \transtm{0}{Y}{0}
+	\cdot{} \rottm{0}{-B}{0}
+	\cdot{} \rottm{\pi/2}{0}{0}
+	\\= & \resizebox{.9 \hsize}{!}{$
+		\rottm{0}{0}{-(B \cdot{} fC_{WSt,rad} + \gamma)}
 		\cdot{} \transtm{x + B \cdot fX_{WZ,rad} -a}{-b}{z + B \cdot fZ_{WZ,rad} -c}
 		\cdot{} \rottm{A}{0}{0}
 		\cdot{} \transtm{0}{y + B \cdot fY_{WZ,rad} + Y_{\mathtt{shift}}}{0}
 		\cdot{} \rottm{0}{-B}{0}
-		\cdot{} \rottm{\pi/2}{0}{0}
-		\\= &
+		\cdot{} \rottm{\pi/2}{0}{0}$}
+	\\= & \resizebox{.9 \hsize}{!}{$
 		\begin{bmatrix}
-			\sigma_2 \cdot \cos{B} + \sigma_1 \cdot \sin{A} \cdot \sin{B} & -\sigma_1 \cdot \cos{A} &  \sigma_1 \cdot \cos{B} \cdot \sin{A} - \sigma_2 \cdot \sin{B} & \sigma_2 \cdot \sigma_3 +\sigma_1 \cdot \sigma_4 \\
-			\sigma_1 \cdot \cos{B} - \sigma_2 \cdot \sin{A} \cdot \sin{B} &  \sigma_2 \cdot \cos{A} & -\sigma_2 \cdot \cos{B} \cdot \sin{A} - \sigma_1 \cdot \sin{B} & \sigma_1 \cdot \sigma_3 -\sigma_2 \cdot \sigma_4 \\
-			\cos{A} \cdot \sin{B} & \sin{A} & \cos{A} \cdot \cos{B} & Z-c+B \cdot fZ_{WZ,rad} +\sin{A} \cdot \sigma_5 \\
-			0 & 0 & 0 & 1 \end{bmatrix}
-	\end{split}
-\end{equation}
+			\sigma_2  \cdot \c{B}-\sigma_1  \cdot \s{A} \cdot \s{B} & -\sigma_2  \cdot \s{B}-\sigma_1  \cdot \c{B} \cdot \s{A} & -\sigma_1  \cdot \c{A} & \yshift  \cdot \sigma_1  \cdot \c{A} + x \cdot \sigma_2 -a +B \cdot \feed{X}{Wz}  \cdot \sigma_2 +y \cdot \sigma_1  \cdot \c{A}+B \cdot \feed{Y}{Wz}  \cdot \sigma_1  \cdot \c{A}\\
+			-\sigma_1  \cdot \c{B}-\sigma_2  \cdot \s{A} \cdot \s{B} & \sigma_1  \cdot \s{B}-\sigma_2  \cdot \c{B} \cdot \s{A} & -\sigma_2  \cdot \c{A} & \yshift  \cdot \sigma_2  \cdot \c{A} - x \cdot \sigma_1 -b -B \cdot \feed{X}{Wz}  \cdot \sigma_1 +y \cdot \sigma_2  \cdot \c{A}+B \cdot \feed{Y}{Wz}  \cdot \sigma_2  \cdot \c{A}\\
+			\c{A} \cdot \s{B} & \c{A} \cdot \c{B} & -\s{A} & \yshift \cdot \s{A} + z - c + B \cdot \feed{Z}{Wz} + y \cdot \s{A} + B \cdot \feed{Y}{Wz}  \cdot \s{A}\\
+			0 & 0 & 0 & 1
+		\end{bmatrix}$}\\
+	\text{wobei:}\\
+	& \quad \sigma_1 =\mathrm{sin}\left(\mathrm{ga}+B\,f_{\textrm{WSTrad}} \right)\\
+	& \quad  \sigma_2 =\mathrm{cos}\left(\mathrm{ga}+B\,f_{\textrm{WSTrad}} \right)\\
+	& \quad \s{\alpha} = \sin{(\alpha)}\\
+	& \quad \c{\beta} = \cos{(\beta)}
+\end{align*}
 
 Zur Vereinfachung der mathematischen Notation wird der Transformationsmatrix $\mathbf{T}^{WZ}_{WSt}$ eine charakteristische Bezeichnung gegeben.
 $\mathbf{G}$ steht hierbei für \textit{Gesamt}.
 
-\begin{equation}
+\begin{equation*}
 	\mathbf{T}^{WZ}_{WSt} = \mathbf{G}
-\end{equation}
+\end{equation*}
 
 Es folgt für die Beschreibung eines Punktes mit Werkzeugkoordinaten in Maschinenkoordinaten:
 
-\begin{equation}
+\begin{equation*}
 	\mathbf{p}_{Wst} = \mathbf{G} \cdot{} \mathbf{p}_{WZ}
-\end{equation}
+\end{equation*}
 
 \section[Lösung]{Lösung der relevanten Gleichung}
 
@@ -384,56 +390,52 @@ Es gilt die Formel zu lösen die sich bei Anwendung der allgemeinen Transformati
 
 \subsection[Polarkoordinaten]{Werkzeug in Polarkoordinaten definiert}
 
-\begin{equation}
+\begin{equation*}
 			\begin{pmatrix} p_{Wst,x} \\ p_{Wst,y} \\ p_{Wst,z} \\ 1 \end{pmatrix}
 	= \mathbf{G}
 		\cdot{} \begin{pmatrix} r_{WZ} \cdot{} \cos{\phi} \\ r_{WZ} \cdot{} \sin{\phi} \\ h_{WZ} \\ 1 \end{pmatrix}
-\end{equation}
+\end{equation*}
 
 Die Lösung der Gleichung soll für einen vorgebenen Wert in z-Richung erfolgen.
-\begin{equation}
+\begin{equation*}
 	\begin{split}
 		p_{Wst,z} = z_{soll} = Z - c + B \cdot{} fZ_{WZrad} + & \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad}) \\
 							- & \sin(A) \cdot{} h_{WZ} \\
 							+ & \cos(A) \cdot{} r_{WZ} \cdot{} \sin(\phi_{WZ}) \cdot{} \cos(B)\\
 							+ & \cos(A) \cdot{} r_{WZ} \cdot{} \cos(\phi_{WZ}) \cdot{} \sin(B)
 	\end{split}
-\end{equation}
+\end{equation*}
 
-Da Lösung der Gleichung durch Finden des Nullpunktes erfolgen soll, muss die Gleichung nach dem Werkzeugwinkel $B$ aufgelöst werden.
-\begin{equation}
+Da die Lösung der Gleichung durch Finden des Nullpunktes erfolgen soll, muss die Gleichung nach dem Werkzeugwinkel $B$ aufgelöst werden.
+\begin{equation*}
 	\begin{split}
 		0 = Z - c -z_{soll} + B \cdot{} fZ_{WZrad} + & \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad} - h_{WZ}) \\
 			+ & \cos(A) \cdot{} r_{WZ} \cdot{} \sin(\phi_{WZ}) \cdot{} \cos(B) \\
 			+ & \cos(A) \cdot{} r_{WZ} \cdot{} \cos(\phi_{WZ}) \cdot{} \sin(B)
 	\end{split}
-\end{equation}
+\end{equation*}
 
 \begin{equation}
 	\label{eq:additionsterm}
 	\sin(x_1 \pm x_2) = \sin(x_1) \cdot{} \cos(x_2) \pm \cos(x_1) \cdot{} \sin(x_2)
 \end{equation}
 
-Gemäß dem Additionsterm \ref{eq:additionsterm} aus \cite[Gleich. 7.6.1]{Papula2017} können die $\sin$- und $\cos$-Terme nach $r_{WZ} \cdot{} cos(A)$ zusammengefasst werden.
+Gemäß dem Additionsterm \ref{eq:additionsterm} aus \cite[Gleich. 7.6.1]{Papula2017} können die $\sin$- und $\cos$-Terme in den beiden Summanden mit $cos(A) \cdot r_{WZ}$ zusammengefasst werden.
 
-\begin{equation}
-	\begin{split}
+\begin{align*}
 	0 = Z - c  - z_{soll} + B \cdot{} fZ_{WZrad} + & \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad} - h_{WZ}) \\
-												   + & \cos(A) \cdot{} r_{WZ} \cdot{} \sin(B + \phi_{WZ})
-	\end{split}
-\end{equation}
-
-\begin{equation}
-	\begin{split}
+												   + & \cos(A) \cdot{} r_{WZ} \cdot{} \sin(B + \phi_{WZ}) \\
+	\intertext{Von beiden Seite wird $r_{WZ} \cdot{} \cos(A) \cdot{} \sin(B + \phi_{WZ})$ subtrahiert:}
 	-r_{WZ} \cdot{} \cos(A) \cdot{} \sin(B + \phi_{WZ}) = & \\
-	Z - c  - z_{soll} + B \cdot{} fZ_{WZrad} + & \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad} - h_{WZ})
-	\end{split}
-\end{equation}
+			Z - c  - z_{soll} + B \cdot{} fZ_{WZrad} + & \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad} - h_{WZ})\\
+\end{align*}
 
-\begin{equation}
+Nun wird durch $r_{WZ} \cdot{} \cos(A)$ geteilt:
+
+\begin{equation*}
 	\sin(B + \phi_{WZ}) = -\frac{Z - c  - z_{soll} + B \cdot{} fZ_{WZrad} + \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad} - h_{WZ})}
 	{r_{WZ} \cdot{} \cos(A)}
-\end{equation}
+\end{equation*}
 
 \begin{equation}
 	B + \phi_{WZ} = \arcsin{\left(-\frac{Z - c  - z_{soll} + B \cdot{} fZ_{WZrad} + \sin(A) \cdot{} (Y + Y_{shift} + B \cdot{} fY_{WZrad} - h_{WZ})}
@@ -506,7 +508,7 @@ Mit:
 	y_{WZ} \cdot{} \cos(B) + x_{WZ} \cdot{} \sin(B) = 
 	(-1) \cdot \left(
 	\frac{\beta}{\cos{(A)}} +
-	\frac{\sin(A)}{\cos{(A)}} \cdot{} \alpha \right) | \cdot \frac{1}{\cos{(B)}}
+	\frac{\sin(A)}{\cos{(A)}} \cdot{} \alpha \right) \quad | \cdot \frac{1}{\cos{(B)}}
 \end{equation}
 
 \begin{equation}

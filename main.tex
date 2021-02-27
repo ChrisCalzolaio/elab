@@ -24,9 +24,14 @@
 
 % mathe-commands
 \newcommand{\real}{\mathord{\mathrm{I\!R}}} 		% der ist unnötig
-\newcommand{\tm}[4]{#1\!\begin{pmatrix}{#2}\\{#3}\\{#4}\end{pmatrix}}
-\newcommand{\transtm}[3]{\tm{T_{\mathbf{v}}}{#1}{#2}{#3}}
-\newcommand{\rottm}  [3]{\tm{R}             {#1}{#2}{#3}}
+\newcommand{\tm}[4]{#1\!\begin{pmatrix}{#2}\\{#3}\\{#4}\end{pmatrix}}	% primitive einer Transformationsmatrix in Funktionsschreibweise
+\newcommand{\transtm}[3]{\tm{T_{\mathbf{v}}}{#1}{#2}{#3}}				% Transformationsmatrix
+\newcommand{\rottm}  [3]{\tm{R}             {#1}{#2}{#3}}				% Rotationstransformationsmatrix
+\newcommand{\s}[1]{\mathrm{s}\!\left(#1\right)}				% abkürzung für sinus in langen Formenln
+\renewcommand{\c}[1]{\mathrm{c}\!\left(#1\right)}			% abkürzung für cosinus in langen Formenln
+% commands zur vereinfachung der verwendeten variablen
+\newcommand{\feed}[2]{f_{\mathtt{#1,#2,rad}}}				% Vorschübe
+\newcommand{\yshift}{Y_{\mathtt{shift}}}					% Variable Y_shift
 %\renewcommand{\tm}[4]{#1\!\left(\!\!\!\!\begin{array}{c}{#2}\\{#3}\\{#4}\end{array}\!\!\!\!\right)}
 % matlab-commands
 \newcommand{\code}[1]{\texttt{\textcolor{blue}{#1}}}
@@ -69,10 +74,10 @@
 % kapitel 3
 \subfile{./chapters/losungsmethoden}
 % kapitel 4
-\subfile{./chapters/hinweise}
+%\subfile{./chapters/hinweise}
 
 \appendix
-\subfile{./chapters/90_append}
+%\subfile{./chapters/90_append}
 
 \cleardoublepage
 
