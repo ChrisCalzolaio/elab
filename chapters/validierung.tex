@@ -76,12 +76,12 @@ Den dynamischen Zusammenhängen zugrunde liegt der Winkel des Werkzeuges.
 Er wird berechnet durch Integration der Drehzahl unter der Annahme, dass diese in Bogenmaß pro Zeit definiert ist.
 
 Im Falle der C-Achse wird dieser Winkel gemäß Gleichung \ref{eq:wrkstwinkel} mit dem Vorschubfaktor multipliziert und der Offset $\gamma$ addiert.
-Bei der Integration der Werkzeugdrehung wird der konstante Faktor $fC_{Wst,rad}$, der eigentlich das Verhältnis von Werkzeugdrehzahl und Werkstückdrehzahl beschreibt, vor die Integration gezogen.
+Bei der Integration der Werkzeugdrehung wird der konstante Faktor $\feed{C}{WSt}$, der eigentlich das Verhältnis von Werkzeugdrehzahl und Werkstückdrehzahl beschreibt, vor die Integration gezogen.
 Er kann dann in gleichem Maße zur Berechnung des Werkstückwinkels aus dem Werkzeugwinkel verwendet werden.
 Das Ergebnis wird mit einem Simulink-PS Converter in ein Physical Signal konvertiert und dem Revolute Joint als Positionsziel vorgegeben.
 
 Im Werkzeugpfad wird zunächst innerhalb des Maschinenbettes (File Solid Block) das Koordinatensystem gedreht, sodass der folgende Prismatic Joint der Maschinen-X-Achse entlang der z-Achse wirken kann.
-Durch Multiplikation des Werkzeugwinkels mit dem Vorfaktor $fX_{WZ,rad}$, der die Einheit $\left[\si{\milli\meter\per\radian}\right]$ hat, und Addition eines Offsets gemäß Gleichung \ref{eq:xaxisfun} erhalten wir den Wert der Translation.
+Durch Multiplikation des Werkzeugwinkels mit dem Vorfaktor $\feed{X}{Wz}$, der die Einheit $\left[\si{\milli\meter\per\radian}\right]$ hat, und Addition eines Offsets gemäß Gleichung \ref{eq:xaxisfun} erhalten wir den Wert der Translation.
 Dieser wird wieder konvertiert und dem Block als Positionsziel vorgegeben.
 In Folge wird der File Solid Block mit dem Maschinen-X-Schlitten geschaltet, in dem die Transformation des Koordinatensystems erfolgt, sodass z-Achse parallel zur Maschinen-Z-Achse ist.
 Der Block ist in diesem Fall so eingebaut, dass das aus dem CAD-Skelettmodell stammende Koordinatensystem als Ausgang verwendet wird, also in Richtung des folgenden Freiheitsgrades zeigt.
@@ -128,7 +128,7 @@ So konnte beispielsweise festgestellt werden, dass zu Beginn der Entwicklung der
 Ursprünglich war ein Punkt in Werkzeugkoordinaten folgendermaßen definiert:
 
 \begin{equation*}
-	\mathbf{p}_{WZ,kart} = \begin{pmatrix}  x = & r \cdot{} \cos{\phi}\\
+	\mathbf{p}_\mathrm{Wz,kart} = \begin{pmatrix}  x = & r \cdot{} \cos{\phi}\\
 		y = & h\\
 		z = & r \cdot{} \sin{\phi}\end{pmatrix}
 \end{equation*}
