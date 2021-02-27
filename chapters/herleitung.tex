@@ -2,8 +2,25 @@
 \chapter{Herleitung}
 \label{c:herleitung}
 
-\section[Operatoren]{Operatoren für Transformationen}
-\subsection{Translation}
+\section{Homogene Transformationsmatrix}
+
+\begin{figure}
+	\includegraphics{frames}
+	\caption{Transformation von space-frame $\{s\}$ nach body-frame $\{b\}$}
+	\label{fig:frames}
+\end{figure}
+
+Die in Abbildung \ref{fig:frames} dargestellte Anordnung eines körperfesten Koordinatensystems $\{b\}$ (body-frame) in einem raumfesten Koordinatensystem $\{s\}$ (space-frame) kann beschrieben werden durch die Position $\mathbf{p}$ des body-frames in $\{s\}$-Koordinaten und einer Rotationsmatrix $\mathbf{R}$, welche die Ausrichtung von $\{b\}$ in $\{s\}$-Koordinaten beschreibt (siehe Abb. \ref{fig:frames}).
+Die homogene Transformationsmatrix $\mathbf{T}$ ist die kombinierte Repräsentation von Orientierung und Position als Matrix \cite[Ch. 3.3.1]{KevinMLynch2017}:
+
+\begin{equation}
+	\label{eq:homTM}
+	T = \begin{bmatrix}R & \vec{p}\\0 & 1\end{bmatrix} = \begin{bmatrix}r_{11} & r_{12} & r_{13} & p_1\\r_{21} & r_{22} & r_{23} & p_2\\r_{31} & r_{32} & r_{33} & p_3\\0 & 0 & 0 & 1\end{bmatrix}
+\end{equation}
+
+Häufig treten Transformationen als reine Translation oder Rotation auf.
+Eine reine Transformation wird beschrieben durch:
+
 \begin{equation}
 	\label{eq:translation}
 	\transtm{t_x}{t_y}{t_z} = \begin{bmatrix}1 & 0 & 0 & t_x\\0 & 1 & 0 & t_y\\0 & 0 & 0 & t_z\\0 & 0 & 0 & 1\end{bmatrix}
@@ -13,7 +30,7 @@
 \begin{equation}
 	\label{eq:rotationsmatrix}
 	\begin{split}
-		\rottm{\gamma}{\beta}{\alpha} = & R_{z}(\alpha )\,R_{y}(\beta )\,R_{x}(\gamma ) \\
+		\rottm{\gamma}{\beta}{\alpha} = & R_{z}(\alpha ) \cdot R_{y}(\beta ) \cdot R_{x}(\gamma ) \\
 		= & \begin{bmatrix}\cos \alpha & -\sin \alpha & 0\\\sin \alpha & \cos \alpha & 0\\0& 0& 1\end{bmatrix} \cdot
 			\begin{bmatrix}\cos \beta & 0& \sin \beta \\0& 1& 0\\-\sin \beta & 0& \cos \beta \end{bmatrix} \cdot
 			\begin{bmatrix}1& 0& 0\\0& \cos \gamma & -\sin \gamma \\0& \sin \gamma & \cos \gamma \end{bmatrix} \\
@@ -33,15 +50,15 @@ Die homogene Transformationsmatrix $\mathbf{T}$ ist die kombinierte Repräsentat
 
 \begin{equation}
 	\label{eq:homTM}
-	T = \begin{bmatrix}R & p\\0 & 1\end{bmatrix} = \begin{bmatrix}r_{11} & r_{12} & r_{13} & p_1\\r_{21} & r_{22} & r_{23} & p_2\\r_{31} & r_{32} & r_{33} & p_3\\0 & 0 & 0 & 1\end{bmatrix}
+	T = \begin{bmatrix}R & \vec{p}\\0 & 1\end{bmatrix} = \begin{bmatrix}r_{11} & r_{12} & r_{13} & p_1\\r_{21} & r_{22} & r_{23} & p_2\\r_{31} & r_{32} & r_{33} & p_3\\0 & 0 & 0 & 1\end{bmatrix}
 \end{equation}
 
 \section{Inverse von Transformationen}
 
 Die Inverse einer Transformationsmatrix ist ebenfalls eine Transformationsmatrix der Form \cite[Prop. 3.15]{KevinMLynch2017}:
 \begin{align*}
-	\mathbf{T}^{-1} & = \begin{bmatrix}R & p\\0 & 1\end{bmatrix}^{-1}\\
-	& = \begin{bmatrix}R^\intercal & -R^\intercal \cdot p\\0 & 1\end{bmatrix}
+	T^{-1} & = \begin{bmatrix}R & \vec{p}\\0 & 1 \end{bmatrix}^{-1}\\
+	& = \begin{bmatrix}R^\intercal & -R^\intercal \cdot \vec{p}\\0 & 1\end{bmatrix}
 \end{align*}
 
 \subsection[Translation]{Inverse der linearen Translation}
@@ -52,9 +69,9 @@ Daher ergibt sich für die Translationskomponente:
 \begin{equation}
 	\label{eq:invtrans}
 	\begin{split}
-		-R^\intercal \cdot p & = (-1) \cdot \begin{bmatrix}1 & 0 & 0\\0 & 1 & 0\\0 & 0 & 1\end{bmatrix}^\intercal \cdot p \\
-							 & = \begin{bmatrix}-1 & 0 & 0\\0 & -1 & 0\\0 & 0 & -1\end{bmatrix} \cdot \tm{}{t_x}{t_y}{t_z} \\
-							 & = \tm{}{-t_x}{-t_y}{-t_z}
+		-R^\intercal \cdot \vec{p} & = (-1) \cdot \begin{bmatrix}1 & 0 & 0\\0 & 1 & 0\\0 & 0 & 1\end{bmatrix}^\intercal \cdot \vec{p} \\
+							 & = \begin{bmatrix}-1 & 0 & 0\\0 & -1 & 0\\0 & 0 & -1\end{bmatrix} \cdot \colvec{t_x}{t_y}{t_z} \\
+							 & = \colvec{-t_x}{-t_y}{-t_z}
 	\end{split}
 \end{equation}
 
@@ -70,9 +87,9 @@ Da bei der reinen Rotationsmatrix der Translationsvektor $p$ der Nullvektor ist,
 \begin{equation}
 	\label{eq:inverserot}
 	\begin{split}
-		-R^\intercal \cdot p & = (-1) \cdot \begin{bmatrix}1 & 0 & 0\\0 & 1 & 0\\0 & 0 & 1\end{bmatrix}^\intercal \cdot \mathbf{0}\\
-		& = \begin{bmatrix}-1 & 0 & 0\\0 & -1 & 0\\0 & 0 & -1\end{bmatrix} \cdot \tm{}{0}{0}{0} \\
-		& = \tm{}{0}{0}{0}
+		-R^\intercal \cdot \vec{p} & = (-1) \cdot \begin{bmatrix}1 & 0 & 0\\0 & 1 & 0\\0 & 0 & 1\end{bmatrix}^\intercal \cdot \colvec{0}{0}{0}\\
+		& = \begin{bmatrix}-1 & 0 & 0\\0 & -1 & 0\\0 & 0 & -1\end{bmatrix} \cdot \colvec{0}{0}{0} \\
+		& = \colvec{0}{0}{0}
 	\end{split}
 \end{equation}
 
@@ -80,7 +97,7 @@ Bei Rotation um eine Achse ergibt sich die Rotationskomponente gemäß \ref{eq:r
 
 \begin{equation*}
 	\begin{split}
-		\rottm{0}{0}{\alpha} = & R_{z}(\alpha )\,R_{y}(0)\,R_{x}(0) \\
+		\rottm{0}{0}{\alpha} = & R_{z}(\alpha ) \cdot R_{y}(0) \cdot R_{x}(0) \\
 							= & \begin{bmatrix}\cos \alpha & -\sin \alpha & 0\\\sin \alpha & \cos \alpha & 0\\0& 0& 1\end{bmatrix}
 						\cdot	\begin{bmatrix}\cos 0 & 0& \sin 0 \\0& 1& 0\\-\sin 0 & 0& \cos 0 \end{bmatrix}
 						\cdot	\begin{bmatrix}1& 0& 0\\0& \cos 0 & -\sin 0 \\0& \sin 0 & \cos 0 \end{bmatrix} \\
@@ -116,17 +133,11 @@ Damit folgt für die Inverse der Transformationsmatrix der reinen Rotation:
 
 Um bei einer Transformation zu verdeutlichen aus welchem Koordinatensystem in welches andere Koordinatensystem transformiert wird, werden der Transformationsmatrix Indizes angehängt.
 
-\begin{figure}
-	\includegraphics{frames}
-	\caption{Transformation von space-frame $\{s\}$ nach body-frame $\{b\}$}
-	\label{fig:frames}
-\end{figure}
-
 Das Subscript steht dabei für das Ausgangskoordinatensystem, das Superscript steht für die Zielkoordinatensystem.
 Die zu Abb. \ref{fig:frames} gehörende Transformationsmatrix lautet also:
 
 \begin{equation*}
-	T_s^b = \begin{bmatrix}R_s^b & p\\0 & 1\end{bmatrix}
+	T_s^b = \begin{bmatrix}R_s^b & \vec{p}\\0 & 1\end{bmatrix}
 \end{equation*}
 
 Bei Invertierung der Transformationsmatrix werden die Indizes getauscht, um zu beschreiben, dass die Transformationsrichtung jetzt vom body-frame $\{b\}$ in das space-frame $\{s\}$ erfolgt.
@@ -146,7 +157,7 @@ Um anschließend die Koordinatentransformation von dem Werkzeugkoordinatensystem
 
 \subsection[Werkstück]{Kinematik der Werkstück-Seite}
 
-Für die kinematische Kette auf der Werkstückseite gehen in die Gleichungen \ref{eq:werkstuckv1} und \ref{eq:werkstuckv2} ein Offset des Werkstückkoordinatensystems zum Maschinenkoordinatensystem $\mathbf{p}_{\mathtt{offset}} = \tm{}{a}{b}{c}$ und der Verdrehwinkel $C$ ein.
+Für die kinematische Kette auf der Werkstückseite gehen in die Gleichungen \ref{eq:werkstuckv1} und \ref{eq:werkstuckv2} ein Offset des Werkstückkoordinatensystems zum Maschinenkoordinatensystem $\mathbf{p}_{\mathrm{offset}} = \tranvec{a}{b}{c}$ und der Verdrehwinkel $C$ ein.
 Der Offset erlaubt es ein versetztes Aufspannen des Werkstücks darzustellen und ist im idealen Fall ein Nullvektor.
 Dem Verdrehwinkel wird ein weiterer Offest $\gamma$ aufgeprägt.
 Dieser stellt den Fehler des verdrehten Aufspannens dar und erlaubt die Position von Zahn und Zahnlücke des virtuellen Schneckengetriebes zu korrigieren.
@@ -166,8 +177,8 @@ Die vollständige Formulierung des Werkstückwinkels $C$ lautet:
 
 Die Kinematik kann durch Änderung der Reihenfolge der Freiheitsgrade auf zwei verschiedene Arten aufgebaut werden.
 Bei Variante 1 liegt das Bauteil zentriert auf dem Bearbeitungstisch, der sich um die C-Achse dreht.
-Allerdings gehen die X-,Y- und Z-Achse nicht durch Mittelpunkt des Werkstücktisches sondern sind um $\mathbf{p}_{\mathtt{offset}}$ versetzt.
-Bei Variante 2 liegt das Bauteil nicht zentrisch auf dem Bearbeitungstisch, der sich um die C-Achse dreht, sondern ist um $\mathbf{p}_{\mathtt{offset}}$ versetzt.
+Allerdings gehen die X-,Y- und Z-Achse nicht durch Mittelpunkt des Werkstücktisches sondern sind um $\mathbf{p}_{\mathrm{offset}}$ versetzt.
+Bei Variante 2 liegt das Bauteil nicht zentrisch auf dem Bearbeitungstisch, der sich um die C-Achse dreht, sondern ist um $\mathbf{p}_{\mathrm{offset}}$ versetzt.
 Die X-,Y- und Z-Achse starten dann im Mittelpunkt des Bearbeitungstisches.
 
 \subsubsection[versetzter Bearbeitungstisch]{Variante 1: versetzter Bearbeitungstisch}
@@ -176,19 +187,19 @@ Die Transformation beschreibt die Position eines Werkstückpunktes im Koordinate
 
 \begin{equation}
 	\label{eq:werkstuckv1}
-	\mathbf{p}_\mathrm{m} = \transtm{a}{b}{c}
+	\vec{p}_\mathrm{m} = \transtm{a}{b}{c}
 			\cdot{} \rottm{0}{0}{C}
-			\cdot{} \mathbf{p}_\wst
+			\cdot{} \vec{p}_\wst
 \end{equation}
 
 \subsubsection[versetztes Werkstück]{Variante 2: versetztes Werkstück}
 
 \begin{equation}
 	\label{eq:werkstuckv2}
-	\mathbf{p}_\mathrm{m} =
+	\vec{p}_\mathrm{m} =
 					\rottm{0}{0}{C}
 			\cdot{} \transtm{a}{b}{c}
-			\cdot{} \mathbf{p}_\wst
+			\cdot{} \vec{p}_\wst
 \end{equation}
 
 
@@ -210,7 +221,7 @@ So kann man mit sehr wenig Aufwand das Werkzeug in einem Polarkoordinatensystem 
 
 \begin{equation}
 	\label{eq:wkzgkoord}
-	\mathbf{p}_{\mathrm{Wz,kart}} = \begin{pmatrix}  x = & r \cdot{} \cos{\phi}\\
+	\vec{p}_{\mathrm{Wz,kart}} = \begin{pmatrix}  x = & r \cdot{} \cos{\phi}\\
 											y = & r \cdot{} \sin{\phi}\\
 											z = & h\end{pmatrix}
 \end{equation}
@@ -225,12 +236,12 @@ Die Transformation beschreibt die Position eines Werkzeugpunktes im Koordinatens
 
 \begin{equation}
 	\label{eq:werkzeug}
-	\mathbf{p}_\mathrm{m} =  \transtm{X}{0}{Z}
+	\vec{p}_\mathrm{m} =  \transtm{X}{0}{Z}
 			\cdot{} \rottm{A}{0}{0}
 			\cdot{} \transtm{0}{Y}{0}
 			\cdot{} \rottm{0}{-B}{0}
 			\cdot{} \rottm{\pi/2}{0}{0}
-			\cdot{} \mathbf{p}_\wz
+			\cdot{} \vec{p}_\wz
 \end{equation}
 
 Zur Verdeutlichung, die ausformulierte Form der Transformationsmatrix zur Drehung des Werkzeugkoordinatensystems lautet:
@@ -244,7 +255,7 @@ Zur Verdeutlichung, die ausformulierte Form der Transformationsmatrix zur Drehun
 Zur Vereinfachung der entstehenden Terme bietet sich das Zusammenfassen der Transformationsmatrizen zu einer Transformationsmatrix von Maschinenbett- in Werkzeugkoordinaten an:
 
 \begin{equation*}
-	\mathbf{T}^\wz_\mathrm{m} = \transtm{X}{0}{Z}
+	T^\wz_\mathrm{m} = \transtm{X}{0}{Z}
 				\cdot{} \rottm{A}{0}{0}
 				\cdot{} \transtm{0}{Y}{0}
 				\cdot{} \rottm{0}{-B}{0}

@@ -24,14 +24,16 @@
 
 % mathe-commands
 \newcommand{\real}{\mathord{\mathrm{I\!R}}} 		% der ist unnötig
-\newcommand{\tm}[4]{#1\!\begin{pmatrix}{#2}\\{#3}\\{#4}\end{pmatrix}}	% primitive einer Transformationsmatrix in Funktionsschreibweise
+\newcommand{\colvec}[3]{\begin{pmatrix}{#1}\\{#2}\\{#3}\end{pmatrix}}
+\newcommand{\tranvec}[3]{\left({#1},{#2},{#3}\right)^\intercal}
+\newcommand{\tm}[4]{#1(\colvec{#2}{#3}{#4})}							% primitive einer Transformationsmatrix in Funktionsschreibweise
 \newcommand{\transtm}[3]{\tm{T_{\mathbf{v}}}{#1}{#2}{#3}}				% Transformationsmatrix
 \newcommand{\rottm}  [3]{\tm{R}             {#1}{#2}{#3}}				% Rotationstransformationsmatrix
 \newcommand{\s}[1]{\mathrm{s}\!\left(#1\right)}				% abkürzung für sinus in langen Formenln
 \renewcommand{\c}[1]{\mathrm{c}\!\left(#1\right)}			% abkürzung für cosinus in langen Formenln
 % commands zur vereinfachung der verwendeten variablen
-\newcommand{\feed}[2]{f_{\mathtt{#1,#2,rad}}}				% Vorschübe
-\newcommand{\yshift}{Y_{\mathtt{shift}}}					% Variable Y_shift
+\newcommand{\feed}[2]{f_{\mathrm{#1,#2,rad}}}				% Vorschübe
+\newcommand{\yshift}{Y_{\mathrm{shift}}}					% Variable Y_shift
 \newcommand{\wz}{\mathrm{Wz}}
 \newcommand{\wst}{\mathrm{Wst}}
 %\renewcommand{\tm}[4]{#1\!\left(\!\!\!\!\begin{array}{c}{#2}\\{#3}\\{#4}\end{array}\!\!\!\!\right)}
