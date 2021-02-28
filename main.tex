@@ -31,12 +31,19 @@
 \newcommand{\rottm}  [3]{\tm{R}             {#1}{#2}{#3}}				% Rotationstransformationsmatrix
 \newcommand{\s}[1]{\mathrm{s}\!\left(#1\right)}				% abkürzung für sinus in langen Formenln
 \renewcommand{\c}[1]{\mathrm{c}\!\left(#1\right)}			% abkürzung für cosinus in langen Formenln
+
 % commands zur vereinfachung der verwendeten variablen
 \newcommand{\feed}[2]{f_{\mathrm{#1,#2,rad}}}				% Vorschübe
 \newcommand{\yshift}{Y_{\mathrm{shift}}}					% Variable Y_shift
 \newcommand{\wz}{\mathrm{Wz}}
 \newcommand{\wst}{\mathrm{Wst}}
 %\renewcommand{\tm}[4]{#1\!\left(\!\!\!\!\begin{array}{c}{#2}\\{#3}\\{#4}\end{array}\!\!\!\!\right)}
+
+% equation layout
+\newenvironment{eqdscr}[1]      % equation description
+{ \begin{description}[itemsep=0mm,parsep=0mm,labelwidth=\widthof{\bfseries #1}]}
+{ \end{description}}
+
 % matlab-commands
 \newcommand{\code}[1]{\texttt{\textcolor{blue}{#1}}}
 \newcommand{\matlab}{\uppercase{Matlab}\textsuperscript{\textregistered}\xspace}
