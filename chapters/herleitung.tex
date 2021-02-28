@@ -2,7 +2,7 @@
 \chapter{Herleitung}
 \label{c:herleitung}
 
-\section{Homogene Transformationsmatrix}
+\section[Homogene Transformationsmatrix]{Die homogene Transformationsmatrix}
 
 \begin{figure}
 	\includegraphics{frames}
@@ -10,7 +10,11 @@
 	\label{fig:frames}
 \end{figure}
 
-Die in Abbildung \ref{fig:frames} dargestellte Anordnung eines körperfesten Koordinatensystems $\{b\}$ (body-frame) in einem raumfesten Koordinatensystem $\{s\}$ (space-frame) kann beschrieben werden durch die Position $\mathbf{p}$ des body-frames in $\{s\}$-Koordinaten und einer Rotationsmatrix $\mathbf{R}$, welche die Ausrichtung von $\{b\}$ in $\{s\}$-Koordinaten beschreibt (siehe Abb. \ref{fig:frames}).
+In Abbildung \ref{fig:frames} ist die Anordnung eines körperfesten Koordinatensystems $\{b\}$ (body-frame) in einem raumfesten Koordinatensystem $\{s\}$ (space-frame) dargestellt.
+Körperfest heißt ein Koordinatensystem wenn es sich relativ zum zugeordneten Körper nicht bewegt, bzw. der Körper sich nicht relativ zu diesem Bezugssystem ändert.
+Das raumfeste Koordinatensystem wird als Ursprung des Raums angenommen; es bewegt sich nicht relativ zum Raum.
+Die Anordnung von $\{b\}$ in $\{s\}$ kann beschrieben werden durch die Position $\mathbf{p}$ und der Ausrichtung von $\{b\}$ in $\{s\}$-Koordinaten.
+Diese Orientierung wird durch eine Rotationsmatrix $\mathbf{R}$ beschrieben.
 Die homogene Transformationsmatrix $\mathbf{T}$ ist die kombinierte Repräsentation von Orientierung und Position als Matrix \cite[Ch. 3.3.1]{KevinMLynch2017}:
 
 \begin{equation}
@@ -19,38 +23,34 @@ Die homogene Transformationsmatrix $\mathbf{T}$ ist die kombinierte Repräsentat
 \end{equation}
 
 Häufig treten Transformationen als reine Translation oder Rotation auf.
+Es bietet sich an, für diese Fälle eine verkürzte Schreibweise einzuführen.
 Eine reine Transformation wird beschrieben durch:
 
 \begin{equation}
 	\label{eq:translation}
-	\transtm{t_x}{t_y}{t_z} = \begin{bmatrix}1 & 0 & 0 & t_x\\0 & 1 & 0 & t_y\\0 & 0 & 0 & t_z\\0 & 0 & 0 & 1\end{bmatrix}
+	\transtm{t_x}{t_y}{t_z} = \begin{bmatrix}1 & 0 & 0 & t_x\\0 & 1 & 0 & t_y\\0 & 0 & 1 & t_z\\0 & 0 & 0 & 1\end{bmatrix}
 \end{equation}
 
-\subsection{Rotation}
+Bei einer reinen Transformation ist die Translationskomponente  $\mathbf{p} = \mathbf{0}$.
+Die Rotationskomponente der homogenen Transformationsmatrix in Gleichung \ref{eq:homTM} wird beschrieben durch:
 \begin{equation}
 	\label{eq:rotationsmatrix}
 	\begin{split}
-		\rottm{\gamma}{\beta}{\alpha} = & R_{z}(\alpha ) \cdot R_{y}(\beta ) \cdot R_{x}(\gamma ) \\
-		= & \begin{bmatrix}\cos \alpha & -\sin \alpha & 0\\\sin \alpha & \cos \alpha & 0\\0& 0& 1\end{bmatrix} \cdot
-			\begin{bmatrix}\cos \beta & 0& \sin \beta \\0& 1& 0\\-\sin \beta & 0& \cos \beta \end{bmatrix} \cdot
-			\begin{bmatrix}1& 0& 0\\0& \cos \gamma & -\sin \gamma \\0& \sin \gamma & \cos \gamma \end{bmatrix} \\
-		= & \begin{bmatrix}
-			\cos \alpha \cos \beta & \cos \alpha \sin \beta \sin \gamma -\sin \alpha \cos \gamma & \cos 	\alpha \sin \beta \cos \gamma +\sin \alpha \sin \gamma \\
-			\sin \alpha \cos \beta & \sin \alpha \sin \beta \sin \gamma +\cos \alpha \cos \gamma & \sin \alpha \sin \beta \cos \gamma -\cos \alpha \sin \gamma \\
-			-\sin \beta & \cos \beta \sin \gamma & \cos \beta \cos \gamma \\
-		\end{bmatrix}
+		\rottm{\gamma}{\beta}{\alpha} & = R_{z}(\alpha ) \cdot R_{y}(\beta ) \cdot R_{x}(\gamma ) \\
+			& = \begin{bmatrix}\c{\alpha} & -\s{\alpha} & 0\\\s{\alpha} & \c{\alpha} & 0\\0& 0& 1\end{bmatrix} \cdot
+				\begin{bmatrix}\c{\beta} & 0& \s{\beta} \\0& 1& 0\\-\s{\beta} & 0& \c{\beta} \end{bmatrix} \cdot
+				\begin{bmatrix}1& 0& 0\\0& \c{\gamma} & -\s{\gamma} \\0& \s{\gamma} & \c{\gamma} \end{bmatrix} \\
+			& = \begin{bmatrix}
+				\c{\alpha} \cdot \c{\beta} & \c{\alpha} \cdot \s{\beta} \cdot \s{\gamma} - \s{\alpha} \cdot \c{\gamma} & \c{\alpha} \cdot \s{\beta} \cdot \c{\gamma} + \s{\alpha} \cdot \s{\gamma} \\
+				\s{\alpha} \cdot \c{\beta} & \s{\alpha} \cdot \s{\beta} \cdot \s{\gamma} + \c{\alpha} \cdot \c{\gamma} & \s{\alpha} \cdot \s{\beta} \cdot \c{\gamma} - \c{\alpha} \cdot \s{\gamma} \\
+				-\s{\beta} & \c{\beta} \cdot \s{\gamma} & \c{\beta} \cdot \c{\gamma} \\
+				\end{bmatrix} \\
+		& \begin{aligned}
+			\text{mit \quad}
+				\s{x} & = \sin{(x)}\\
+				\c{x} & = \cos{(x)}
+		\end{aligned}
 	\end{split}
-\end{equation}
-
-Um Matrixoperation zu vereinfachen werden Rotationsmatrizen als homogene Transformationsmatrizen gemäß \ref{eq:homTM} mit einem Nullvektor $\mathbf{p} = \mathbf{0}$ als Verschiebung geschrieben.
-
-\subsection[Transformationsmatrix]{Homogene Transformationsmatrix}
-Die Anordnung eines körperfesten Koordinatensystems $\{b\}$ (body-frame) in einem raumfesten Koordinatensystem $\{s\}$ (space-frame) kann beschrieben werden durch die Position des body-frames $p$ in $\{s\}$-Koordinaten und einer Rotationsmatrix $R$, welche die Ausrichtung von $\{b\}$ in $\{s\}$-Koordinaten beschreibt (siehe Abb. \ref{fig:frames}).
-Die homogene Transformationsmatrix $\mathbf{T}$ ist die kombinierte Repräsentation von Orientierung und Position als eine Matrix \cite[Ch. 3.3.1]{KevinMLynch2017}:
-
-\begin{equation}
-	\label{eq:homTM}
-	T = \begin{bmatrix}R & \vec{p}\\0 & 1\end{bmatrix} = \begin{bmatrix}r_{11} & r_{12} & r_{13} & p_1\\r_{21} & r_{22} & r_{23} & p_2\\r_{31} & r_{32} & r_{33} & p_3\\0 & 0 & 0 & 1\end{bmatrix}
 \end{equation}
 
 \section{Inverse von Transformationen}
@@ -92,9 +92,7 @@ Da bei der reinen Rotationsmatrix der Translationsvektor $p$ der Nullvektor ist,
 		& = \colvec{0}{0}{0}
 	\end{split}
 \end{equation}
-
 Bei Rotation um eine Achse ergibt sich die Rotationskomponente gemäß \ref{eq:rotationsmatrix} beispielhaft für Rotation um die z-Achse zu:
-
 \begin{equation*}
 	\begin{split}
 		\rottm{0}{0}{\alpha} = & R_{z}(\alpha ) \cdot R_{y}(0) \cdot R_{x}(0) \\
@@ -112,9 +110,7 @@ Bei Rotation um eine Achse ergibt sich die Rotationskomponente gemäß \ref{eq:r
 		\cos{-x} = & \cos{x}
 	\end{split}
 \end{equation}
-
-Für die transponierte der Rotationskomponente ergibt sich mit den Symmetriebeziehungen gemäß Gleich. \ref{eq:sincossymm}:
-
+Für die transponierte der Rotationskomponente ergibt sich mit den Symmetriebeziehungen gemäß Gleichung \ref{eq:sincossymm}:
 \begin{equation*}
 	\begin{split}
 		R_{z}^\intercal(\alpha) = & \begin{bmatrix}\cos \alpha & -\sin \alpha & 0\\\sin \alpha & \cos \alpha & 0\\0& 0& 1\end{bmatrix}^\intercal \\
@@ -122,9 +118,7 @@ Für die transponierte der Rotationskomponente ergibt sich mit den Symmetriebezi
 		= & R_{z}(-\alpha)
 	\end{split}
 \end{equation*}
-
 Damit folgt für die Inverse der Transformationsmatrix der reinen Rotation:
-
 \begin{equation*}
 	\tm{R^b_s}{0}{0}{\alpha} ^{-1} = \tm{R^s_b}{0}{0}{-\alpha}
 \end{equation*}
@@ -133,25 +127,32 @@ Damit folgt für die Inverse der Transformationsmatrix der reinen Rotation:
 
 Um bei einer Transformation zu verdeutlichen aus welchem Koordinatensystem in welches andere Koordinatensystem transformiert wird, werden der Transformationsmatrix Indizes angehängt.
 
-Das Subscript steht dabei für das Ausgangskoordinatensystem, das Superscript steht für die Zielkoordinatensystem.
-Die zu Abb. \ref{fig:frames} gehörende Transformationsmatrix lautet also:
+Das Subscript steht dabei für das Ausgangskoordinatensystem, das Superscript steht für das Zielkoordinatensystem.
+Die zu Abb. \ref{fig:frames} gehörende Transformationsmatrix lautet daher:
 
 \begin{equation*}
 	T_s^b = \begin{bmatrix}R_s^b & \vec{p}\\0 & 1\end{bmatrix}
 \end{equation*}
-
-Bei Invertierung der Transformationsmatrix werden die Indizes getauscht, um zu beschreiben, dass die Transformationsrichtung jetzt vom body-frame $\{b\}$ in das space-frame $\{s\}$ erfolgt.
+Bei einer Invertierung der Transformationsmatrix werden die Indizes getauscht, um zu beschreiben, dass die Transformationsrichtung jetzt vom body-frame $\{b\}$ in das space-frame $\{s\}$ erfolgt.
 
 \section[Maschine]{Kinematik der Maschine}
 
-Im Folgenden wird die Kinematik der Maschine in Abb. \ref{fig:maschine} beschrieben.
-Die Kinematik wird für die Betrachtung ausgehend von der Schnittstelle Maschinenbett-Werkstück in zwei Bereiche eingeteilt, für welche jeweils die Koordinatentransformation aufgestellt wird.
-Ein Bereich betrachtet auf Seite des Werkzeugs die kinematische Kette der Maschine mit den verfahrbaren Achsen, der zweite auf der Seite des Werkstücks die Position und Verdrehwinkel des Werkstückkoordinatensystems im Maschinenbett.
+Im Folgenden wird die Kinematik der Maschine in Abb. \ref{fig:maschine} erklärt und die mathematische Beschreibung ihrer Freiheitsgrade entwickelt.
+Die Kinematik wird für diese Betrachtung, ausgehend von der Schnittstelle Maschinenbett-Werkstück, in zwei Pfade, den sogenannten kinematische Ketten, eingeteilt.
+
+Das Maschinenbett wurde als Ursprung festgelegt, da sich sein Koordinatensystem auch bei realen Maschinen relativ zum Raum nicht bewegt, also raumfest ist.
+Alle übrigen Teile der Maschine sowie das Werkstück sind mit beschreibbaren Beziehung auf dieses Koordinatensystem referenziert.
+Für beide kinematischen Ketten werden dann die Koordinatentransformation als Kombination von Transformationsmatrizen aufgestellt.
+Um die Aufstellung nachvollziehbarer zu gestalten, beschreiben diese Transformationsmatrizen je einen primitiven Freiheitsgrad.
+Beide Pfade werden dann vereint, um die gesamte Transformation als eine Matrix darstellen zu können.
+
+Die erste kinematische Kette betrachtet, ausgehend von dem Ursprung, die Maschine mit den verfahrbaren Achsen bis zum Werkzeugkoordinatensystem.
+Die zweite, in Richtung des Werkstücks, beschreibt die Position und Ausrichtung des Werkstückkoordinatensystems im Maschinenbett.
 Um anschließend die Koordinatentransformation von dem Werkzeugkoordinatensystems in das Werkstückkoordinatensystems zu erhalten, werden die beiden Terme gleichgesetzt und nach Werkzeugkoordinaten aufgelöst.
 
 \begin{figure}
 	\includegraphics[width=12cm]{maschine_frei}
-	\caption[Kinematik der Maschine]{Kinematik der Maschine mit Vorzeichenrichtung der Achsen; das Koordinatensystem ist Maschinenbett-fest}
+	\caption[Kinematik der Maschine]{Kinematik der Maschine mit Vorzeichenrichtung der Achsen}
 	\label{fig:maschine}
 \end{figure}
 
@@ -161,19 +162,34 @@ Für die kinematische Kette auf der Werkstückseite gehen in die Gleichungen \re
 Der Offset erlaubt es ein versetztes Aufspannen des Werkstücks darzustellen und ist im idealen Fall ein Nullvektor.
 Dem Verdrehwinkel wird ein weiterer Offest $\gamma$ aufgeprägt.
 Dieser stellt den Fehler des verdrehten Aufspannens dar und erlaubt die Position von Zahn und Zahnlücke des virtuellen Schneckengetriebes zu korrigieren.
-$C$ ist außerdem Funktion des Werkzeugwinkels und des Achsvorschubess.
+$C$ ist außerdem eine Funktion des Werkzeugwinkels und des Achsvorschubes.
+Nach \cite[Gl. (23.14)]{Matek2017} ist das Übersetzungsverhältnis eines Schneckengetriebes
+
+\begin{equation}
+	i = \frac{n_1}{n_2} = \frac{z_2}{z_1}
+\end{equation}
+\begin{eqdscr}{$n_1$, $n_2$}
+	\item[$n_1$, $n_2$] Drehzahl der Schnecke, des Schneckenrades
+	\item[$z_1$, $z_2$] Zähnezahl der Schnecke, des Schneckenrades
+	\item[$i$] Übersetzungsverhältnis
+\end{eqdscr}
 Der Achsvorschub der $C$-Achse ist das Übersetzungsverhältnis des gedachten Schneckengetriebes.
 
 \begin{equation*}
 	\feed{C}{WSt} = \frac{n_{Schneidreihen}}{n_{Z"ahne}}
 \end{equation*}
-
 Die vollständige Formulierung des Werkstückwinkels $C$ lautet:
 
 \begin{equation}
 	\label{eq:wrkstwinkel}
 	C = B \cdot{} \feed{C}{WSt} + \gamma
 \end{equation}
+\begin{eqdscr}{$\feed{C}{WSt}$}
+	\item[$C$] Winkel des Werkstücks
+	\item[$B$] Winkel des Werkzeugs
+	\item[$\feed{C}{WSt}$] Achsvorschub der C-Achse
+	\item[$\gamma$] Verdrehwinkel des Werkstücks zum Bearbeitungstisch
+\end{eqdscr}
 
 Die Kinematik kann durch Änderung der Reihenfolge der Freiheitsgrade auf zwei verschiedene Arten aufgebaut werden.
 Bei Variante 1 liegt das Bauteil zentriert auf dem Bearbeitungstisch, der sich um die C-Achse dreht.
@@ -270,30 +286,26 @@ Dazu wird die Abhängigkeit der Achskoordinaten vom Werkzeugwinkel als Produkt d
 Den x-Achsen und z-Achsen Koordinaten wird zusätzlich als linearer Offset die Position der x-Achse von einem Ausgangszustand aufgeprägt.
 Bei der C-Achse ist dieser Effekt bereits mit dem Winkeloffset $\gamma$ realisiert.
 
-\begin{itemize}
-	\item{x-Axchse}
-		\begin{equation}
-			\label{eq:xaxisfun}
-			X = x + B \cdot \feed{X}{Wz}
-		\end{equation}
+\begin{align}
+	X & = x + B \cdot \feed{X}{Wz}		\label{eq:xaxisfun}\\
+	Z & = z + B \cdot \feed{Z}{Wz}		\label{eq:zaxisfeedrate}
+\end{align}
+\begin{eqdscr}{$\feed{X}{Wz}$, $\feed{Z}{Wz}$}
+	\item[$X$, $Z$] Position der $X$- und $Z$-Achse der Maschine als Funktion des Werkzeugwinkels
+	\item[$x$, $z$] Versatz der $X$- und $Z$-Achse der Maschine zum Ursprung
+	\item[$B$] Winkel des Werkzeugs
+	\item[$\feed{X}{Wz}$, $\feed{Z}{Wz}$] Vorschub der $X$- und $Z$-Achse der Maschine
+\end{eqdscr}
+Im Folgenden wird die Nomenklatur der Vorschub-Variablen anhand Gleichung \ref{eq:zaxisfeedrate} erläutert.
+\begin{eqdscr}{$\wz$}
+	\item[$f$]	Vorschub (engl.: feed rate)
+	\item[$\mathrm{Z}$] Bezugsachse, hier bezogen auf Maschinen Z-Achse
+	\item[$\wz$] Bezugsgröße, hier bezogen auf die Werkzeugrotation
+	\item[$\mathrm{rad}$] Einheit, hier Bogenmaß
+\end{eqdscr}
+Der Faktor hat die Einheit $\left[\si{\milli\meter\per\radian}\right]$ und beschreibt den Vorschub der Z-Achse in $\left[\si{\milli\meter}\right]$ je Umdrehung $2\pi \left[\si{\radian}\right]$ des Werkzeugs.
 
-	\item{z-Axchse}
-		\begin{equation}
-			\label{eq:zaxisfeedrate}
-			Z = z + B \cdot \feed{Z}{Wz}
-		\end{equation}
-\end{itemize}
-
-Erläuterung der Nomenklatur für Vorschub-Variablen anhand Gl. \ref{eq:zaxisfeedrate}. Die Vorschübe beziehen sich immer auf die Drehung des Werkzeuges.
-\begin{itemize}
-	\item $f$: Vorschub (engl.: feed rate)
-	\item $\mathrm{Z}$: Achsrichtung (Maschinen Z-Achse)
-	\item $\wz$: bezogen auf die Werkzeugrotation
-	\item $\mathrm{rad}$: Einheit (Bogenmaß)
-\end{itemize}
-Der Faktor lässt sich also definieren als Vorschub auf der z-Achse pro 1 Umdrehung des Werkzeugs $(2 \cdot \pi)$.
-
-Damit ergibt sich für die Transformationsmatrix von Maschinenbett- nach Werkzeugkoordinaten in ausführlicher Form:
+Damit ergibt sich für die Transformationsmatrix von Maschinenbett- nach Werkzeugkoordinaten:
 
 \begin{equation*}
 	\mathbf{T}^\wz_\mathrm{m} = \transtm{x + B \cdot \feed{X}{Wz}}
@@ -345,7 +357,7 @@ Die Gleichung wird durch Multiplikation mit den Inversen der Transformation- und
 Die Transformationsmatrix wird ausmultipliziert:
 
 \begin{align*}
-	\mathbf{T}^\wz_\wst = &
+	\mathbf{T}^\wz_\wst & =
 	\rottm{0}{0}{-C}
 	\cdot{} \transtm{-a}{-b}{-c}
 	\cdot{} \transtm{X}{0}{Z}
@@ -353,32 +365,34 @@ Die Transformationsmatrix wird ausmultipliziert:
 	\cdot{} \transtm{0}{Y}{0}
 	\cdot{} \rottm{0}{-B}{0}
 	\cdot{} \rottm{\pi/2}{0}{0}
-	\\= &
+	\\& =
 	\rottm{0}{0}{-C}
 	\cdot{} \transtm{X - a}{-b}{Z - c}
 	\cdot{} \rottm{A}{0}{0}
 	\cdot{} \transtm{0}{Y}{0}
 	\cdot{} \rottm{0}{-B}{0}
 	\cdot{} \rottm{\pi/2}{0}{0}
-	\\= & \resizebox{.9 \hsize}{!}{$
+	\\& = \resizebox{.9 \hsize}{!}{$
 		\rottm{0}{0}{-(B \cdot{} \feed{C}{WSt} + \gamma)}
 		\cdot{} \transtm{x + B \cdot \feed{X}{Wz} -a}{-b}{z + B \cdot \feed{Z}{Wz} -c}
 		\cdot{} \rottm{A}{0}{0}
 		\cdot{} \transtm{0}{y + B \cdot \feed{Y}{Wz} + \yshift}{0}
 		\cdot{} \rottm{0}{-B}{0}
 		\cdot{} \rottm{\pi/2}{0}{0}$}
-	\\= & \resizebox{.9 \hsize}{!}{$
+	\\& = \resizebox{.9 \hsize}{!}{$
 		\begin{bmatrix}
 			\sigma_2  \cdot \c{B}-\sigma_1  \cdot \s{A} \cdot \s{B} & -\sigma_2  \cdot \s{B}-\sigma_1  \cdot \c{B} \cdot \s{A} & -\sigma_1  \cdot \c{A} & \yshift  \cdot \sigma_1  \cdot \c{A} + x \cdot \sigma_2 -a +B \cdot \feed{X}{Wz}  \cdot \sigma_2 +y \cdot \sigma_1  \cdot \c{A}+B \cdot \feed{Y}{Wz}  \cdot \sigma_1  \cdot \c{A}\\
 			-\sigma_1  \cdot \c{B}-\sigma_2  \cdot \s{A} \cdot \s{B} & \sigma_1  \cdot \s{B}-\sigma_2  \cdot \c{B} \cdot \s{A} & -\sigma_2  \cdot \c{A} & \yshift  \cdot \sigma_2  \cdot \c{A} - x \cdot \sigma_1 -b -B \cdot \feed{X}{Wz}  \cdot \sigma_1 +y \cdot \sigma_2  \cdot \c{A}+B \cdot \feed{Y}{Wz}  \cdot \sigma_2  \cdot \c{A}\\
 			\c{A} \cdot \s{B} & \c{A} \cdot \c{B} & -\s{A} & \yshift \cdot \s{A} + z - c + B \cdot \feed{Z}{Wz} + y \cdot \s{A} + B \cdot \feed{Y}{Wz}  \cdot \s{A}\\
 			0 & 0 & 0 & 1
 		\end{bmatrix}$}\\
-	\text{wobei:}\\
-	& \quad \sigma_1 =\mathrm{sin}\left(\mathrm{ga}+B \cdot \feed{C}{WSt} \right)\\
-	& \quad  \sigma_2 =\mathrm{cos}\left(\mathrm{ga}+B \cdot \feed{C}{WSt} \right)\\
-	& \quad \s{\alpha} = \sin{(\alpha)}\\
-	& \quad \c{\beta} = \cos{(\beta)}
+	& \begin{aligned}
+		\text{mit \quad}
+		\sigma_1 & = \mathrm{sin}\left(\mathrm{ga}+B \cdot \feed{C}{WSt} \right)\\
+		\sigma_2 & = \mathrm{cos}\left(\mathrm{ga}+B \cdot \feed{C}{WSt} \right)\\
+		\s{x} & = \sin{(x)}\\
+		\c{x} & = \cos{(x)}
+	\end{aligned}
 \end{align*}
 
 Zur Vereinfachung der mathematischen Notation wird der Transformationsmatrix $\mathbf{T}^\wz_\wst$ eine charakteristische Bezeichnung gegeben.
