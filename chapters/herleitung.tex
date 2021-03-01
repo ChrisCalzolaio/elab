@@ -161,7 +161,13 @@ Um anschließend die Koordinatentransformation von dem Werkzeugkoordinatensystem
 Für die kinematische Kette auf der Werkstückseite gehen in die Gleichungen \ref{eq:werkstuckv1} und \ref{eq:werkstuckv2} ein Offset des Werkstückkoordinatensystems zum Maschinenkoordinatensystem $\mathbf{p}_{\mathrm{offset}} = \tranvec{a}{b}{c}$ und der Verdrehwinkel $C$ ein.
 Der Offset erlaubt es ein versetztes Aufspannen des Werkstücks darzustellen und ist im idealen Fall ein Nullvektor.
 Dem Verdrehwinkel wird ein weiterer Offest $\gamma$ aufgeprägt.
-Dieser stellt den Fehler des verdrehten Aufspannens dar und erlaubt die Position von Zahn und Zahnlücke des virtuellen Schneckengetriebes zu korrigieren.
+Dieser erlaubt die Ausrichtung von Zahn und Zahnlücke des virtuellen Schneckengetriebes.
+Bei vorverzahnten Bauteilen muss aufgrund des limitierten Bearbeitungsaufmaßes die Hülle der Soll-Geometrie in das zur Verfügung stehenden Material der Ist-Geometrie eingepasst werden.
+Gleichzeitig gilt es bei Bearbeitung von wärmebehandelten Rohlingen die Einsatzhärtetiefe auf beide Zahnflanken der Zähne des fertigen Bauteils gleichmäßig zu erhalten.
+Nach \cite{FritzKlocke2016} wird ,,als Vorverzahnen [$\dots$] die Erzeugung der Zahnlückengeometrie im Rohling bezeichnet.''
+Es ist also notwendig die Zahnlücke des vorverzahnten Werkstücks mittig zu den Zähnen des Werkzeugprofils auszurichten.
+Dieses Aufspannen ist in der Praxis fehlerbehaftet und in $\gamma$ kann dieser rotatorischer Aufpannungsfehler auch bedacht werden.
+
 $C$ ist außerdem eine Funktion des Werkzeugwinkels und des Achsvorschubes.
 Nach \cite[Gl. (23.14)]{Matek2017} ist das Übersetzungsverhältnis eines Schneckengetriebes
 
@@ -190,12 +196,15 @@ Die vollständige Formulierung des Werkstückwinkels $C$ lautet:
 	\item[$\feed{C}{WSt}$] Achsvorschub der C-Achse
 	\item[$\gamma$] Verdrehwinkel des Werkstücks zum Bearbeitungstisch
 \end{eqdscr}
+Zur Beschreibung der Kinematik können zwei verschiedene Varianten gewählt werden.
+Sie unterscheiden sich durch die Reihenfolge der Freiheitsgrade Werkstückversatz und Maschinen-C-Achse in der kinematischen Kette.
 
-Die Kinematik kann durch Änderung der Reihenfolge der Freiheitsgrade auf zwei verschiedene Arten aufgebaut werden.
-Bei Variante 1 liegt das Bauteil zentriert auf dem Bearbeitungstisch, der sich um die C-Achse dreht.
-Allerdings gehen die X-,Y- und Z-Achse nicht durch Mittelpunkt des Werkstücktisches sondern sind um $\mathbf{p}_{\mathrm{offset}}$ versetzt.
-Bei Variante 2 liegt das Bauteil nicht zentrisch auf dem Bearbeitungstisch, der sich um die C-Achse dreht, sondern ist um $\mathbf{p}_{\mathrm{offset}}$ versetzt.
-Die X-,Y- und Z-Achse starten dann im Mittelpunkt des Bearbeitungstisches.
+Bei Variante 1 liegt das Bauteil konzentrisch auf dem Bearbeitungstisch und das Paar dreht sich um die C-Achse.
+Der Ursprung des Bearbeitungstisches mit C-Achse fällt nicht mit dem Maschinenbettkoordinatensystem zusammen, sondern ist um $\mathbf{p}_{\mathrm{offset}}$ versetzt.
+
+Bei Variante 2 sind Bauteil und Bearbeitungstisch nicht konzentrisch.
+Stattdessen sind Ursprung von Werkstück und Bearbeitungstisch um $\mathbf{p}_{\mathrm{offset}}$ versetzt.
+Dieser dreht sich um die C-Achse, welche koaxial zur z-Achse des Maschinenbettes ist.
 
 \subsubsection[versetzter Bearbeitungstisch]{Variante 1: versetzter Bearbeitungstisch}
 
