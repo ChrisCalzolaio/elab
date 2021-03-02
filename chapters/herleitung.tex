@@ -157,6 +157,9 @@ Um anschließend die Koordinatentransformation von dem Werkzeugkoordinatensystem
 \end{figure}
 
 \subsection[Werkstück]{Kinematik der Werkstück-Seite}
+,,Die Kinematik des Verfahrens kann durch das Abwälzen einer Schnecke an einem Schneckenrad beschrieben werden.
+Die Schnecke entspricht dem Werkzeug und das Schneckenrad dem Werkstück.'' \cite[4.2.3.2.1 Prozesskinematik]{FritzKlocke2016}
+Die Bewegung von Werkzeug und Werkstück sind also über über Vorschübe gekoppelt.
 
 Für die kinematische Kette auf der Werkstückseite gehen in die Gleichungen \ref{eq:werkstuckv1} und \ref{eq:werkstuckv2} ein Offset des Werkstückkoordinatensystems zum Maschinenkoordinatensystem $\mathbf{p}_{\mathrm{offset}} = \tranvec{a}{b}{c}$ und der Verdrehwinkel $C$ ein.
 Der Offset erlaubt es ein versetztes Aufspannen des Werkstücks darzustellen und ist im idealen Fall ein Nullvektor.
@@ -188,26 +191,22 @@ Die vollständige Formulierung des Werkstückwinkels $C$ lautet:
 
 \begin{equation}
 	\label{eq:wrkstwinkel}
-	C = B \cdot{} \feed{C}{WSt} + \gamma
+	C = B \cdot{} \feed{C}{Wz} + \gamma
 \end{equation}
-\begin{eqdscr}{$\feed{C}{WSt}$}
+\begin{eqdscr}{$\feed{C}{Wz}$}
 	\item[$C$] Winkel des Werkstücks
 	\item[$B$] Winkel des Werkzeugs
-	\item[$\feed{C}{WSt}$] Achsvorschub der C-Achse
+	\item[$\feed{C}{Wz}$] Achsvorschub der C-Achse
 	\item[$\gamma$] Verdrehwinkel des Werkstücks zum Bearbeitungstisch
 \end{eqdscr}
 Zur Beschreibung der Kinematik können zwei verschiedene Varianten gewählt werden.
 Sie unterscheiden sich durch die Reihenfolge der Freiheitsgrade Werkstückversatz und Maschinen-C-Achse in der kinematischen Kette.
 
-Bei Variante 1 liegt das Bauteil konzentrisch auf dem Bearbeitungstisch und das Paar dreht sich um die C-Achse.
-Der Ursprung des Bearbeitungstisches mit C-Achse fällt nicht mit dem Maschinenbettkoordinatensystem zusammen, sondern ist um $\mathbf{p}_{\mathrm{offset}}$ versetzt.
-
-Bei Variante 2 sind Bauteil und Bearbeitungstisch nicht konzentrisch.
-Stattdessen sind Ursprung von Werkstück und Bearbeitungstisch um $\mathbf{p}_{\mathrm{offset}}$ versetzt.
-Dieser dreht sich um die C-Achse, welche koaxial zur z-Achse des Maschinenbettes ist.
-
 \subsubsection[versetzter Bearbeitungstisch]{Variante 1: versetzter Bearbeitungstisch}
 
+Bei Variante 1 liegt das Bauteil konzentrisch auf dem Bearbeitungstisch und das Paar dreht sich um die C-Achse.
+Der Ursprung des Bearbeitungstisches mit C-Achse fällt nicht mit dem Maschinenbettkoordinatensystem zusammen, sondern ist um $\mathbf{p}_{\mathrm{offset}}$ versetzt.
+Diese Variante ist in der Praxis verbreitet, um Maschinen zu kalibrieren und mögliche Betriebsschäden auszugleichen.
 Die Transformation beschreibt die Position eines Werkstückpunktes im Koordinatensystems des Maschinenbettes.
 
 \begin{equation}
@@ -218,6 +217,10 @@ Die Transformation beschreibt die Position eines Werkstückpunktes im Koordinate
 \end{equation}
 
 \subsubsection[versetztes Werkstück]{Variante 2: versetztes Werkstück}
+Bei Variante 2 sind Bauteil und Bearbeitungstisch nicht konzentrisch.
+Stattdessen sind Ursprung von Werkstück und Bearbeitungstisch um $\mathbf{p}_{\mathrm{offset}}$ versetzt.
+Dieser dreht sich um die C-Achse, welche koaxial zur z-Achse des Maschinenbettes ist.
+Diese Variante hat nur theoretische Bedeutung.
 
 \begin{equation}
 	\label{eq:werkstuckv2}
@@ -227,74 +230,96 @@ Die Transformation beschreibt die Position eines Werkstückpunktes im Koordinate
 			\cdot{} \vec{p}_\wst
 \end{equation}
 
-
 \subsection[Werkzeug]{Kinematik der Werkzeug-Seite}
 
-Die kinematische Kette der Werkzeugseite \ref{eq:werkzeug} beinhaltet die verfahrbaren Achsen der Maschine mit ihrem jeweiligen Freiheitsgrad ein.
-Dabei wird dem y-Achsenfreiheitsgrad ein Offset aufgeprägt, mit dem der Bereich des Werkzeuges im Eingriff verschoben werden kann.
-Das Werkzeug unterliegt beim Schneiden Verschleiß.
-Das Werkzeug ist länger als erforderlich und durch Verschieben des Werkzeugs entlang der y-Achse kann der Verschleiß gleichmäßig auf das Werkzeug verteilt werden.
-
-\begin{equation*}
-	Y = y + B \cdot \feed{Y}{Wz} + \yshift
-\end{equation*}
-
-Da der Spanabfall in Drehrichtung des Werkzeugs erfolgen soll ist diese mathematisch negativ einzutragen.
-Das Werkzeug hat außerdem ein eigenes Koordinatensystem, bei welchem sich die z-Achse entlang der Drehrichtung des Werkzeuges erstreckt.
-Es bietet sich an, die Ausrichtung des Koordinatensystems durch Drehung um $\pi/2$ um die x-Achse zu definieren.
-So kann man mit sehr wenig Aufwand das Werkzeug in einem Polarkoordinatensystem anlegen und die Punktewolke in kartesische Koordinaten umrechnen.
-
 \begin{equation}
-	\label{eq:wkzgkoord}
-	\vec{p}_{\mathrm{Wz,kart}} = \begin{pmatrix}  x = & r \cdot{} \cos{\phi}\\
-											y = & r \cdot{} \sin{\phi}\\
-											z = & h\end{pmatrix}
+	\label{eq:werkzeug}
+	\vec{p}_\mathrm{m} =  \transtm{X}{0}{Z}
+	\cdot{} \rottm{A}{0}{0}
+	\cdot{} \transtm{0}{Y}{0}
+	\cdot{} \rottm{\pi/2}{0}{0}
+	\cdot{} \rottm{0}{0}{B}
+	\cdot{} \vec{p}_\wz
 \end{equation}
+Gleichung \ref{eq:werkzeug} beschreibt die Transformation eines Werkzeugpunktes in das Koordinatensystems des Maschinenbettes.
+Diese kinematische Kette beinhaltet die verfahrbaren Achsen der Maschine mit ihrem jeweiligen Freiheitsgrad.
 
 \begin{figure}
 	\includegraphics{hobspindle_coord}
 	\caption{Ausrichtung des Werkzeugkoordinatensystems}
 	\label{fig:hobspindle_coord}
 \end{figure}
-
-Die Transformation beschreibt die Position eines Werkzeugpunktes im Koordinatensystems des Maschinenbettes.
+Es bietet sich an, das Koordinatensystem des Werkzeugs gemäß Abbildung \ref{fig:hobspindle_coord} zu definieren.
+Wenn Drehachse und z-Achse des Werkzeugkoordinatensystems koaxial sind, kann die Beschreibung des Werkzeugs leicht in Zylinderkoordinaten erfolgen.
+Dabei ist dann die Umrechnung von und nach kartesischen Koordinaten wenig Aufwand, vgl. Gleichung \ref{eq:wkzgkoord}.
+Die Festlegung der positiven Richtung der z-Achse kann geschickt gewählt werden, sodass die Drehrichtung des Werkzeugs in seinem Koordinatensystem positiv definiert ist.
+Der Spanabfall soll in Drehrichtung des Werkzeugs erfolgen, das heißt die Bewegung des Werkzeugs beim Schneiden des Werkstücks erfolgt also von ,,oben'' nach ,,unten''.
+Daraus ergibt sich, dass die Ausrichtung der z-Achse in negativer Richtung der Maschinen y-Achse erfolgen muss.
 
 \begin{equation}
-	\label{eq:werkzeug}
-	\vec{p}_\mathrm{m} =  \transtm{X}{0}{Z}
-			\cdot{} \rottm{A}{0}{0}
-			\cdot{} \transtm{0}{Y}{0}
-			\cdot{} \rottm{0}{-B}{0}
-			\cdot{} \rottm{\pi/2}{0}{0}
-			\cdot{} \vec{p}_\wz
+	\label{eq:wkzgkoord}
+	\vec{p}_{\mathrm{Wz,kart}}	= \begin{pmatrix}x \\ y \\ z \end{pmatrix}
+	= \begin{pmatrix}r \cdot \cos{\phi} \\ r \cdot \sin{\phi} \\ h \end{pmatrix}
 \end{equation}
-
-Zur Verdeutlichung, die ausformulierte Form der Transformationsmatrix zur Drehung des Werkzeugkoordinatensystems lautet:
+Diese Ausrichtung des Werkstückkoordinatensystems erfordert das Einführen einer Transformationsmatrix zwischen der Werkzeugdrehungs-Matrix und der Tangentialvorschub-Matrix.
+Augenscheinlich handelt es sich dabei um eine viertel Umdrehung um die x-Achse des Maschinenkoordinatensystems.
 
 \begin{equation*}
 	\rottm{\pi/2}{0}{0}
 	= \begin{bmatrix}1 & 0 & 0 & 0\\0 & 0 &-1 & 0\\0 & 1 & 0 & 0\\0 & 0 & 0 & 1\end{bmatrix}
 \end{equation*}
-
-
 Zur Vereinfachung der entstehenden Terme bietet sich das Zusammenfassen der Transformationsmatrizen zu einer Transformationsmatrix von Maschinenbett- in Werkzeugkoordinaten an:
 
 \begin{equation*}
 	T^\wz_\mathrm{m} = \transtm{X}{0}{Z}
 				\cdot{} \rottm{A}{0}{0}
 				\cdot{} \transtm{0}{Y}{0}
-				\cdot{} \rottm{0}{-B}{0}
 				\cdot{} \rottm{\pi/2}{0}{0}
+				\cdot{} \rottm{0}{0}{B}
 \end{equation*}
 
+\subsection{Position der Maschinenachsen}
+Bei Gleichung \ref{eq:wrkstwinkel} wurde die Abhängig der C-Achsenposition von dem Winkel des Werkzeugs beschrieben.
+Damit ist auch das Verhältnis der Drehzahlen beider Achsen festgelegt.
+Am Umfang des Werkstückes entsteht dabei eine Vorschubgeschwindigkeit.
 
-\subsection[Vorschübe]{Aufprägung der Vorschübe auf die Achskoordinaten}
+Vergleichbar dazu sind auch die lineare Maschinenachsen über Faktoren an die Drehung des Werkzeugs gekoppelt.
+Am Beispiel des Axialvorschubes wird deutlich, warum es sinnvoll ist, die Drehzahl des Werkzeugs als Grundlage der Vorschubgeschwindigkeit zu wählen.
+Axialvorschub ist die Komponente des Vorschubes in Richtung der Werkstückachse.
+Die Bewegung des Werkzeugs im Axialvorschub ist vergleichbar zu der eines Schaftfräsers.
+Die Vorschubgeschwindigkeit beim Fräsen ist definiert als:
+\begin{equation*}
+	v_f = n \cdot f
+\end{equation*}
+\begin{eqdscr}{$v_f$}
+	\item[$v_f$] Vorschubgeschwindigkeit
+	\item[$n$]	Drehzahl des Werkzeugs
+	\item[$f$] Vorschub
+\end{eqdscr}
 
-Durch die Natur der Fertigung von Verzahnung vergleichbar mit einem Schneckengetriebe hängen die Vorschübe der Achsen von der Rotation des Werkzeugs ab.
-Dazu wird die Abhängigkeit der Achskoordinaten vom Werkzeugwinkel als Produkt des Werkzeugwinkels und einem Vorschubfaktor beschrieben.
-Den x-Achsen und z-Achsen Koordinaten wird zusätzlich als linearer Offset die Position der x-Achse von einem Ausgangszustand aufgeprägt.
-Bei der C-Achse ist dieser Effekt bereits mit dem Winkeloffset $\gamma$ realisiert.
+Die Tangentialvorschubachse ist parallel zur y-Achse des Maschinenkoordinatensystems ausgerichtet, sofern die A-Achse nicht eingeschwenkt ist, also den Winkel $0$ hat.
+Die Definition ihrer Komponenten unterscheiden sich leicht von den anderen beiden linearen Maschinenachsen.
 
+Der Position der Tangentialvorschubachse wird ein Offset aufgeprägt, mit dem der Bereich des Werkzeuges, der im Eingriff ist, verschoben werden kann.
+Das Werkzeug unterliegt beim Schneiden Verschleiß, der gleichmäßig auf den Schneiden verteilt werden muss um eine möglichst hohe Standzeit zu erreichen.
+Es tritt ein ,,bevorzugter Verschleiß einzelner Schneidenbereiche gemäß der lokalen Schneidkantenbelastung'' \cite{FritzKlocke2016} auf.
+Um diesen möglichst gleichmäßig auf den Schneiden zu verteilen kann das Werkzeug entlang seiner Rotationsachse, tangential zum Werkstück, verschoben werden.
+Dafür muss es länger sein, als die Länge des Verschneidungsbereiches von Werkstück und Werkzeugprofil erfordern würde.
+Mit dieser Verschiebung geht ein gleichzeitiges Drehen des Werkzeugs, vergleichbar einer Schraube in der Hülle des Werkzeugprofils, einher.
+So wird die Positionierung von Zahn und Zahnlücke gewahrt.
+
+\begin{equation*}
+	Y = y + B \cdot \feed{Y}{Wz} + \yshift
+\end{equation*}
+\begin{eqdscr}{$\feed{C}{WSt}$}
+	\item[$Y$] Position der Y-Achse der Maschine als Funktion des Werkzeugwinkels
+	\item[$y$] Versatz der Y-Achse der Maschine zum Ursprung
+	\item[$B$] Winkel des Werkzeugs
+	\item[$\feed{Y}{Wz}$] Achsvorschub der Y-Achse
+	\item[$\yshift$] Position des Shiftvorschubes
+\end{eqdscr}
+Die übrigen linearen Achsen, kommen ohne den Shift-Offset aus.
+Sie haben lediglich eine Ausgangsposition aufgeprägt, von der aus sie sich mit dem Vorschub bewegen.
 \begin{align}
 	X & = x + B \cdot \feed{X}{Wz}		\label{eq:xaxisfun}\\
 	Z & = z + B \cdot \feed{Z}{Wz}		\label{eq:zaxisfeedrate}
@@ -317,15 +342,15 @@ Der Faktor hat die Einheit $\left[\si{\milli\meter\per\radian}\right]$ und besch
 Damit ergibt sich für die Transformationsmatrix von Maschinenbett- nach Werkzeugkoordinaten:
 
 \begin{equation*}
-	\mathbf{T}^\wz_\mathrm{m} = \transtm{x + B \cdot \feed{X}{Wz}}
+	T^\wz_\mathrm{m} = \transtm{x + B \cdot \feed{X}{Wz}}
 								{0}
 								{z + B \cdot \feed{Z}{Wz}}
 				\cdot{} \rottm{A}{0}{0}
 				\cdot{} \transtm{0}
 								{y + B \cdot \feed{Y}{Wz} + \yshift}
 								{0}
-				\cdot{} \rottm{0}{-B}{0}
 				\cdot{} \rottm{\pi/2}{0}{0}
+				\cdot{} \rottm{0}{0}{B}
 \end{equation*}
 
 \subsection[Gesamt]{Transformation von Werkzeug- in Werkstückkoordinaten}
@@ -335,13 +360,13 @@ Um die Transformation aus dem Werkzeug- in das Werkstückkoordinatensystem zu er
 \begin{equation*}
 			\transtm{a}{b}{c}
 	\cdot{} \rottm{0}{0}{C}
-	\cdot{} \mathbf{p}_\wst =
+	\cdot{} \vec{p}_\wst =
 			\transtm{X}{0}{Z}
 	\cdot{} \rottm{A}{0}{0}
 	\cdot{} \transtm{0}{Y}{0}
-	\cdot{} \rottm{0}{-B}{0}
 	\cdot{} \rottm{\pi/2}{0}{0}
-	\cdot{} \mathbf{p}_\wz
+	\cdot{} \rottm{0}{0}{B}
+	\cdot{} \vec{p}_\wz
 \end{equation*}
 
 Die Gleichung wird durch Multiplikation mit den Inversen der Transformation- und Rotationsmatrix aufgelöst, sodass die Beschreibung der Transformation von Werkzeug- in Werkstückkoordinaten entsteht.
@@ -353,41 +378,40 @@ Die Gleichung wird durch Multiplikation mit den Inversen der Transformation- und
 		\cdot{} \transtm{X}{0}{Z}
 		\cdot{} \rottm{A}{0}{0}
 		\cdot{} \transtm{0}{Y}{0}
-		\cdot{} \rottm{0}{-B}{0}
 		\cdot{} \rottm{\pi/2}{0}{0}
-		\cdot{} \mathbf{p}_\wz & =
-				\mathbf{p}_\wst
-		\\
-				\mathbf{T}^\wz_\wst
-		\cdot{} \mathbf{p}_\wz & =
+		\cdot{} \rottm{0}{0}{B}
+		\cdot{} \vec{p}_\wz & =
+				\vec{p}_\wst	\\
+				T^\wz_\wst
+		\cdot{} \vec{p}_\wz & = \vec{p}_\wst
 	\end{split}
 \end{equation*}
 
 Die Transformationsmatrix wird ausmultipliziert:
 
 \begin{align*}
-	\mathbf{T}^\wz_\wst & =
+	T^\wz_\wst & =
 	\rottm{0}{0}{-C}
 	\cdot{} \transtm{-a}{-b}{-c}
 	\cdot{} \transtm{X}{0}{Z}
 	\cdot{} \rottm{A}{0}{0}
 	\cdot{} \transtm{0}{Y}{0}
-	\cdot{} \rottm{0}{-B}{0}
 	\cdot{} \rottm{\pi/2}{0}{0}
+	\cdot{} \rottm{0}{0}{B}
 	\\& =
 	\rottm{0}{0}{-C}
 	\cdot{} \transtm{X - a}{-b}{Z - c}
 	\cdot{} \rottm{A}{0}{0}
 	\cdot{} \transtm{0}{Y}{0}
-	\cdot{} \rottm{0}{-B}{0}
 	\cdot{} \rottm{\pi/2}{0}{0}
+	\cdot{} \rottm{0}{0}{B}
 	\\& = \resizebox{.9 \hsize}{!}{$
 		\rottm{0}{0}{-(B \cdot{} \feed{C}{WSt} + \gamma)}
 		\cdot{} \transtm{x + B \cdot \feed{X}{Wz} -a}{-b}{z + B \cdot \feed{Z}{Wz} -c}
 		\cdot{} \rottm{A}{0}{0}
 		\cdot{} \transtm{0}{y + B \cdot \feed{Y}{Wz} + \yshift}{0}
-		\cdot{} \rottm{0}{-B}{0}
-		\cdot{} \rottm{\pi/2}{0}{0}$}
+		\cdot{} \rottm{\pi/2}{0}{0}
+		\cdot{} \rottm{0}{0}{B}$}
 	\\& = \resizebox{.9 \hsize}{!}{$
 		\begin{bmatrix}
 			\sigma_2  \cdot \c{B}-\sigma_1  \cdot \s{A} \cdot \s{B} & -\sigma_2  \cdot \s{B}-\sigma_1  \cdot \c{B} \cdot \s{A} & -\sigma_1  \cdot \c{A} & \yshift  \cdot \sigma_1  \cdot \c{A} + x \cdot \sigma_2 -a +B \cdot \feed{X}{Wz}  \cdot \sigma_2 +y \cdot \sigma_1  \cdot \c{A}+B \cdot \feed{Y}{Wz}  \cdot \sigma_1  \cdot \c{A}\\
@@ -408,13 +432,13 @@ Zur Vereinfachung der mathematischen Notation wird der Transformationsmatrix $\m
 $\mathbf{G}$ steht hierbei für \textit{Gesamt}.
 
 \begin{equation*}
-	\mathbf{T}^\wz_\wst = \mathbf{G}
+	T^\wz_\wst = G
 \end{equation*}
 
 Es folgt für die Beschreibung eines Punktes mit Werkzeugkoordinaten in Maschinenkoordinaten:
 
 \begin{equation*}
-	\mathbf{p}_\wst = \mathbf{G} \cdot{} \mathbf{p}_\wz
+	\vec{p}_\wst = G \cdot \vec{p}_\wz
 \end{equation*}
 
 \section[Lösung]{Lösung der relevanten Gleichung}
