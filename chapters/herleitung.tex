@@ -3,6 +3,7 @@
 \label{c:herleitung}
 
 \section[Homogene Transformationsmatrix]{Die homogene Transformationsmatrix}
+\label{c:homtransform}
 
 \begin{figure}
 	\includegraphics{frames}
@@ -157,6 +158,7 @@ Um anschließend die Koordinatentransformation von dem Werkzeugkoordinatensystem
 \end{figure}
 
 \subsection[Werkstück]{Kinematik der Werkstück-Seite}
+\label{c:maschkinematik}
 ,,Die Kinematik des Verfahrens kann durch das Abwälzen einer Schnecke an einem Schneckenrad beschrieben werden.
 Die Schnecke entspricht dem Werkzeug und das Schneckenrad dem Werkstück.'' \cite[4.2.3.2.1 Prozesskinematik]{FritzKlocke2016}
 Die Bewegung von Werkzeug und Werkstück sind also über über Vorschübe gekoppelt.
@@ -252,18 +254,16 @@ Diese kinematische Kette beinhaltet die verfahrbaren Achsen der Maschine mit ihr
 Es bietet sich an, das Koordinatensystem des Werkzeugs gemäß Abbildung \ref{fig:hobspindle_coord} zu definieren.
 Wenn Drehachse und z-Achse des Werkzeugkoordinatensystems koaxial sind, kann die Beschreibung des Werkzeugs leicht in Zylinderkoordinaten erfolgen.
 Dabei ist dann die Umrechnung von und nach kartesischen Koordinaten wenig Aufwand, vgl. Gleichung \ref{eq:wkzgkoord}.
-Die Festlegung der positiven Richtung der z-Achse kann geschickt gewählt werden, sodass die Drehrichtung des Werkzeugs in seinem Koordinatensystem positiv definiert ist.
-Der Spanabfall soll in Drehrichtung des Werkzeugs erfolgen, das heißt die Bewegung des Werkzeugs beim Schneiden des Werkstücks erfolgt also von ,,oben'' nach ,,unten''.
-Daraus ergibt sich, dass die Ausrichtung der z-Achse in negativer Richtung der Maschinen y-Achse erfolgen muss.
-
 \begin{equation}
 	\label{eq:wkzgkoord}
 	\vec{p}_{\mathrm{Wz,kart}}	= \begin{pmatrix}x \\ y \\ z \end{pmatrix}
 	= \begin{pmatrix}r \cdot \cos{\phi} \\ r \cdot \sin{\phi} \\ h \end{pmatrix}
 \end{equation}
+Die Festlegung der positiven Richtung der z-Achse kann geschickt gewählt werden, sodass die Drehrichtung des Werkzeugs in seinem Koordinatensystem positiv definiert ist.
+Der Spanabfall soll in Drehrichtung des Werkzeugs erfolgen, das heißt die Bewegung des Werkzeugs beim Schneiden des Werkstücks erfolgt also von ,,oben'' nach ,,unten''.
+Daraus ergibt sich, dass die Ausrichtung der z-Achse in negativer Richtung der Maschinen y-Achse erfolgen muss.
 Diese Ausrichtung des Werkstückkoordinatensystems erfordert das Einführen einer Transformationsmatrix zwischen der Werkzeugdrehungs-Matrix und der Tangentialvorschub-Matrix.
 Augenscheinlich handelt es sich dabei um eine viertel Umdrehung um die x-Achse des Maschinenkoordinatensystems.
-
 \begin{equation*}
 	\rottm{\pi/2}{0}{0}
 	= \begin{bmatrix}1 & 0 & 0 & 0\\0 & 0 &-1 & 0\\0 & 1 & 0 & 0\\0 & 0 & 0 & 1\end{bmatrix}
@@ -450,10 +450,8 @@ Es gilt die Formel zu lösen die sich bei Anwendung der allgemeinen Transformati
 
 \begin{equation*}
 			\begin{pmatrix} p_{\wst,x} \\ p_{\wst,y} \\ p_{\wst,z} \\ 1 \end{pmatrix}
-	= \mathbf{G}
-		\cdot{} \begin{pmatrix} r_\wz \cdot{} \cos{\phi} \\ r_\wz \cdot{} \sin{\phi} \\ h_\wz \\ 1 \end{pmatrix}
+	= G \cdot \begin{pmatrix} r_\wz \cdot{} \cos{\phi} \\ r_\wz \cdot{} \sin{\phi} \\ h_\wz \\ 1 \end{pmatrix}
 \end{equation*}
-
 Die Lösung der Gleichung soll für einen vorgebenen Wert in z-Richung erfolgen.
 \begin{equation*}
 	\begin{split}
@@ -463,7 +461,6 @@ Die Lösung der Gleichung soll für einen vorgebenen Wert in z-Richung erfolgen.
 							+ & \cos(A) \cdot{} r_\wz \cdot{} \cos(\phi_\wz) \cdot{} \sin(B)
 	\end{split}
 \end{equation*}
-
 Da die Lösung der Gleichung durch Finden des Nullpunktes erfolgen soll, muss die Gleichung nach dem Werkzeugwinkel $B$ aufgelöst werden.
 \begin{equation*}
 	\begin{split}
@@ -472,14 +469,11 @@ Da die Lösung der Gleichung durch Finden des Nullpunktes erfolgen soll, muss di
 			+ & \cos(A) \cdot{} r_\wz \cdot{} \cos(\phi_\wz) \cdot{} \sin(B)
 	\end{split}
 \end{equation*}
-
 \begin{equation}
 	\label{eq:additionsterm}
 	\sin(x_1 \pm x_2) = \sin(x_1) \cdot{} \cos(x_2) \pm \cos(x_1) \cdot{} \sin(x_2)
 \end{equation}
-
-Gemäß dem Additionsterm \ref{eq:additionsterm} aus \cite[Gleich. 7.6.1]{Papula2017} können die $\sin$- und $\cos$-Terme in den beiden Summanden mit $cos(A) \cdot r_\wz$ zusammengefasst werden.
-
+Gemäß dem Additionsterm \ref{eq:additionsterm} aus \cite[Gleich. 7.6.1]{Papula2017} können die sinus- und cosinus-Terme in den beiden Summanden mit $cos(A) \cdot r_\wz$ zusammengefasst werden.
 \begin{align*}
 	0 = Z - c  - z_{soll} + B \cdot{} \feed{Z}{Wz} + & \sin(A) \cdot{} (Y + \yshift + B \cdot{} \feed{Y}{Wz} - h_\wz) \\
 												   + & \cos(A) \cdot{} r_\wz \cdot{} \sin(B + \phi_\wz) \\
@@ -487,9 +481,7 @@ Gemäß dem Additionsterm \ref{eq:additionsterm} aus \cite[Gleich. 7.6.1]{Papula
 	-r_\wz \cdot{} \cos(A) \cdot{} \sin(B + \phi_\wz) = & \\
 			Z - c  - z_{soll} + B \cdot{} \feed{Z}{Wz} + & \sin(A) \cdot{} (Y + \yshift + B \cdot{} \feed{Y}{Wz} - h_\wz)\\
 \end{align*}
-
 Nun wird durch $r_\wz \cdot{} \cos(A)$ geteilt:
-
 \begin{equation*}
 	\sin(B + \phi_\wz) = -\frac{Z - c  - z_{soll} + B \cdot{} \feed{Z}{Wz} + \sin(A) \cdot{} (Y + \yshift + B \cdot{} \feed{Y}{Wz} - h_\wz)}
 	{r_\wz \cdot{} \cos(A)}
@@ -504,8 +496,7 @@ Nun wird durch $r_\wz \cdot{} \cos(A)$ geteilt:
 	\label{eq:arcsinpunktsymm}
 	\arcsin{-x} = -\arcsin{x}
 \end{equation}
-
-Wegen der Punktsymmetrie des Arkussinus \ref{eq:arcsinpunktsymm} ergibt sich:
+Aufgrund der Punktsymmetrie des Arkussinus aus Gleichung \ref{eq:arcsinpunktsymm} ergibt sich:
 \begin{equation}
 	B = -\phi_\wz -\arcsin{\left(\frac{Z - c  - z_{soll} + B \cdot{} \feed{Z}{Wz} + \sin(A) \cdot{} (Y + \yshift + B \cdot{} \feed{Y}{Wz} - h_\wz)}
 		{r_\wz \cdot{} \cos(A)}\right)}
