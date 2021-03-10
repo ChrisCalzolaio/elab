@@ -45,6 +45,48 @@ Der Teilkreisdurchmesser des Schneckenrades wird berechnet nach \cite{Matek2017}
 	\item[$m$] Modul
 	\item[$z$] Zähnezahl des Werkstückes
 \end{eqdscr}
+Der Vorschubfaktor der X-Achse $\feed{X}{\wz}$ ist im betrachteten Fall 0, sie verändert also ihre Position ausgehend von der Startposition im Verlauf der Simulation nicht.
+
+Für den Startwert der Y-Achse müssen die Größen $y$, Achsverschiebung im Ausgang, und $\yshift$ festgelegt werden.
+Ebenso ist für den Achsvorschub der Y-Achse $\feed{Y}{\wz}$ ein Wert einzugeben.
+Diese Größen sind im betrachteten Fall 0.
+Die Y-Achse verändert im betrachteten Fall ihrer Position ausgehend von ihrem Startwert nicht.
+
+Danach wird die Werkzeuggeometrie erzeugt.
+Wie in Kapitel \ref{c:werkzeugkinematik} erläutert wird die Geometrie des Werkzeuges in Polarkoordinaten beschrieben.
+Dabei wird im aktuellen Stand das Bezugsprofil durch vier Eckpunkte dargestellt, deren Koordinaten mit einem Algorithmus von \scherbarth berechnet werden.
+Da eine Zahnstange als Zahnrad mit unendliche großer Zähnezahl verstanden werden kann, hat sie gerade Flanken \cite[Kap. 3]{Widmer1981}.
+Eine Annäherung der Zahnstange mit vier Punkten ist deswegen zweckmäßig, obwohl Verrundungen am Zahnkopf damit noch nicht dargestellt werden können.
+
+\section{Seeken}
+Als Seeken, eine deutsche Form des englischen Wortes für ,,Suchen'', wurde die Suche nach der ersten validen Schnittkonfiguration je Werkzeugumdrehung bezeichnet.
+
+Eine valide Schnittkonfiguration tritt auf, wenn ein Punkt des Werkzeugs auf der Höhe einer diskreten Ebene des Werkstücks liegt.
+Bei der vorliegenden Simulation ist das Werkstück entlang seiner Ausdehnung in z-Richtung in diskrete Ebenen unterteilt, welche das Werkzeug auf der jeweiligen Höhe in $z$ schneiden.
+Die dabei entstehende Verschneidungsgeometrie des Werkstücks mit der Ebene ist eine zweidimensionale Geometrie.
+Diese Geometrie ist ein Polygon, welches mit der Menge diskreter Punkte beschrieben, die seine Ecken darstellen.
+Die Beschreibung von Werkstück und Werkzeug als Polygone wird in Abschnitt \ref{c:schnitte} im Detail beschrieben.
+
+Seeken geschiet in der Seek-Schleife des FLussdiagrams in Abbildung \ref{fig:flowchart}.
+Dabei wird der Winkel des Werkzeugs ausgehend vom seiner Startkonfiguration mit einer bedatbaren Schrittweite inkrementiert, bis ein Punkte der Werkzeugschneide in der Hüllgeometrie des Werkstücks liegt.
+Befindet sich ein Punkt des Werkzeugs in Hüllgeometrie des Werkstücks ist das Werkzeug ,,engaged'', von englisch ,,eingerastet''; die schneide befindet sich im Eingriff.
+Die Hüllgeomtrie des Werkstücks entspricht der Form des Rohmaterials, also ein Zylinder mit dem Durchmesser und der Höhe des Werkstücks.
+Die Lage des Werkstücks entlang der z-Achse des Bearbeitungstischkoordinatensystems ist definierbar.
+Die Berechnung des Engagements, also des Eingriffs der Schneide, muss sehr häufig erfolgen und deswegen sehr günstig sein, also wenig Rechenzeit in Anspruch nehmen.
+Obwohl ein Kompromiss zwischen der Größe der Schrittweite beim Seeken und der dafür notwendigen Rechenzeit gefunden werden muss, kann die Schrittweite aggressiv gewählt werden.
+
+\section{Durchführen der Schnitte}
+\label{c:schnitte}
+ist eine Position des Werkzeuges, bei der es durch Projektion der Schneide des Werkzeuges auf eine Werkstückebene zu einer Überlagerung kommt.
+Werkzeug und Werkstück werden in der Simulation als Polygone repräsentiert, die in Matlab als Objekt der Klasse polyshape dargestellt werden.
+Polyshape Objekte haben Methoden, die es erlauben Verschneidungsoperationen durchzuführen.
+Dabei wird von einem polyshape Objekte die Geomtrie abgezogen, die von dem anderen Polygon überlagert wird.
+\begin{figure}
+	\includegraphics{uberlagerung}
+	\caption{Hier ist die caption}
+	\label{fig:uberlagerung}
+\end{figure}
+Bei einer Überlagerung
 
 
 \section{Plotten}
