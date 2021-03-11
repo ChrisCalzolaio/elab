@@ -65,36 +65,35 @@ Wie diese Erkennung funktioniert wird in Abschnitt \ref{c:seeken} erläutert.
 
 \section[Startkonfiguration]{Finden der Startkonfiguration}
 \label{c:startkonfig}
-Der erste Schritt zur Findung der Startkonfiguration bei jeder Werkzeugumdrehung ist die Suche nach der ersten validen Schnittkonfiguration.
+Der erste Schritt zur Findung der Startkonfiguration bei jeder Werkzeugumdrehung ist die Suche nach einer Werkzeugkonfiguration bei welcher Kontakt zwischen Werkzeug und Werkstück auftritt.
 Dieser Vorgang wird als Seeken, eine deutsche Form des englischen Wortes für ,,Suchen'', bezeichnet.
+Dabei wird das Werkzeug im freien Raum rotiert bis Kontakt auftritt.
+Im Anschluss wird dann eine validen Schnittkonfiguration gesucht.
 
-Eine valide Schnittkonfiguration tritt auf, wenn ein Punkt des Werkzeugs auf der Höhe einer diskreten Ebene des Werkstücks liegt.
+Eine valide Schnittkonfiguration tritt auf, wenn die auf eine diskrete Ebene des Werkstücks projizierte Geometrie der Schneide Überdeckung mit der Werkstückgeometrie hat.
 Bei der vorliegenden Simulation ist das Werkstück entlang seiner Ausdehnung in z-Richtung in diskrete Ebenen unterteilt, welche das Werkzeug auf der jeweiligen Höhe in $z$ schneiden.
 Die dabei entstehende Verschneidungsgeometrie des Werkstücks mit der Ebene ist eine zweidimensionale Geometrie.
-Diese Geometrie ist ein Polygon, welches mit der Menge diskreter Punkte beschrieben, die seine Ecken darstellen.
+Diese Geometrie ist ein Polygon, welches mit der Menge diskreter Punkte beschrieben, welche die Ecken des Polygons bilden.
 Die Beschreibung von Werkstück und Werkzeug als Polygone wird in Abschnitt \ref{c:schnitte} im Detail beschrieben.
 
 Seeken geschiet in der Seek-Schleife, die auch im Flussdiagrams in Abbildung \ref{fig:flowchart} beschrieben ist.
-Dabei wird der Winkel des Werkzeugs ausgehend vom seiner Startkonfiguration mit einer bedatbaren Schrittweite inkrementiert, bis ein Punkte der Werkzeugschneide in der Hüllgeometrie des Werkstücks liegt.
+Dabei wird der Winkel des Werkzeugs ausgehend vom seiner Startkonfiguration mit einer bedatbaren Schrittweite inkrementiert, bis ein Punkt der Werkzeugschneide in der Hüllgeometrie des Werkstücks liegt.
 Befindet sich ein Punkt des Werkzeugs in Hüllgeometrie des Werkstücks ist das Werkzeug ,,engaged'', von englisch ,,eingerastet''; die Schneide befindet sich im Eingriff.
 
 Die Hüllgeomtrie des Werkstücks entspricht der Form des Rohmaterials, also ein Zylinder mit dem Durchmesser und der Höhe des Werkstücks.
 Die Lage des Werkstücks entlang der z-Achse des Bearbeitungstischkoordinatensystems ist definierbar.
-Die Berechnung des Engagements, also des Eingriffs der Schneide, muss sehr häufig erfolgen und deswegen sehr günstig sein, also wenig Rechenzeit in Anspruch nehmen.
 
-Grundsätzlich muss ein Kompromiss zwischen der Größe der Schrittweite beim Seeken und der dafür notwendigen Rechenzeit gefunden werden.
-Allerdings kann mit einem nachträglichen Schritt eine Überschreitung in den Werkstück-Envelope hinein geschickt ausgeglichen werden.
-
-Engagement wird in der Funktion \code{checkEng} durch Berechnung der Schneideneckpunktkoordinaten in einem Zylinderkoordinatensystem erkannt.
-Dieses Zylinderkoordinatensystem ist im Ursprung des Werkzeugkoordinatensystems aufgespannt ist.
-Vergleichbar zu den überlagerten kartesischen und zylindrischen Koordinatensystemen des Werkzeugs, kann auch das Werkstück in kartesischen und zylindrischen Koordinatensystemen beschrieben werden.
+Engagement wird in der Funktion \code{checkEng} durch Vergleich der Position der Schneidenecken mit der Ausdehnung des Werkstücks erkannt.
+Dabei ist es geschickt die Position der Schneidenecken in Zylinkerkoordinaten zu beschreibenen.
+Vergleichbar zu den deckungsgleichen kartesischen und zylindrischen Koordinatensystemen des Werkzeugs, kann auch das Werkstück in kartesischen und zylindrischen Koordinatensystemen beschrieben werden.
+Dieses Zylinderkoordinatensystem ist im Ursprung des kartesischen Werkzeugkoordinatensystems aufgespannt.
 Die Koordinaten eines Punktes werden dann durch einen Winkel, einen Radius und eine Höhe in z-Richtung beschrieben.
 
-Damit ein Punkte als engaged gilt, müssen zwei Bedingungen erfüllt sein:
-Zum einen muss der der Abstand eines Punktes zum Ursprung kleiner als der Radius des Werkstücks sein.
-Zum anderen muss der Wert der z-Koordinate im Interval der Ausdehung des Werkstücks liegen.
+Damit ein Punkt des Werkzeugs als engaged gilt, müssen zwei Bedingungen erfüllt sein:
+Zum einen muss der der Abstand des Punktes zum Ursprung kleiner als der Radius des Werkstücks sein.
+Zum anderen muss der Wert seiner z-Koordinate im Interval der Ausdehung des Werkstücks liegen.
 Der Winkel des Punktes spielt zur Engagementerkennung keine Rolle.
-Der Abstand $d$ des Punktes zum Urpsrung wird als euklidische Norm berechnet nach \cite{mwVecnorm}:
+Der Abstand $d$ des Punktes zum Ursprung wird als euklidische Norm berechnet nach \cite{mwVecnorm}:
 \begin{equation*}
 	d = \|v\| = \sqrt{\sum_{k=1}^{N} \|v_k\|^2}
 \end{equation*}
@@ -102,8 +101,34 @@ Die Funktion gibt dann als logischen Wert zurück, ob der Werkzeugpunkt engaged 
 
 Das Ziel des Findens der Startkonfiguration es, die Rotation des Werkzeuges zu finden, bei welcher das Werkzeug das Werstück gerade berührt.
 Der Seek liefert einen Werkzeugwinkel, der in der Nähe dieser Konfiguration liegt.
+Durch Verkleinerung der Schrittweite beim Seeken, kann die Lösungskonfiguration dieses Näherungsverfahrens näher an die tatsächliche Lösung geführt werden.
+Allerdings muss die Berechnung des Engagements, also des Eingriffs der Schneide, für jeden Iterationsschritt erfolgen und sollte deswegen sehr günstig sein, also wenig Rechenzeit in Anspruch nehmen.
+Gleichzeit muss ein Kompromiss zwischen der Größe der Schrittweite beim Seeken und der dafür notwendigen Rechenzeit gefunden werden.
+Allerdings kann mit einem nachträglichen Schritt eine Lösungskonfiguration weit innerhalb des Werkstück-Envelopes geschickt ausgeglichen werden.
 
+Sobald durch Iteration eine Konfiguration gefunden wurde, die als engaged gewertet wird, kann der so gefundene Winkel des Werkzeugs $B$ als Eingangswert $B_0$ für Gleichung \ref{eq:loesung} verwendet werden.
+Neben dem Startwert $B_0$ sind für diese Funktion zur Lösung noch zwei Größen notwendig.
+
+Zum einen muss die Höhe der Ebene in z für die gelöst werden soll gegeben sein.
+Andererseit muss die Lösung der Funktion verschoben werden, um den bereits zurück gelegten Winkel des Werkzeugs.
+
+Dies geschieht über den Vorfaktor $k$.
+Beim ersten Schnitt des Werkzeugs ist der Vorfaktor 1, weil die Startposition des Werkzeugs auf der xz-Ebene im Koordinatensystem in Abbildung \ref{fig:hobspindle_coord} ist.
+Die Lösung des Werkzeugwinkels muss im zweiten oder dritten Quadranten des Koordinatensystems liegen.
+Der Lösungsbereich des Arkussinus ist $\left[-\frac{\pi}{2}, \frac{\pi}{2}\right]$.
+Es muss also $1 \cdot \pi$ addiert werden um eine Lösung im dritten Quadranten, mit Wertebereich $\left[\frac{\pi}{2}, \frac{3\cdot \pi}{2}\right]$, zu erhalten.
+
+Es ist also noch nicht bekannt, auf welcher Ebene das Werkzeug das Werkzeug initial berührt.
+Auf dieser Ebene soll der Punkt des Werkzeugs, für den gelöst wird, liegen und der Wert der z-Koordinate dieser Ebene wird in Gleichung \ref{eq:loesung} als $z_{soll}$ bezeichnet.
+Am Anfang der Simulation ist die geometrische Beziehung von Werkzeug und Werkstück unbekannt.
+Die initiale Schnittebene kann aber geschickt durch ein iteratives Verfahren gefunden werden.
+Gleichung \ref{eq:loesung} wird für einen Wert für $z_{soll}$ gelöst.
+Anschließend wird für die Lösung $B$ geprüft, ob sich das Werkzeug in dieser Konfiguration engaged ist.
+Ist dies nicht der Fall
+
+Dabei erhält man eine Lösung für $B$
 Das Erkennen einer Engagementkonfiguration geschieht durch Vergleichen der Eckkoordinaten der Schneide
+
 Nach Finden einer Werkzeugkonfiguration bei der mindes
 
 \section{Durchführen der Schnitte}
