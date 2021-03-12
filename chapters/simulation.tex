@@ -63,7 +63,7 @@ Es wird davon ausgegangen, dass die erste ebene des Werkstücks geschnitten wird
 Vor jedem Schnitt wird dann die oberste Ebene ermittelt, die eine valide Schnittkonfiguration hervorbringt.
 Wie diese Erkennung funktioniert wird in Abschnitt \ref{c:seeken} erläutert.
 
-\section[Startkonfiguration]{Finden der Startkonfiguration}
+\section[Startkonfiguration]{Findung der Startkonfiguration}
 \label{c:startkonfig}
 Der erste Schritt zur Findung der Startkonfiguration bei jeder Werkzeugumdrehung ist die Suche nach einer Werkzeugkonfiguration bei welcher Kontakt zwischen Werkzeug und Werkstück auftritt.
 Dieser Vorgang wird als Seeken, eine deutsche Form des englischen Wortes für ,,Suchen'', bezeichnet.
@@ -124,17 +124,33 @@ Am Anfang der Simulation ist die geometrische Beziehung von Werkzeug und Werkst�
 Die initiale Schnittebene kann aber geschickt durch ein iteratives Verfahren gefunden werden.
 Gleichung \ref{eq:loesung} wird für einen Wert für $z_{soll}$ gelöst.
 Anschließend wird für die Lösung $B$ geprüft, ob sich das Werkzeug in dieser Konfiguration engaged ist.
-Ist dies nicht der Fall
+Ist dies nicht der Fall, wird für die Lösung die nächst tiefergelegene Ebene verwendet.
+Das Werkzeug bewegt sich entlang seiner Rotation mit abfallender Höhe in z näher zur Achse des Werkstücks und kann so in Berührung kommen.
+Für diese Ebene wird gelöst und wieder auf Engagement geprüft.
 
-Dabei erhält man eine Lösung für $B$
-Das Erkennen einer Engagementkonfiguration geschieht durch Vergleichen der Eckkoordinaten der Schneide
+Zwar muss so bei den iterativen Schritten ebenfalls wiederholt Engagement geprüft.
+Allerdings kann die endgültige Lösung gespeichert werden und für die nächste Werkzeugumdrehung als Startebene verwendet werden.
+Es kann bei gleichbleibendem Werkstückradius und geringem Vorschub in z-Richtung davon ausgegangen werden, dass die Kontaktebene bei der nächsten Umdrehung nahe der aktuellen liegt und somit nur wenige Iterationen notwendig sind.
 
-Nach Finden einer Werkzeugkonfiguration bei der mindes
+Nach Finden einer Werkzeugkonfiguration die zu einem validen Schnitt führt, kann mit der Simulation des Schneidevorgangs begonnen werden.
 
-\section{Durchführen der Schnitte}
+\section{Berechnung des Werkzeugwinkels}
+Zu jedem Schnittvorgang ist die Berechnung des Werkzeugwinkels notwendig.
+
+Die Eckpunkte der Schneide bewegen während der Rotation sich in einer Kreisbahn um die Werkzeugachse.
+Sie liegen dabei nicht zwangsläufig auf einer Ebene, die durch die Werkzeugachse geht oder gar parallel dazu ist.
+Damit ist diese Ebene nicht parallel zu den Schnittebenen des Werkstücks.
+Das bedingt zwei grundsätzliche Probleme, die es zu lösen gilt.
+Auf der einen Seite, muss die Schneide des Werkzeugs auf die Werkstückebene projiziert werden, um die Verscheidungsberechnung durchführen zu können.
+Die Projektion wird in Abschnitt \ref{c:schnitte} betrachtet.
+Auf der anderen Seite, gibt es für jeden Punkt der Schneide einen einzigartigen Winkel, den das Werkzeug annehmen muss, damit dieser Punkt auf einer Schnittebene des Werkstücks liegt.
+
+
+
+\section{Durchführung der Schnitte}
 \label{c:schnitte}
-ist eine Position des Werkzeuges, bei der es durch Projektion der Schneide des Werkzeuges auf eine Werkstückebene zu einer Überlagerung kommt.
-Werkzeug und Werkstück werden in der Simulation als Polygone repräsentiert, die in Matlab als Objekt der Klasse polyshape dargestellt werden.
+Zu Beginn der Beschreibung der Schnittsimulation soll erklärt werden, wie in der Simulation einen Schnitt berechnet wird.
+Werkzeug und Werkstück werden als Polygone repräsentiert, die in Matlab als Objekt der Klasse polyshape dargestellt werden.
 Polyshape Objekte haben Methoden, die es erlauben Verschneidungsoperationen durchzuführen.
 Dabei wird von einem polyshape Objekte die Geomtrie abgezogen, die von dem anderen Polygon überlagert wird.
 \begin{figure}
@@ -142,8 +158,27 @@ Dabei wird von einem polyshape Objekte die Geomtrie abgezogen, die von dem ander
 	\caption{Hier ist die caption}
 	\label{fig:uberlagerung}
 \end{figure}
-Bei einer Überlagerung
 
+In Abbildung \ref{fig:uberlagerung} ist eine solche Überlagerungssituation dargestellt.
+Das Werkzeug wird als grünes Polygon gezeigt, eine Schnittebene des Werkstücks als oranges Polygon.
+Der Abstand der Polygoneckpunkte der Werkzeugschnitte ist dabei sehr niedrig gewählt um den Sehnenfehler zu minimieren.
+Das erhöht in Folge die Rundheit des Polygons.
+
+Die Sehne einer Raumkurve ist die gerade Verbindung von zwei Punkten entlang der Kurve.
+Sie kann verwendet wreden, um den Verlauf der Raumkurve unbekannter mathematischer Entstehung geschickt anzunähern.
+Ist die Raumkruve gekrümmt, existiert über den Verlauf der Sehne ein Abstand zwischen Kurve und Gerade.
+Das Maximum dieses Abstands ist definiert als der Sehnenfehler und dieser kann verringert werden, wenn der Abstand der Punkte auf der Raumkurve verringert wird.
+
+Zusätzlich wurde bei der Diskretisierung des Werkstückzylinders in Schnittebenen die Position der Eckpunkte abwechselnd um den halben Abstand der Sehnenpunkte verschoben.
+Damit kann der mittlere Abstand der diskreten Punkte auf der Oberfläche des Zylinders verringert werden.
+So entstehen bei der Vernutzung des Simulationsergebnisses auf der unbearbeiteten Oberfläche des Werkstückes nicht-rechteckige Dreiecke.
+Diese Dreiecksform ist für die gängige Vernetzungsalgorithmen besser geeignet als rechteckig.
+
+Es wurden keine Versuche angestellt die Rundheit der Schnittgeometrien zu berechnen und die Simulationsgenauigkeit in Abhängigkeit davon zu bewerten.
+Auch gilt es noch zu untersuchen, welchen Einfluss die Anzahl Eckpunkte bei der Diskretisierung auf die Simulationsgeschwindigkeit hat, da dieser als gering vermutet wurde.
+
+Die in Abbildung \ref{fig:uberlagerung} gelb dargestellte Fläche ist der Überlagerungsbereich von Werkzeug- und Werkstückoperation.
+Dieser überlagerte Bereich wird bei der Simulation der Schnittoperation von dem Werkstückpolygon abgezogen.
 
 \section{Plotten}
 Die Architektur des Codes erlaubt das parallel zum Lösen des mathematischen Problems die Ausgabe erfolgt mit minimalem Einfluss auf die Ausführungsgeschwindigkeit der Berechnung.
