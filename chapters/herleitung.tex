@@ -499,10 +499,15 @@ Aufgrund der Punktsymmetrie des Arkussinus aus Gleichung \ref{eq:arcsinpunktsymm
 	B = -\phi_\wz -\arcsin{\left(\frac{Z - c  - z_{soll} + B \cdot{} \feed{Z}{Wz} + \sin(A) \cdot{} (Y + \yshift + B \cdot{} \feed{Y}{Wz} - h_\wz)}
 		{r_\wz \cdot{} \cos(A)}\right)}
 \end{equation*}
-Lösung:
+Nach \cite{Merziger2018} ist der Werte- und Lösungsbereich Arkussinus definiert:
+\begin{equation*}
+	\arcsin \colon [-1,1]\to \left[-{\frac {\pi }{2}},{\frac {\pi }{2}}\right]
+\end{equation*}
+Da aber für jede Umdrehung des Werkzeugs eine Lösung gefunden werden soll, muss der Lösung der bereits zurückgelegte Winkel aufgepägt werden.
+Das geschieht durch Addierung von Vielfachen $k$ von $\pi$.
 \begin{equation}
 	\label{eq:loesung}
-	B = k \cdot \pi - \phi_\wz + \arcsin{\left(\dfrac{Z - c - z_{soll} + B_0 \cdot{} \feed{Z}{Wz} + \sin(A) \cdot{} (Y + \yshift + B_0 \cdot{} \feed{Y}{Wz} - h_\wz)}
+	B = k \cdot \pi - \phi_\wz + \arcsin{\left(\dfrac{Z - c - z_{soll} + B \cdot{} \feed{Z}{Wz} + \sin(A) \cdot{} (Y + \yshift + B \cdot{} \feed{Y}{Wz} - h_\wz)}
 		{r_\wz \cdot{} \cos(A)}\right)}
 \end{equation}
 
