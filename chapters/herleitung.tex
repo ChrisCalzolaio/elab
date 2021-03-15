@@ -12,9 +12,9 @@
 \end{figure}
 
 In Abbildung \ref{fig:frames} ist die Anordnung eines körperfesten Koordinatensystems $\{b\}$ (body-frame) in einem raumfesten Koordinatensystem $\{s\}$ (space-frame) dargestellt.
-Körperfest heißt ein Koordinatensystem wenn es sich relativ zum zugeordneten Körper nicht bewegt, bzw. der Körper sich nicht relativ zu diesem Bezugssystem ändert.
+Ein Koordinatensystem wird als körperfest bezeichnet, wenn es sich relativ zum zugeordneten Körper nicht bewegt, bzw. der Körper sich nicht relativ zu diesem Bezugssystem ändert.
 Das raumfeste Koordinatensystem wird als Ursprung des Raums angenommen; es bewegt sich nicht relativ zum Raum.
-Die Anordnung von $\{b\}$ in $\{s\}$ kann beschrieben werden durch die Position $\mathbf{p}$ und der Ausrichtung von $\{b\}$ in $\{s\}$-Koordinaten.
+Die Anordnung von $\{b\}$ in $\{s\}$ kann durch die Position $\mathbf{p}$ und der Ausrichtung von $\{b\}$ in $\{s\}$-Koordinaten beschrieben werden.
 Diese Orientierung wird durch eine Rotationsmatrix $\mathbf{R}$ beschrieben.
 Die homogene Transformationsmatrix $\mathbf{T}$ ist die kombinierte Repräsentation von Orientierung und Position als Matrix \cite[Ch. 3.3.1]{KevinMLynch2017}:
 
@@ -24,7 +24,7 @@ Die homogene Transformationsmatrix $\mathbf{T}$ ist die kombinierte Repräsentat
 \end{equation}
 
 Häufig treten Transformationen als reine Translation oder Rotation auf.
-Es bietet sich an, für diese Fälle eine verkürzte Schreibweise einzuführen.
+Es bietet sich an für diese Fälle eine verkürzte Schreibweise einzuführen.
 Eine reine Transformation wird beschrieben durch:
 
 \begin{equation}
@@ -47,6 +47,7 @@ Die Rotationskomponente der homogenen Transformationsmatrix in Gleichung \ref{eq
 				-\s{\beta} & \c{\beta} \cdot \s{\gamma} & \c{\beta} \cdot \c{\gamma} \\
 				\end{bmatrix} \\
 		& \begin{aligned}
+			\\
 			\text{mit \quad}
 				\s{x} & = \sin{(x)}\\
 				\c{x} & = \cos{(x)}
@@ -56,7 +57,7 @@ Die Rotationskomponente der homogenen Transformationsmatrix in Gleichung \ref{eq
 
 \section{Inverse von Transformationen}
 
-Die Inverse einer Transformationsmatrix ist ebenfalls eine Transformationsmatrix der Form \cite[Prop. 3.15]{KevinMLynch2017}:
+Die Inverse einer Transformationsmatrix ist ebenfalls eine Transformationsmatrix der folgenden Form \cite[Prop. 3.15]{KevinMLynch2017}:
 \begin{align*}
 	T^{-1} & = \begin{bmatrix}R & \vec{p}\\0 & 1 \end{bmatrix}^{-1}\\
 	& = \begin{bmatrix}R^\intercal & -R^\intercal \cdot \vec{p}\\0 & 1\end{bmatrix}
@@ -76,7 +77,7 @@ Daher ergibt sich für die Translationskomponente:
 	\end{split}
 \end{equation}
 
-Daher ergibt sich für die Inverse der translatorischen Transformationsmatrix.
+Somit ergibt sich für die Inverse der translatorischen Transformationsmatrix.
 
 \begin{equation*}
 	\tm{T^b_s}{t_x}{t_y}{t_z} ^{-1} = \tm{T^s_b}{-t_x}{-t_y}{-t_z}
@@ -93,7 +94,7 @@ Da bei der reinen Rotationsmatrix der Translationsvektor $p$ der Nullvektor ist,
 		& = \colvec{0}{0}{0}
 	\end{split}
 \end{equation}
-Bei Rotation um eine Achse ergibt sich die Rotationskomponente gemäß \ref{eq:rotationsmatrix} beispielhaft für Rotation um die z-Achse zu:
+Bei der Rotation um eine Achse ergibt sich die Rotationskomponente gemäß \ref{eq:rotationsmatrix} beispielhaft für Rotation um die z-Achse zu:
 \begin{equation*}
 	\begin{split}
 		\rottm{0}{0}{\alpha} = & R_{z}(\alpha ) \cdot R_{y}(0) \cdot R_{x}(0) \\
@@ -126,26 +127,25 @@ Damit folgt für die Inverse der Transformationsmatrix der reinen Rotation:
 
 \subsection{Notation der Indizes}
 
-Um bei einer Transformation zu verdeutlichen aus welchem Koordinatensystem in welches andere Koordinatensystem transformiert wird, werden der Transformationsmatrix Indizes angehängt.
+Um bei einer Transformation zu verdeutlichen aus welchem Koordinatensystem in welches andere Koordinatensystem transformiert wird, werden der Transformationsmatrix Indizes zugeordnet.
 
-Das Subscript steht dabei für das Ausgangskoordinatensystem, das Superscript steht für das Zielkoordinatensystem.
+Das Subscript steht dabei für das Ausgangskoordinatensystem, das Superscript für das Zielkoordinatensystem.
 Die zu Abb. \ref{fig:frames} gehörende Transformationsmatrix lautet daher:
 
 \begin{equation*}
 	T_s^b = \begin{bmatrix}R_s^b & \vec{p}\\0 & 1\end{bmatrix}
 \end{equation*}
-Bei einer Invertierung der Transformationsmatrix werden die Indizes getauscht, um zu beschreiben, dass die Transformationsrichtung jetzt vom body-frame $\{b\}$ in das space-frame $\{s\}$ erfolgt.
+Bei einer Invertierung der Transformationsmatrix werden die Indizes getauscht, um zu beschreiben, dass die Transformationsrichtung nun vom body-frame $\{b\}$ in das space-frame $\{s\}$ erfolgt.
 
 \section[Maschine]{Kinematik der Maschine}
-
 Im Folgenden wird die Kinematik der Maschine in Abb. \ref{fig:maschine} erklärt und die mathematische Beschreibung ihrer Freiheitsgrade entwickelt.
 Die Kinematik wird für diese Betrachtung, ausgehend von der Schnittstelle Maschinenbett-Werkstück, in zwei Pfade, den sogenannten kinematische Ketten, eingeteilt.
 
 Das Maschinenbett wurde als Ursprung festgelegt, da sich sein Koordinatensystem auch bei realen Maschinen relativ zum Raum nicht bewegt, also raumfest ist.
-Alle übrigen Teile der Maschine sowie das Werkstück sind mit beschreibbaren Beziehung auf dieses Koordinatensystem referenziert.
-Für beide kinematischen Ketten werden dann die Koordinatentransformation als Kombination von Transformationsmatrizen aufgestellt.
+Alle übrigen Teile der Maschine sowie das Werkstück sind mit einer mathematisch beschreibbaren Beziehung auf dieses Koordinatensystem referenziert.
+Für beide kinematischen Ketten werden die Koordinatentransformation als Kombination von Transformationsmatrizen aufgestellt.
 Um die Aufstellung nachvollziehbarer zu gestalten, beschreiben diese Transformationsmatrizen je einen primitiven Freiheitsgrad.
-Beide Pfade werden dann vereint, um die gesamte Transformation als eine Matrix darstellen zu können.
+Beide Pfade werden vereint, um die gesamte Transformation als eine Matrix darstellen zu können.
 
 Die erste kinematische Kette betrachtet, ausgehend von dem Ursprung, die Maschine mit den verfahrbaren Achsen bis zum Werkzeugkoordinatensystem.
 Die zweite, in Richtung des Werkstücks, beschreibt die Position und Ausrichtung des Werkstückkoordinatensystems im Maschinenbett.
@@ -160,18 +160,18 @@ Um anschließend die Koordinatentransformation von dem Werkzeugkoordinatensystem
 \subsection[Werkstück]{Kinematik der Werkstück-Seite}
 \label{c:maschkinematik}
 ,,Die Kinematik des Verfahrens kann durch das Abwälzen einer Schnecke an einem Schneckenrad beschrieben werden.
-Die Schnecke entspricht dem Werkzeug und das Schneckenrad dem Werkstück.'' \cite[4.2.3.2.1 Prozesskinematik]{FritzKlocke2016}
-Die Bewegung von Werkzeug und Werkstück sind also über über Vorschübe gekoppelt.
+Die Schnecke entspricht dem Werkzeug und das Schneckenrad dem Werkstück.'' \cite[4.2.3.2.1 Prozesskinematik]{FritzKlocke2016}.
+Die Bewegung von Werkzeug und Werkstück ist somit über Vorschübe gekoppelt.
 
 Für die kinematische Kette auf der Werkstückseite gehen in die Gleichungen \ref{eq:werkstuckv1} und \ref{eq:werkstuckv2} ein Offset des Werkstückkoordinatensystems zum Maschinenkoordinatensystem $\mathbf{p}_{\mathrm{offset}} = \tranvec{a}{b}{c}$ und der Verdrehwinkel $C$ ein.
 Der Offset erlaubt es ein versetztes Aufspannen des Werkstücks darzustellen und ist im idealen Fall ein Nullvektor.
-Dem Verdrehwinkel wird ein weiterer Offest $\gamma$ aufgeprägt.
+Dem Verdrehwinkel wird ein weiterer Offset $\gamma$ aufgeprägt.
 Dieser erlaubt die Ausrichtung von Zahn und Zahnlücke des virtuellen Schneckengetriebes.
 Bei vorverzahnten Bauteilen muss aufgrund des limitierten Bearbeitungsaufmaßes die Hülle der Soll-Geometrie in das zur Verfügung stehenden Material der Ist-Geometrie eingepasst werden.
 Gleichzeitig gilt es bei Bearbeitung von wärmebehandelten Rohlingen die Einsatzhärtetiefe auf beide Zahnflanken der Zähne des fertigen Bauteils gleichmäßig zu erhalten.
-Nach \cite{FritzKlocke2016} wird ,,als Vorverzahnen [$\dots$] die Erzeugung der Zahnlückengeometrie im Rohling bezeichnet.''
+Nach \cite{FritzKlocke2016} wird ,,[\dots] als Vorverzahnen [\dots] die Erzeugung der Zahnlückengeometrie im Rohling bezeichnet.''.
 Es ist also notwendig die Zahnlücke des vorverzahnten Werkstücks mittig zu den Zähnen des Werkzeugprofils auszurichten.
-Dieses Aufspannen ist in der Praxis fehlerbehaftet und in $\gamma$ kann dieser rotatorischer Aufpannungsfehler auch bedacht werden.
+Dieses Aufspannen ist in der Praxis fehlerbehaftet und in $\gamma$ kann dieser rotatorische Aufpannfehler bedacht werden.
 
 $C$ ist außerdem eine Funktion des Werkzeugwinkels und des Achsvorschubes.
 Nach \cite[Gl. (23.14)]{Matek2017} ist das Übersetzungsverhältnis eines Schneckengetriebes
@@ -189,6 +189,9 @@ Der Achsvorschub der $C$-Achse ist das Übersetzungsverhältnis des gedachten Sc
 \begin{equation*}
 	\feed{C}{WSt} = \frac{n_{Schneidreihen}}{n_{Z"ahne}}
 \end{equation*}
+Im Folgenden werden verfahrbaren Achsen der Maschine mit einem Großbuchstaben bezeichnet, die Achsen eines Koordinatensystems mit einem Kleinbuchstaben.
+Der Hintergrund ist, dass hier beschriebene Maschine eine X-, Y- und Z-Achse haben, die zwar üblicherweise in Richtung der x-, y- und z-Achse des Maschinenbettkoordinatensystems zeigen, aber nicht zwingenderweise deckungsgleich sind.
+Dabei liegt das Beispiel der Y-Achse der Maschine auf der Hand, die nur dann tatsächlich die selbe Richtung hat wie die y-Achse des Maschinenbettkoordinatensystems, wenn die  A-Achse nicht eingeschwenkt ist.
 Die vollständige Formulierung des Werkstückwinkels $C$ lautet:
 
 \begin{equation}
@@ -204,12 +207,12 @@ Die vollständige Formulierung des Werkstückwinkels $C$ lautet:
 Zur Beschreibung der Kinematik können zwei verschiedene Varianten gewählt werden.
 Sie unterscheiden sich durch die Reihenfolge der Freiheitsgrade Werkstückversatz und Maschinen-C-Achse in der kinematischen Kette.
 
-\subsubsection[versetzter Bearbeitungstisch]{Variante 1: versetzter Bearbeitungstisch}
+\subsubsection[Versetzter Bearbeitungstisch]{Variante 1: Versetzter Bearbeitungstisch}
 
 Bei Variante 1 liegt das Bauteil konzentrisch auf dem Bearbeitungstisch und das Paar dreht sich um die C-Achse.
 Der Ursprung des Bearbeitungstisches mit C-Achse fällt nicht mit dem Maschinenbettkoordinatensystem zusammen, sondern ist um $\mathbf{p}_{\mathrm{offset}}$ versetzt.
 Diese Variante ist in der Praxis verbreitet, um Maschinen zu kalibrieren und mögliche Betriebsschäden auszugleichen.
-Die Transformation beschreibt die Position eines Werkstückpunktes im Koordinatensystems des Maschinenbettes.
+Die Transformation beschreibt die Position eines Werkstückpunktes im Koordinatensystem des Maschinenbetts.
 
 \begin{equation}
 	\label{eq:werkstuckv1}
@@ -218,10 +221,10 @@ Die Transformation beschreibt die Position eines Werkstückpunktes im Koordinate
 			\cdot{} \vec{p}_\wst
 \end{equation}
 
-\subsubsection[versetztes Werkstück]{Variante 2: versetztes Werkstück}
+\subsubsection[Versetztes Werkstück]{Variante 2: Versetztes Werkstück}
 Bei Variante 2 sind Bauteil und Bearbeitungstisch nicht konzentrisch.
 Stattdessen sind Ursprung von Werkstück und Bearbeitungstisch um $\mathbf{p}_{\mathrm{offset}}$ versetzt.
-Dieser dreht sich um die C-Achse, welche koaxial zur z-Achse des Maschinenbettes ist.
+Dieser dreht sich um die C-Achse, welche koaxial zur z-Achse des Maschinenbetts ist.
 Diese Variante hat nur theoretische Bedeutung.
 
 \begin{equation}
@@ -253,7 +256,7 @@ Diese kinematische Kette beinhaltet die verfahrbaren Achsen der Maschine mit ihr
 \end{figure}
 Es bietet sich an, das Koordinatensystem des Werkzeugs gemäß Abbildung \ref{fig:hobspindle_coord} zu definieren.
 Wenn Drehachse und z-Achse des Werkzeugkoordinatensystems koaxial sind, kann die Beschreibung des Werkzeugs leicht in Zylinderkoordinaten erfolgen.
-Dabei ist dann die Umrechnung von und nach kartesischen Koordinaten wenig Aufwand, vgl. Gleichung \ref{eq:wkzgkoord}.
+Dabei ist die Umrechnung von und nach kartesischen Koordinaten wenig Aufwand, vgl. Gleichung \ref{eq:wkzgkoord}.
 \begin{equation}
 	\label{eq:wkzgkoord}
 	\vec{p}_{\mathrm{Wz,kart}}	= \begin{pmatrix}x \\ y \\ z \end{pmatrix}
@@ -262,7 +265,7 @@ Dabei ist dann die Umrechnung von und nach kartesischen Koordinaten wenig Aufwan
 Die Festlegung der positiven Richtung der z-Achse kann geschickt gewählt werden, sodass die Drehrichtung des Werkzeugs in seinem Koordinatensystem positiv definiert ist.
 Der Spanabfall soll in Drehrichtung des Werkzeugs erfolgen, das heißt die Bewegung des Werkzeugs beim Schneiden des Werkstücks erfolgt also von ,,oben'' nach ,,unten''.
 Daraus ergibt sich, dass die Ausrichtung der z-Achse in negativer Richtung der Maschinen y-Achse erfolgen muss.
-Diese Ausrichtung des Werkstückkoordinatensystems erfordert das Einführen einer Transformationsmatrix zwischen der Werkzeugdrehungs-Matrix und der Tangentialvorschub-Matrix.
+Diese Ausrichtung des Werkstückkoordinatensystems erfordert das Einführen einer Transformationsmatrix zwischen der Werkzeugdrehmatrix und der Tangentialvorschub-Matrix.
 Augenscheinlich handelt es sich dabei um eine viertel Umdrehung um die x-Achse des Maschinenkoordinatensystems.
 \begin{equation*}
 	\rottm{\pi/2}{0}{0}
@@ -281,10 +284,10 @@ Zur Vereinfachung der entstehenden Terme bietet sich das Zusammenfassen der Tran
 \subsection{Position der Maschinenachsen}
 \label{c:maschkomppos}
 Bei Gleichung \ref{eq:wrkstwinkel} wurde die Abhängig der C-Achsenposition von dem Winkel des Werkzeugs beschrieben.
-Damit ist auch das Verhältnis der Drehzahlen beider Achsen festgelegt.
+Damit ist das Verhältnis der Drehzahlen beider Achsen festgelegt.
 Am Umfang des Werkstückes entsteht dabei eine Vorschubgeschwindigkeit.
 
-Vergleichbar dazu sind auch die lineare Maschinenachsen über Faktoren an die Drehung des Werkzeugs gekoppelt.
+Vergleichbar dazu sind die lineare Maschinenachsen über Faktoren an die Drehung des Werkzeugs gekoppelt.
 Am Beispiel des Axialvorschubes wird deutlich, warum es sinnvoll ist, die Drehzahl des Werkzeugs als Grundlage der Vorschubgeschwindigkeit zu wählen.
 Axialvorschub ist die Komponente des Vorschubes in Richtung der Werkstückachse.
 Die Bewegung des Werkzeugs im Axialvorschub ist vergleichbar zu der eines Schaftfräsers.
@@ -297,14 +300,13 @@ Die Vorschubgeschwindigkeit beim Fräsen ist nach \cite[Kap. 2.1]{Gomeringer2014
 	\item[$n$]	Drehzahl des Werkzeugs
 	\item[$f$] Vorschub
 \end{eqdscr}
-
-Die Tangentialvorschubachse ist parallel zur y-Achse des Maschinenkoordinatensystems ausgerichtet, sofern die A-Achse nicht eingeschwenkt ist, also den Winkel $0$ hat.
+Die Tangentialvorschubachse ist parallel zur y-Achse des Maschinenkoordinatensystems ausgerichtet, sofern die A-Achse nicht eingeschwenkt ist, also den Winkel null hat.
 Die Definition ihrer Komponenten unterscheiden sich leicht von den anderen beiden linearen Maschinenachsen.
 
 Der Position der Tangentialvorschubachse wird ein Offset aufgeprägt, mit dem der Bereich des Werkzeuges, der im Eingriff ist, verschoben werden kann.
 Das Werkzeug unterliegt beim Schneiden Verschleiß, der gleichmäßig auf den Schneiden verteilt werden muss um eine möglichst hohe Standzeit zu erreichen.
-Es tritt ein ,,bevorzugter Verschleiß einzelner Schneidenbereiche gemäß der lokalen Schneidkantenbelastung'' \cite{FritzKlocke2016} auf.
-Um diesen möglichst gleichmäßig auf den Schneiden zu verteilen kann das Werkzeug entlang seiner Rotationsachse, tangential zum Werkstück, verschoben werden.
+Es tritt ein ,,[\dots] bevorzugter Verschleiß einzelner Schneidenbereiche gemäß der lokalen Schneidkantenbelastung [\dots]'' \cite{FritzKlocke2016} auf.
+Um diesen möglichst gleichmäßig auf den Schneiden zu verteilen, kann das Werkzeug entlang seiner Rotationsachse, tangential zum Werkstück, verschoben werden.
 Dafür muss es länger sein, als die Länge des Verschneidungsbereiches von Werkstück und Werkzeugprofil erfordern würde.
 Mit dieser Verschiebung geht ein gleichzeitiges Drehen des Werkzeugs, vergleichbar einer Schraube in der Hülle des Werkzeugprofils, einher.
 So wird die Positionierung von Zahn und Zahnlücke gewahrt.
@@ -319,7 +321,7 @@ So wird die Positionierung von Zahn und Zahnlücke gewahrt.
 	\item[$\feed{Y}{Wz}$] Achsvorschub der Y-Achse
 	\item[$\yshift$] Position des Shiftvorschubes
 \end{eqdscr}
-Die übrigen linearen Achsen, kommen ohne den Shift-Offset aus.
+Die übrigen linearen Achsen kommen ohne den Shift-Offset aus.
 Sie haben lediglich eine Ausgangsposition aufgeprägt, von der aus sie sich mit dem Vorschub bewegen.
 \begin{align}
 	X & = x + B \cdot \feed{X}{Wz}		\label{eq:xaxisfun}\\
@@ -334,7 +336,7 @@ Sie haben lediglich eine Ausgangsposition aufgeprägt, von der aus sie sich mit 
 Im Folgenden wird die Nomenklatur der Vorschub-Variablen anhand Gleichung \ref{eq:zaxisfun} erläutert.
 \begin{eqdscr}{$\wz$}
 	\item[$f$]	Vorschub (engl.: feed rate)
-	\item[$\mathrm{Z}$] Bezugsachse, hier bezogen auf Maschinen Z-Achse
+	\item[$\mathrm{Z}$] Bezugsachse, hier bezogen auf die Maschinen Z-Achse
 	\item[$\wz$] Bezugsgröße, hier bezogen auf die Werkzeugrotation
 	\item[$\mathrm{rad}$] Einheit, hier Bogenmaß
 \end{eqdscr}
@@ -354,9 +356,9 @@ Damit ergibt sich für die Transformationsmatrix von Maschinenbett- nach Werkzeu
 				\cdot{} \rottm{0}{0}{B}
 \end{equation*}
 
-\subsection[Gesamt]{Transformation von Werkzeug- in Werkstückkoordinaten}
+\subsection{Transformation von Werkzeug- in Werkstückkoordinaten}
 
-Um die Transformation aus dem Werkzeug- in das Werkstückkoordinatensystem zu erhalten setzen wir die beiden Transformationsschritte gleich:
+Um die Transformation aus dem Werkzeug- in das Werkstückkoordinatensystem zu erhalten setzt man die beiden Transformationsschritte gleich:
 
 \begin{equation*}
 			\transtm{a}{b}{c}
@@ -442,7 +444,7 @@ Es folgt für die Beschreibung eines Punktes mit Werkzeugkoordinaten in Maschine
 \section[Lösung]{Lösung der relevanten Gleichung}
 
 Bei dem gewählten Lösungsverfahren des Problems soll der Werkzeugwinkel in Abhängigkeit von einer vorgegebenen Höhe eines Werkzeugpunktes in z-Richtung bestimmt werden.
-Es gilt die Formel zu lösen die sich bei Anwendung der allgemeinen Transformationsmatrix auf einen Werkzeugpunkt in der z-Komponente des Ergebnisses ergibt.
+Es gilt die Formel zu lösen, die sich bei Anwendung der allgemeinen Transformationsmatrix auf einen Werkzeugpunkt in der z-Komponente des Ergebnisses ergibt.
 
 \subsection[Polarkoordinaten]{Werkzeug in Polarkoordinaten definiert}
 
@@ -451,7 +453,7 @@ Es gilt die Formel zu lösen die sich bei Anwendung der allgemeinen Transformati
 			\begin{pmatrix} p_{\wst,x} \\ p_{\wst,y} \\ p_{\wst,z} \\ 1 \end{pmatrix}
 	= G \cdot \begin{pmatrix} r_\wz \cdot{} \cos{\phi} \\ r_\wz \cdot{} \sin{\phi} \\ h_\wz \\ 1 \end{pmatrix}
 \end{equation}
-Die Lösung der Gleichung soll für einen vorgebenen Wert in z-Richung erfolgen.
+Die Lösung der Gleichung soll für einen vorgegebenen Wert in z-Richtung erfolgen.
 \begin{equation*}
 	\begin{split}
 		p_{\wst,z} = z_{soll} = Z - c + B \cdot{} \feed{Z}{Wz} + & \sin(A) \cdot{} (Y + \yshift + B \cdot{} \feed{Y}\wz) \\
@@ -505,14 +507,14 @@ Nach \cite{Merziger2018} ist der Werte- und Lösungsbereich Arkussinus definiert
 	\arcsin \colon [-1,1]\to \left[-{\frac {\pi }{2}},{\frac {\pi }{2}}\right]
 \end{equation*}
 Da aber für jede Umdrehung des Werkzeugs eine Lösung gefunden werden soll, muss der Lösung der bereits zurückgelegte Winkel aufgepägt werden.
-Das geschieht durch Addierung von Vielfachen $k$ von $\pi$.
+Das geschieht durch Addition von Vielfachen $k$ von $\pi$.
 \begin{equation}
 	\label{eq:loesung}
 	B = k \cdot \pi - \phi_\wz + \arcsin{\left(\dfrac{Z - c - z_{soll} + B \cdot{} \feed{Z}{Wz} + \sin(A) \cdot{} (Y + \yshift + B \cdot{} \feed{Y}{Wz} - h_\wz)}
 		{r_\wz \cdot{} \cos(A)}\right)}
 \end{equation}
 
-\subsection[kartesische Koordinaten]{Werkstück in kartesischen Koordinaten definiert}
+\subsection[Kartesische Koordinaten]{Werkstück in kartesischen Koordinaten definiert}
 
 \begin{equation}
 	\begin{pmatrix}p_{\wst,x}\\p_{\wst,y}\\p_{\wst,z}\\1\end{pmatrix} = \mathbf{G} \cdot{} \begin{pmatrix}p_{\wz,x}\\p_{\wz,y}\\p_{\wz,z}\\1\end{pmatrix}

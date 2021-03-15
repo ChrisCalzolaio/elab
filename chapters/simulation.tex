@@ -11,17 +11,16 @@
 Abbildung \ref{fig:flowchart} zeigt das Flussbild der Simulation.
 Der Ablauf der Simulation ist unterteilt in die Abschnitte Findung der Startkonfiguration, Durchführung der Schnitte mit den Lösungsiterationen, Erkennung des Schnittendes sowie Nachbereitung des Schnittes und schließlich Abschluss der Simulation.
 Neben der Ausführung des Simulationscodes sollte der Status der Berechnung in Form von grafischen Ausgaben dargestellt werden.
-Das Plotten von Daten in Echtzeit ist schwierig zu realisieren in \matlab, vor Allem bei dreidimensionalen Datensätzen.
-Die standardmäßig zur Verfügung gestellten Routinen sind nicht gut optimiert für schnelle Ausführungszeit und es ist notorisch schwierig \matlab Code multithread-fähig zu gestalten.
-Die Lösungsansätze um trotz dieser Herausforderungen die für die grafische Ausgabe beanspruchte Rechenzeit effizient zu nutzen und die Simulation möglichst geringfügig zu belasten wird ebenfalls besprochen.
-
+Das Plotten von Daten in Echtzeit ist in \matlab schwierig zu realisieren, vor allem bei dreidimensionalen Datensätzen.
+Die standardmäßig zur Verfügung gestellten Routinen sind nicht gut optimiert für eine schnelle Ausführungszeit und es ist notorisch schwierig \matlab Code multithread-fähig zu gestalten.
+Die Lösungsansätze, um trotz dieser Herausforderungen die für die grafische Ausgabe beanspruchte Rechenzeit effizient zu nutzen und die Simulation möglichst geringfügig zu belasten, wird ebenfalls besprochen.
 
 Die einzelnen Prozessschritte der Simulation werden im Folgenden erläutert.
 
 \section{Vorbereitung der Simulation}
-Vor Beginn der Simulation wird die Simulationssteuerungsparameter eingelesen.
+Vor Beginn der Simulation werden die Simulationssteuerungsparameter eingelesen.
 Dabei werden zunächst die Eingabedaten des betrachteten Falles festgelegt.
-Mit folgende Parameter kann definiert werden, wie dieser Fall gestaltet ist:
+Mit den folgenden Parametern kann definiert werden, wie dieser Fall gestaltet ist:
 \begin{itemize}
 	\item Zähnezahl des Zahnrades
 	\item Modul des Zahnrades
@@ -45,33 +44,33 @@ Der Teilkreisdurchmesser des Schneckenrades wird berechnet nach \cite{Matek2017}
 	\item[$m$] Modul
 	\item[$z$] Zähnezahl des Werkstückes
 \end{eqdscr}
-Der Vorschubfaktor der X-Achse $\feed{X}{\wz}$ ist im betrachteten Fall 0, sie verändert also ihre Position ausgehend von der Startposition im Verlauf der Simulation nicht.
+Der Vorschubfaktor der X-Achse $\feed{X}{\wz}$ ist im betrachteten Fall null, sie verändert also ihre Position ausgehend von der Startposition im Verlauf der Simulation nicht.
 
 Für den Startwert der Y-Achse müssen die Größen $y$, Achsverschiebung im Ausgang, und $\yshift$ festgelegt werden.
 Ebenso ist für den Achsvorschub der Y-Achse $\feed{Y}{\wz}$ ein Wert einzugeben.
-Diese Größen sind im betrachteten Fall 0.
+Diese Größen sind im betrachteten Fall null.
 Die Y-Achse verändert im betrachteten Fall ihrer Position ausgehend von ihrem Startwert nicht.
 
 Danach wird die Werkzeuggeometrie erzeugt.
-Wie in Kapitel \ref{c:werkzeugkinematik} erläutert wird die Geometrie des Werkzeuges in Polarkoordinaten beschrieben.
+Wie in Kapitel \ref{c:werkzeugkinematik} erläutert, wird die Geometrie des Werkzeuges in Polarkoordinaten beschrieben.
 Dabei wird im aktuellen Stand das Bezugsprofil durch vier Eckpunkte dargestellt, deren Koordinaten mit einem Algorithmus von \scherbarth berechnet werden.
-Da eine Zahnstange als Zahnrad mit unendliche großer Zähnezahl verstanden werden kann, hat sie gerade Flanken \cite[Kap. 3]{Widmer1981}.
+Da eine Zahnstange als Zahnrad mit unendliche großer Zähnezahl verstanden werden kann, haben ihre Zähne gerade Flanken \cite[Kap. 3]{Widmer1981}.
 Eine Annäherung der Zahnstange mit vier Punkten ist deswegen zweckmäßig, obwohl Verrundungen am Zahnkopf damit noch nicht dargestellt werden können.
 
 Das Werkzeug wird als Array aus Polyshape Objekten abgelegt.
 Dazu werden zunächst eine Menge diskrete Eckpunkte auf einem Kreis mit definierbarem Durchmesser erzeugt.
 Die Menge der Eckpunkten richtet sich an der Menge der geforderten diskreten Ebenen.
 So soll sicher gestellt werden, dass sich die auf der Werkstückoberflächen liegenden Vertices zu gleichschenkligen Dreiecken vernetzen lassen.
-Aus den Eckpunkten dann ein Polyshape Objekt erzeugt.
-Dieses wird dann entsprechend der Anzahl der geforderten Ebenen in ein Array repliziert.
-So entsteht ein Polyshape Objekt für jede geforderte Ebene.
+Aus den Eckpunkten wird dann ein Polyshape Objekt erzeugt.
+Dieses wird entsprechend der Anzahl der geforderten Ebenen in ein Array repliziert.
+So entsteht ein individuelles Polyshape Objekt für jede geforderte Ebene.
 Auch wird ein Vektor erzeugt, der gleich strukturiert ist und die z-Koordinaten der entsprechenden Ebene enthält.
-Um mitverfolgen zu können, auf welche Weise ein Vertice einer Schnittgeomtrie entstanden ist, wird bei jeder Schnittoperation, zu jedem Vertice ein entsprechender Wert zurückgegeben.
+Um mitverfolgen zu können, auf welche Weise ein Vertice einer Schnittgeomtrie entstanden ist, wird bei jeder Schnittoperation zu jedem Vertice ein entsprechender Wert zurückgegeben.
 Diese Klassifikation wird für jede Schnittgeomtrie in einem Vektor gespeichert, der ebenfalls zu einem Array repliziert werden muss.
 
-Die Simulation beginnt mit einem Ebenenindex m von 1.
-Es wird davon ausgegangen, dass die erste ebene des Werkstücks geschnitten wird.
-Vor jedem Schnitt wird dann die oberste Ebene ermittelt, die eine valide Schnittkonfiguration hervorbringt.
+Die Simulation beginnt mit einem Ebenenindex $m$ von ein.
+Es wird zunächst davon ausgegangen, dass die erste Ebene des Werkstücks geschnitten wird.
+Vor jedem Schnitt wird die oberste Ebene ermittelt, die eine valide Schnittkonfiguration hervorbringt.
 Wie diese Erkennung funktioniert wird in Abschnitt \ref{c:startkonfig} erläutert.
 
 \section[Startkonfiguration]{Findung der Startkonfiguration}
@@ -79,59 +78,62 @@ Wie diese Erkennung funktioniert wird in Abschnitt \ref{c:startkonfig} erläuter
 Der erste Schritt zur Findung der Startkonfiguration bei jeder Werkzeugumdrehung ist die Suche nach einer Werkzeugkonfiguration bei welcher Kontakt zwischen Werkzeug und Werkstück auftritt.
 Dieser Vorgang wird als Seeken, eine deutsche Form des englischen Wortes für ,,Suchen'', bezeichnet.
 Dabei wird das Werkzeug im freien Raum rotiert bis Kontakt auftritt.
-Im Anschluss wird dann eine validen Schnittkonfiguration gesucht.
+Im Anschluss wird eine valide Schnittkonfiguration gesucht.
 
 Eine valide Schnittkonfiguration tritt auf, wenn die auf eine diskrete Ebene des Werkstücks projizierte Geometrie der Schneide Überdeckung mit der Werkstückgeometrie hat.
 Bei der vorliegenden Simulation ist das Werkstück entlang seiner Ausdehnung in z-Richtung in diskrete Ebenen unterteilt, welche das Werkzeug auf der jeweiligen Höhe in $z$ schneiden.
-Die dabei entstehende Verschneidungsgeometrie des Werkstücks mit der Ebene ist eine zweidimensionale Geometrie.
+Die dabei entstandene Verschneidungsgeometrie des Werkstücks mit der Ebene ist eine zweidimensionale Geometrie.
 Diese Geometrie ist ein Polygon, welches mit der Menge diskreter Punkte beschrieben wird, welche die Ecken des Polygons bilden.
 Die Beschreibung von Werkstück und Werkzeug als Polygone wird in Abschnitt \ref{c:schnitte} im Detail beschrieben.
 
 Seeken geschieht in der Seek-Schleife, die im Flussdiagrams in Abbildung \ref{fig:flowchart} eingetragen ist.
 Dabei wird der Winkel des Werkzeugs ausgehend vom seiner Startkonfiguration mit einer bedatbaren Schrittweite inkrementiert, bis ein Punkt der Werkzeugschneide in der Hüllgeometrie des Werkstücks liegt.
-Befindet sich ein Punkt des Werkzeugs in Hüllgeometrie des Werkstücks ist das Werkzeug ,,engaged'', von englisch ,,eingerastet''; die Schneide befindet sich im Eingriff.
+Befindet sich ein Punkt des Werkzeugs in Hüllgeometrie des Werkstücks ist das Werkzeug ,,engaged'', angelehnt an das englische Wort für ,,eingerastet''; die Schneide befindet sich im Eingriff.
 
-Die Hüllgeomtrie des Werkstücks entspricht der Form des Rohmaterials, also ein Zylinder mit dem Durchmesser und der Höhe des Werkstücks.
+Die Hüllgeomtrie des Werkstücks entspricht der Form des Rohmaterials und ist somit ein Zylinder mit dem Durchmesser und der Höhe des Werkstücks.
 Die Lage des Werkstücks entlang der z-Achse des Bearbeitungstischkoordinatensystems ist definierbar.
 
 Engagement wird in der Funktion \code{checkEng} durch Vergleich der Position der Schneidenecken mit der Ausdehnung des Werkstücks erkannt.
-Dabei ist es geschickt die Position der Schneidenecken in Zylinkerkoordinaten zu beschreibenen.
+Dabei ist es geschickt die Position der Schneidenecken in Zylinkerkoordinaten zu beschreiben.
 Vergleichbar zu den deckungsgleichen kartesischen und zylindrischen Koordinatensystemen des Werkzeugs, kann auch das Werkstück in kartesischen und zylindrischen Koordinatensystemen beschrieben werden.
 Dieses Zylinderkoordinatensystem ist im Ursprung des kartesischen Werkzeugkoordinatensystems aufgespannt.
-Die Koordinaten eines Punktes werden dann durch einen Winkel, einen Radius und eine Höhe in z-Richtung beschrieben.
+Die Koordinaten eines Punktes werden durch einen Winkel, einen Radius und eine Höhe in z-Richtung beschrieben.
 
 Damit ein Punkt des Werkzeugs als engaged gilt, müssen zwei Bedingungen erfüllt sein:
 Zum einen muss der Abstand des Punktes zum Ursprung kleiner als der Radius des Werkstücks sein.
-Zum anderen muss der Wert seiner z-Koordinate im Interval der Ausdehung des Werkstücks liegen.
+Zum anderen muss der Wert seiner z-Koordinate im Intervall der Ausdehnung des Werkstücks liegen.
 Der Winkel des Punktes spielt zur Engagementerkennung keine Rolle.
 Der Abstand $d$ des Punktes zum Ursprung wird als euklidische Norm berechnet nach \cite{mwVecnorm}:
 \begin{equation*}
 	d = \|v\| = \sqrt{\sum_{k=1}^{N} \|v_k\|^2}
 \end{equation*}
-Die Funktion gibt dann als logischen Wert zurück, ob der Werkzeugpunkt engaged ist oder nicht.
+Die Funktion gibt als logischen Wert zurück, ob der Werkzeugpunkt engaged ist oder nicht.
 
-Das Ziel des Findens der Startkonfiguration es, die Rotation des Werkzeuges zu finden, bei welcher das Werkzeug das Werstück gerade berührt.
-Der Seek liefert einen Werkzeugwinkel, der in der Nähe dieser Konfiguration liegt.
-Durch Verkleinerung der Schrittweite beim Seeken, kann die Lösungskonfiguration dieses Näherungsverfahrens näher an die tatsächliche Lösung geführt werden.
-Allerdings muss die Berechnung des Engagements, also des Eingriffs der Schneide, für jeden Iterationsschritt erfolgen und sollte deswegen sehr günstig sein, also wenig Rechenzeit in Anspruch nehmen.
+Das Ziel des Findens der Startkonfiguration ist es, die Rotation des Werkzeuges zu finden, bei welcher das Werkzeug das Werkstück gerade berührt.
+Der Seek liefert einen Werkzeugwinkel, welcher in der Nähe dieser Konfiguration liegt.
+Durch Verkleinerung der Schrittweite beim Seeken kann die Lösungskonfiguration dieses Näherungsverfahrens näher an die tatsächliche Lösung geführt werden.
+Allerdings muss die Berechnung des Engagements, also des Eingriffs der Schneide, für jeden Iterationsschritt erfolgen und sollte deswegen sehr günstig sein, somit wenig Rechenzeit in Anspruch nehmen.
 Gleichzeit muss ein Kompromiss zwischen der Größe der Schrittweite beim Seeken und der dafür notwendigen Rechenzeit gefunden werden.
-Allerdings kann mit einem nachträglichen Schritt eine Lösungskonfiguration weit innerhalb des Werkstück-Envelopes geschickt ausgeglichen werden.
+Mit einem nachträglichen Schritt kann eine Lösungskonfiguration weit innerhalb des Werkstück-Envelopes geschickt ausgeglichen werden.
 
 Sobald durch Iteration eine Konfiguration gefunden wurde, die als engaged gewertet wird, kann der so gefundene Winkel des Werkzeugs $B$ als Eingangswert $B_0$ für Gleichung \ref{eq:loesung} verwendet werden.
 Neben dem Startwert $B_0$ sind für diese Funktion zur Lösung noch zwei Größen notwendig.
 
-Zum einen muss die Höhe der Ebene in z für die gelöst werden soll gegeben sein.
-Andererseit muss die Lösung der Funktion um den bereits zurück gelegten Winkel des Werkzeugs verschoben werden.
+Zum einen muss die Höhe der Ebene in z, für die gelöst werden soll, gegeben sein.
+Andererseits muss die Lösung der Funktion um den bereits zurück gelegten Winkel des Werkzeugs verschoben werden.
 
-Dies geschieht über den Vorfaktor $k$.
-Beim ersten Schnitt des Werkzeugs ist der Vorfaktor 1, weil die Startposition des Werkzeugs auf der xz-Ebene im Koordinatensystem in Abbildung \ref{fig:hobspindle_coord} ist.
+Dies geschieht über den Faktor $k$.
+Wie in Abbildung \ref{fig:hobspindle_coord} zu sehen ist, liegt die Startposition des Werkzeugs auf der xz-Ebene im Koordinatensystem, oder ist zumindest in der Nähe.
+Bis das Werkzeug bei einer Rotation das Werkstück erreicht, hat es in etwa eine halbe Umdrehung absolviert.
+Diese halbe Umdrehung wird mit dem Summanden $k \cdot \pi$, mit $k=1$, berücksichtigt.
 Die Lösung des Werkzeugwinkels muss im zweiten oder dritten Quadranten des Koordinatensystems liegen.
 Der Lösungsbereich des Arkussinus ist $\left[-\frac{\pi}{2}, \frac{\pi}{2}\right]$.
-Es muss also $1 \cdot \pi$ addiert werden um eine Lösung im dritten Quadranten, mit Wertebereich $\left[\frac{\pi}{2}, \frac{3\cdot \pi}{2}\right]$, zu erhalten.
+Es muss also $\pi$ addiert werden um eine Lösung im dritten Quadranten, mit Wertebereich $\left[\frac{\pi}{2}, \frac{3\cdot \pi}{2}\right]$, zu erhalten.
 
-Es ist also noch nicht bekannt, auf welcher Ebene das Werkzeug das Werkzeug initial berührt.
-Auf dieser Ebene soll der Punkt des Werkzeugs, für den gelöst wird, liegen und der Wert der z-Koordinate dieser Ebene wird in Gleichung \ref{eq:loesung} als $z_{soll}$ bezeichnet.
-Am Anfang der Simulation ist die geometrische Beziehung von Werkzeug und Werkstück unbekannt.
+Es ist also noch nicht bekannt, auf welcher Ebene das Werkzeug das Werkstück initial berührt.
+Auf dieser Ebene soll der Punkt des Werkzeugs für den gelöst wird liegen.
+Der Wert der z-Koordinate dieser Ebene wird in Gleichung \ref{eq:loesung} als $z_{soll}$ bezeichnet.
+Am Anfang der Simulation ist die geometrische Beziehung von Werkzeug und Werkstück nicht bekannt.
 Die initiale Schnittebene kann aber geschickt durch ein iteratives Verfahren gefunden werden.
 Gleichung \ref{eq:loesung} wird für einen Wert für $z_{soll}$ gelöst.
 Anschließend wird für die Lösung $B$ geprüft, ob das Werkzeug in dieser Konfiguration engaged ist.
@@ -139,26 +141,26 @@ Ist dies nicht der Fall, wird für die Lösung die nächst tiefergelegene Ebene 
 Das Werkzeug bewegt sich entlang seiner Rotation mit abfallender Höhe in z näher zur Achse des Werkstücks und kann so in Berührung kommen.
 Für diese Ebene wird gelöst und wieder auf Engagement geprüft.
 
-Zwar muss so bei den iterativen Schritten ebenfalls wiederholt Engagement geprüft.
-Allerdings kann die endgültige Lösung gespeichert werden und für die nächste Werkzeugumdrehung als Startebene verwendet werden.
+Zwar muss so bei den iterativen Schritten ebenfalls wiederholt Engagement geprüft werden.
+Allerdings kann die endgültige Lösung gespeichert und für die nächste Werkzeugumdrehung als Startebene verwendet werden.
 Es kann bei gleichbleibendem Werkstückradius und geringem Vorschub in z-Richtung davon ausgegangen werden, dass die Kontaktebene bei der nächsten Umdrehung nahe der aktuellen liegt und somit nur wenige Iterationen notwendig sein werden.
 
 Nach Finden einer Werkzeugkonfiguration die zu einem validen Schnitt führt, kann mit der Simulation des Schneidevorgangs begonnen werden.
 
 \section{Berechnung des Werkzeugwinkels}
 \label{eq:berechnungwinkel}
-Zu jedem Schnittvorgang ist die Berechnung des Werkzeugwinkels notwendig.
+Bei jeder Verschneidung der projizierten Werkzeugschneide mit der Werkstück Schnittebene ist die Berechnung des Werkzeugwinkels notwendig.
 
 Die Eckpunkte der Schneide bewegen sich während der Rotation auf einer Kreisbahn um die Werkzeugachse.
 Sie liegen dabei nicht zwangsläufig auf einer Ebene, die durch die Werkzeugachse geht oder parallel dazu ist.
 Damit ist diese Schneidenebene nicht parallel zu den Schnittebenen des Werkstücks.
 Das bedingt zwei grundsätzliche Probleme, die es zu lösen gilt.
-Auf der einen Seite, muss die Schneide des Werkzeugs auf die Werkstückebene projiziert werden, um die Verscheidungsberechnung durchführen zu können.
+Auf der einen Seite muss die Schneide des Werkzeugs auf die Werkstückebene projiziert werden, um die Verscheidungsberechnung durchführen zu können.
 Die Projektion wird in Abschnitt \ref{c:schnitte} betrachtet.
 Auf der anderen Seite, gibt es für jeden Punkt der Schneide einen einzigartigen Winkel, den das Werkzeug annehmen muss, damit dieser Punkt auf einer Schnittebene des Werkstücks liegt.
 
 Gelöst wird dieses Problem für jeden Punkt der Schneide durch Berechnung eines individuellen Winkels des Werkzeugs.
-So wird jeder Werkzeugwinkel gefunden, bei denen die Punkte auf der Zielschnittebene des Werkstücks liegt.
+So werden alle Werkzeugwinkel gefunden, bei denen die Punkte auf der Zielschnittebene des Werkstücks liegt.
 Dafür muss die Gleichung \ref{eq:loesung} gelöst werden.
 Dabei handelt es sich um ein Fixpunktproblem.
 Dem Fixpunktproblem zugrunde liegt eine Fixpunktgleichung der Form:
@@ -173,35 +175,35 @@ Dabei wird in die Gleichung umgeformt, sodass sie in folgender Form vorliegt:
 \begin{eqdscr}{$k$}
 	\item[$n$] Iterationsindex
 \end{eqdscr}
-,,Für jede Wahl des Startpunktes $x^{(0)}$ konvergiert die Folge der Iterierten gegen'' \cite{Widmer1981} gegen die Lösung des Fixpunktproblems.
+,,Für jede Wahl des Startpunktes $x^{(0)}$ konvergiert die Folge der Iterierten gegen [\dots]'' \cite{Widmer1981} die Lösung des Fixpunktproblems.
 Da die iterative Methode fehlerbehaftet ist, ist es notwendig ein Abbruchkriterium einzuführen.
 Dabei bietet sich die Änderung der Lösung zwischen Iterationen an.
 Ist diese kleiner als ein definiert Wert, wird das Verfahren abgebrochen und die finale Lösung verwendet.
 Diese Methode ist im Flussbild in dem Block ,,Iterationsschleife'' realisiert.
 
-Entsprechend der Methode wird Gleichung \ref{eq:loesung} so angepasst, dass also der rechten Seite statt $B$ die Lösung des vorhergehenden Iterationsschrittes $B_0$ verwendet wird.
+Entsprechend der Methode wird Gleichung \ref{eq:loesung} so angepasst, dass auf der rechten Seite statt $B$ die Lösung des vorhergehenden Iterationsschrittes $B_0$ verwendet wird.
 \begin{equation}
 	\label{eq:fixpunkt}
 	B = k \cdot \pi - \phi_\wz + \arcsin{\left(\dfrac{Z - c - z_{soll} + B_0 \cdot{} \feed{Z}{Wz} + \sin(A) \cdot{} (Y + \yshift + B_0 \cdot{} \feed{Y}{Wz} - h_\wz)}
 		{r_\wz \cdot{} \cos(A)}\right)}
 \end{equation}
 Diese Methode hat sich als sehr geeignet und effizient erwiesen.
-So sind bei einer beispielhaften Simulation nur maximal zwei Iterationsschritte notwendig gewesen um das Abbruchkriterium von $1\cdot10^{-3}$zu erreichen.
-Der beim zweiten Iterationsschritt auftretende Fehler ist dabei überraschend gering, sodass lange nach einem Fehler in der Implentierung des Algorithmuses gesucht wurde.
+So sind bei einer beispielhaften Simulation nur maximal zwei Iterationsschritte notwendig gewesen um das Abbruchkriterium von $1\cdot10^{-3}$ zu erreichen.
+Der beim zweiten Iterationsschritt auftretende Fehler ist dabei überraschend gering, sodass lange nach einem Fehler in der Implementierung des Algorithmus gesucht wurde.
 Der auftretende Fehler ist wie beschrieben definiert als die Änderung zwischen Eingangs- und Ausgangswert einer Iteration.
 Bei dem beschriebenen Simulationsfall ist der Fehler nach der zweiten Iteration null.
-Es wird vermutet, dass der Fehler kleiner ist als Rechnengenauigkeit der CPU.
+Es wird vermutet, dass der Fehler kleiner ist als die Rechnengenauigkeit der CPU.
 
-Die Methode bietet außerdem den Vorteil, dass als Startwert für die iterative Lösung des nächsten Werkszeugpunktes die letzte Lösung verwendet kann.
+Die Methode bietet außerdem den Vorteil, dass als Startwert für die iterative Lösung des nächsten Werkzeugpunktes die letzte Lösung verwendet werden kann.
 Das ist möglich, da bei geringem Abstand der Schnittebenen des Werkstücks auch die Lösungen nahe beieinander liegen müssen.
 
 Die  Gleichung \ref{eq:fixpunkt} ist im \matlab Code als anonyme Funktion definiert.
-,,Eine anonyme Funktion ist eine Funktion, welche nicht in einer Programmdatei gespeichert ist'' \cite{mwAnonFun}.
+,,Eine anonyme Funktion ist eine Funktion, welche nicht in einer Programmdatei gespeichert ist.'' \cite{mwAnonFun}.
 Sie wird stattdessen im Code definiert, und einer Variable des Datentyps Funktionshandle zugewiesen.
-Sie steht damit auch nur dem Scope zur Verfügung, in dem sie definiert wurde, ist also privat.
+Sie steht damit auch nur dem Scope zur Verfügung in dem sie definiert wurde, und ist somit privat.
 
 Diese Methode bietet hier den Vorteil, dass nur die funktionell relevanten Variablen als Argumente im Funktionsaufruf übergeben werden müssen.
-Die Werte der übrigen Variablen, die sich nach Aufstellung des Simulationsfalles nicht mehr ändern werden bei Definition der anonymen Funktion einmalig eingelesen und werden im Funktionshandle gespeichert.
+Die Werte der übrigen Variablen, die sich nach Aufstellung des Simulationsfalles nicht mehr ändern, werden bei Definition der anonymen Funktion einmalig eingelesen und im Funktionshandle gespeichert.
 Die funktionell relevanten Variablen sollen hier primäre Variablen, die übrigen sekundäre Variablen genannt werden.
 Die anonyme Funktion hat keinen privaten Scope, verwendet also den Workspace der aufrufenden Instanz.
 Es ist also wichtig dafür Sorge zu tragen, dass die sekundären Variablen innerhalb der anonymen Funktion gleich benannt sind wie außerhalb, um diese Funktionalität nutzen zu können.
@@ -209,10 +211,10 @@ Allerdings ist es wichtig zu erwähnen, dass der Wert der sekundären Variablen 
 Ändert sich also der Wert einer Variable nach Definition der anonymen Funktion, wird diese Änderung nicht vererbt.
 
 Gleichzeitig kann diese Operation vektorisiert ausgeführt werden.
-Sie muss also nicht für jeden Punkt der Schneidengeomtrie einzeln ausgeführt werden, sonder die Eingangs- und Ausgangsgröße ist ein Zeilenvektor.
+Sie muss also nicht für jeden Punkt der Schneidengeomtrie einzeln ausgeführt werden, sondern die Eingangs- und Ausgangsgröße ist ein Zeilenvektor.
 In diesem sind die Werkzeugwinkel für jeden Punkt der Schneide abgelegt.
-Die Operationen werden dann elementweise ausgeführt und in einem gleichartig strukturiertem Vektor wieder ausgegeben.
-Diese Methode bietet gegenüber einer sukzessiven Berechnung große Vorteile bei der Ausführungsgeschwindigkeit.
+Die Operationen werden elementweise ausgeführt und in einem gleichartig strukturiertem Vektor ausgegeben.
+Diese Methode bietet gegenüber einer sukzessiven Berechnung einen großen Vorteil bei der Ausführungsgeschwindigkeit.
 
 Nach jeder Lösung der Funktion in der Iterationsschleife wird überprüft, ob die erhaltenen Winkel real sind.
 Das hat historische Gründe, da zu Beginn der Entwicklung nicht bedacht wurde, dass der Wertebereich des Arkussinus $\left[-1, 1\right]$ ist.
@@ -220,7 +222,8 @@ Wird der Funktion also vorgegeben den Werkzeugwinkel für eine Ebene zu berechne
 Dieses Phänomen wurde verwendet, um das Ende des Schnittvorgangs zu erkennen.
 Der Schnittvorgang ist beendet, wenn die Schneide des Werkzeugs nicht mehr im Eingriff ist.
 
-Häufig ist der Schnitt aber beendet, bevor der tiefste Punkt der Werkzeugtrajektorie erreicht ist, wurde eine geschicktere Erkennung entwickelt.
+Häufig ist der Schnitt jedoch beendet, bevor der tiefste Punkt der Werkzeugtrajektorie erreicht ist.
+Um sich die Rechenzeit für Lösungsfindungen außerhalb des Werkstücks zu sparen wurde eine geschicktere Erkennung entwickelt.
 Dabei wird wieder mit der Funktion \code{checkEng} geprüft, ob sich mindestens ein Werkzeugpunkt in der Hülle des Werkstücks befindet.
 Sind alle Ecken der Schneide nicht mehr im Eingriff, wird angenommen, dass auch die Schneide nicht mehr im Eingriff ist.
 Dabei wird zwar grundsätzlich der Fehler gemacht, dass ein Überlagerungsbereich von Werkzeug und Werkstück existieren kann, obwohl sich alle Eckpunkte der Schneide außerhalb der Schnittgeometrie des Werkstücks befinden.
@@ -231,12 +234,12 @@ Dabei wird die Zielebene für die Lösung in absteigender Reihenfolge durch die 
 
 \section{Durchführung der Schnitte}
 \label{c:schnitte}
-Nach Berechung der Lösungswinkel wird als nächstes der Schnitt des Werkzeugs ausgeführt.
+Nach Berechnung der Lösungswinkel wird als nächstes der Schnitt des Werkzeugs ausgeführt.
 
-Zu Beginn der Beschreibung der Schnittsimulation soll erklärt werden, wie in der Simulation einen Schnitt berechnet wird.
-Werkzeug und Werkstück werden als Polygone repräsentiert, die in Matlab als Objekt der Klasse polyshape dargestellt werden.
+Zu Beginn der Beschreibung der Schnittsimulation soll erklärt werden, wie in der Simulation ein Schnitt berechnet wird.
+Werkzeug und Werkstück werden als Polygone repräsentiert, die in \matlab als Objekt der Klasse polyshape dargestellt werden.
 Polyshape Objekte haben Methoden, die es erlauben Verschneidungsoperationen durchzuführen.
-Dabei wird von einem polyshape Objekte die Geomtrie abgezogen, die von dem anderen Polygon überlagert wird.
+Dabei wird von einem polyshap Objekte die Geomtrie abgezogen, die von dem anderen Polygon überlagert wird.
 \begin{figure}
 	\includegraphics{uberlagerung}
 	\caption{Hier ist die caption}
@@ -248,18 +251,19 @@ Das Werkzeug wird als grünes Polygon gezeigt, eine Schnittebene des Werkstücks
 Der Abstand der Polygoneckpunkte der Werkzeugschnitte ist dabei sehr niedrig gewählt um den Sehnenfehler zu minimieren.
 
 Die Sehne einer Raumkurve ist die gerade Verbindung von zwei Punkten entlang der Kurve.
-Sie kann verwendet wreden, um den Verlauf der Raumkurve unbekannter mathematischer Entstehung geschickt anzunähern.
-Ist die Raumkruve gekrümmt, existiert über den Verlauf der Sehne ein Abstand zwischen Kurve und Gerade.
-Das Maximum dieses Abstands ist definiert als der Sehnenfehler und dieser kann verringert werden, wenn der Abstand der Punkte auf der Raumkurve verringert wird.
+Sie kann verwendet werden, um den Verlauf der Raumkurve unbekannter mathematischer Entstehung geschickt anzunähern.
+Ist die Raumkurve gekrümmt, existiert über den Verlauf der Sehne ein Abstand zwischen Kurve und Gerade.
+Das Maximum dieses Abstands ist definiert als der Sehnenfehler.
+Dieser kann verringert werden, wenn der Abstand der Punkte auf der Raumkurve verringert wird.
 Durch eine hohe Anzahl von Eckpunkten bei einem Polygon werden die Sehnen kürzer, der Sehnenfehler sinkt und die Rundheit des Polygons steigt.
 
 Zusätzlich wurde bei der Diskretisierung des Werkstückzylinders in Schnittebenen die Position der Eckpunkte abwechselnd um den halben Abstand der Sehnenpunkte verschoben.
 Damit kann der mittlere Abstand der diskreten Punkte auf der Oberfläche des Zylinders verringert werden.
-So entstehen bei der Vernetzung des Simulationsergebnisses auf der unbearbeiteten Oberfläche des Werkstückes nicht-rechteckige Dreiecke.
-Derartige Dreiecke sind für die gängige Vernetzungsalgorithmen besser geeignet als rechteckige.
+So entstehen bei der Vernetzung des Simulationsergebnisses auf der unbearbeiteten Oberfläche des Werkstückes nicht-rechtwinkelige Dreiecke.
+Derartige Dreiecke sind für die gängige Vernetzungsalgorithmen besser geeignet als rechtwinkelige.
 
 Es wurden keine Versuche angestellt die Rundheit der Schnittgeometrien zu berechnen und die Simulationsgenauigkeit in Abhängigkeit davon zu bewerten.
-Auch gilt es noch zu untersuchen, welchen Einfluss die Anzahl Eckpunkte bei der Diskretisierung auf die Simulationsgeschwindigkeit hat, da dieser als gering vermutet wurde.
+Auch gilt es noch zu untersuchen, welchen Einfluss die Anzahl der Eckpunkte bei der Diskretisierung auf die Simulationsgeschwindigkeit hat, da dieser als gering vermutet wurde.
 
 Die in Abbildung \ref{fig:uberlagerung} gelb dargestellte Fläche ist der Überlagerungsbereich von Werkzeug- und Werkstückoperation.
 Dieser überlagerte Bereich wird bei der Simulation der Schnittoperation von dem Werkstückpolygon abgezogen.
@@ -275,34 +279,34 @@ Man erhält eine Gleichung je Koordinatenachse, die maßgeblich von dem Werkzeug
 Die Konstanten werden ebenfalls bei Erzeugung eingelesen und in das Handle gespeichert.
 Auch Gleichung \ref{eq:koordgleichung} könnte vektoriell verwendet werden.
 Dafür müssten die Dimensionen der Matrix der Schneidenkoordinaten und der Werkzeugwinkel aber senkrecht aufeinander stehen, die Lösung wäre dann ein Tensor.
-Jede Matrix des Tensors wären dann die transformierten Koordinaten bei einem Winkel.
+Jede Matrix des Tensors wäre dann die transformierten Koordinaten bei einem Winkel.
 
 Der Aufbau von Koordinatenmatrizen in der Simulation unterscheidet zwischen Punktewolken und zeitvarianten Punkten.
-Eine Punktewolke ist ein Menge von Punkten die sich im vorliegenden Fall dadurch auszeichnen in einer zeitinvariant festen räumlichen Anordnung zueinander stehen.
-Sie wird beschrieben durch eine Matrix aus Spaltenvektoren der Koordinatenkompenten eines Punktes.
+Eine Punktewolke ist ein Menge von Punkten die sich im vorliegenden Fall dadurch auszeichnen in einer zeitinvariant festen räumlichen Anordnung zueinander zu stehen.
+Sie wird beschrieben durch eine Matrix aus Spaltenvektoren der Koordinatenkomponenten eines Punktes.
 Diese Matrix ist zweidimensional.
 
 Im Gegensatz dazu sind zeitvariante Punkte eine Menge von Punkten, die ausgehend von einem oder mehreren Punkten in Schritten von einer Start- zu einer Zielanordnung schrittweise transformiert werden.
 Zu jedem Zeitschritt werden diese Punkte in einer Punktewolkenmatrix abgelegt.
 So ergibt sich ein Tensor von Punktewolken zu verschiedenen Zeiten.
 Die Abhängigkeit von der Zeit ist nur formell, weil angenommen wird, dass bei der Bewegung eines physikalischen Systems Zeit vergeht.
-An sich ist die vorliegende Simulation ja nicht zeitabhängig.
+Grundsätzlich ist die vorliegende Simulation nicht zeitabhängig.
 Die verschiedenen Werkzeugwinkel je Schnittebene wären dann genau solche Transformationsschritte.
 
-In der Vorliegenden Implementierung wird die Berechnung der Schneidenkoordinaten im Werkzeugkoordinatensystem allerdings noch in einer Schleife über die Werkzeugwinkel ausgeführt.
+In der vorliegenden Implementierung wird die Berechnung der Schneidenkoordinaten im Werkzeugkoordinatensystem allerdings noch in einer Schleife über die Werkzeugwinkel ausgeführt.
 Die gefundenen Koordinaten werden in das Koordinatenfeld des Polyshape Objektes der Schneide eingetragen.
 Danach kann die Verschneidung des Überlagerungsbereiches von Werkzeug und Werkstück erfolgen.
 Dabei wird für jeden Vertice der Werkzeugschnittgeometrie nachverfolgt, wie dieser zustande gekommen ist.
 Dabei gibt es drei Ursprungsmöglichkeiten.
-Der Punkte kann bei Erzeugung des Schnittebenenpolygons erzeugt worden sein, also originaler Bestandteil der Geometrie sein.
-Er kann entstanden sein, durch die Verschneidung einer Werkzeugkante mit einer Werkstückkante.
+Der Punkt kann bei Erzeugung des Schnittebenenpolygons erzeugt worden sein, also originaler Bestandteil der Geometrie sein.
+Er kann entstanden sein durch die Verschneidung einer Werkzeugkante mit einer Werkstückkante.
 Am Schnittpunkt dieser Kanten wird ein Punkt erzeugt, der in die Menge der Vertices des Werkstückpolygons aufgenommen wird.
 Außerdem werden bei der Verschneidung Punkte des Werkzeugpolygons, welche innerhalb des Werkstückpolygons liegen, in die Menge der Werkstückvertices aufgenommen.
 
-Die Verschneidungsmethode der \matlab Polyshape Objekte gibt diese Klassifikation für jeden Schritt zurück.
+Die Verschneidungsmethode der Polyshape Objekte gibt diese Klassifikation für jeden Schritt zurück.
 Allerdings ist der Methode nicht bekannt, welchen Ursprung ein Punkt vor der Verschneidung hatte.
-Dafür werden dann aus der zurückgegebenen Klassifikation nur die Punkte herausgefiltert, die bei der durchgeführten Schnittoperation entstanden sind.
-Nur für diese Punkte wird die Klassifikation dann in den Klassifikationsvektor übernommen.
+Dafür werden aus der zurückgegebenen Klassifikation ausschließlich die Punkte herausgefiltert, die bei der durchgeführten Schnittoperation entstanden sind.
+Nur für diese Punkte wird die Klassifikation in den Klassifikationsvektor übernommen.
 
 Jeder Punkt der 
 

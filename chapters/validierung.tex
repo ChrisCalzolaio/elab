@@ -2,17 +2,17 @@
 \chapter{Validierung}
 \label{c:validierung}
 
-Die Beschreibung der Kinematik der Maschine erfolgt mit einer homogenen Transformationsmatrix je Freiheitsgrad.
+Die Beschreibung der Maschinenkinematik erfolgt mit einer homogenen Transformationsmatrix je Freiheitsgrad.
 Die der Simulation zugrunde liegende Maschine hat sechs geführte Freiheitsgrade.
 Von diesen sind vier über einen Vorschub an die Drehzahl des Werkzeugs gekoppelt.
 Die positive Richtung dieser Freiheitsgrade ist außerdem nicht streng anhand der mathematisch positive Richtung des Standardkoordinatensystems definiert.
 
-Um Vorzeichen- und Drehmittelpunktfehler sowie Fehler in der Anwendungsreihenfolge der Abbildungsmatrizen zu erkennen ist eine qualitative und visuelle Validierung der in Kap.\ \ref{c:herleitung} entwickelten linearen Algebra anhand einer erprobten Methode also sinnvoll.
+Um Vorzeichen- und Drehmittelpunktfehler sowie Fehler in der Anwendungsreihenfolge der Abbildungsmatrizen zu erkennen, ist eine qualitative und visuelle Validierung der in Kap.\ \ref{c:herleitung} entwickelten linearen Algebra anhand einer erprobten Methode sinnvoll.
 Diese Methode sollte Teil der \matlab-Toolchain sein, erlauben das Modell extern zu bedaten und eine grafische Ausgabe zur Verfügung stellen.
 
 Aufgrund der direkten Schnittstelle zu \matlab wurde entschieden das kinematische Modell als \simscape Multibody Modell aufzubauen.
-Bei \simscape handelt es sich um eine Reihe von Blockbibliotheken und speziellen Simulationsfunktionen zur Modellierung physikalischer Systeme in der \simulink-Umgebung.
-Sie verwendet den Physical Network-Ansatz, der sich von dem Standard \simulink Modellierungsansatz unterscheidet und sich besonders für die Simulation von Systemen eignet, die aus realen physikalischen Komponenten bestehen. \cite{mwSim}
+,,Bei \simscape handelt es sich um eine Reihe von Blockbibliotheken und speziellen Simulationsfunktionen zur Modellierung physikalischer Systeme in der \simulink-Umgebung.
+Sie verwendet den Physical Network-Ansatz, der sich von dem Standard \simulink Modellierungsansatz unterscheidet und sich besonders für die Simulation von Systemen eignet, die aus realen physikalischen Komponenten bestehen.'' \cite[aus dem Englischen übersetzt]{mwSim}.
 
 Vergleichbar zu \simulink wird hier ein Signalflussplan erstellt, der die Wechselwirkung von Funktionsgruppen mit Hilfe von Verbindungen beschreibt.
 Diese Verbindungen stellen in \simulink Signale dar, üblicherweise zeitdiskrete Zahlenwerte oder logische Zustände.
@@ -41,8 +41,8 @@ Das world-Koordinatensystem ist raumfest (siehe Abschnitt \ref{c:homtransform}) 
 \end{figure}
 
 Die in \simscape zur Verfügung stehenden Joint-Blöcke verwenden als primäre Achse allerdings immer die z-Achse.
-Translationen können ausschließlich entlang der z-Achse erfolgen und Rotationen erfolgen entsprechend ausschließlich um die z-Achse herum.
-Es ist also notwendig, den Komponenten zweckmäßige und individuelle Koordinatensysteme aufzuprägen statt alle auf ein gemeinsames Ursprungs-Koordinatensystem zu referenzieren.
+Translationen können ausschließlich entlang der z-Achse erfolgen und Rotationen erfolgen entsprechend ausschließlich um die z-Achse.
+Es ist somit notwendig, den Komponenten zweckmäßige und individuelle Koordinatensysteme aufzuprägen statt alle auf ein gemeinsames Ursprungs-Koordinatensystem zu referenzieren.
 
 Dies kann entweder direkt im CAD-Modell geschehen und das Bauteil wird mit individuellem Bezugssystem exportiert.
 Häufig müssen Bauteile aber zwei Koordinatensysteme haben, eines als ihr eigener Ursprung und ein weiteres, welches sie an ein Tochterbauteil in der kinematischen Kette vererben können.
@@ -68,12 +68,12 @@ Dieses muss dann im nächsten Schritt noch gedreht werden, damit die z-Achse in 
 
 \begin{figure}
 	\includegraphics[scale=0.75]{simscapemdl}
-	\caption{Signalflussplan des Simscape Modells}
+	\caption{Signalflussplan des \simscape Modells}
 	\label{fig:simscapemdl}
 \end{figure}
 
 Abbildung \ref{fig:simscapemdl} zeigt den Signalflussplan des zur Validierung eingesetzten \simscape Modells.
-Ausgehend vom Ursprung des Modells, das ,,world''-Koordinatensystem, breiten sich die gleichen zwei Pfade aus, die bereits in \ref{c:maschkinematik} beschrieben wurden.
+Ausgehend vom Ursprung des Modells, des ,,world''-Koordinatensystem, breiten sich die gleichen zwei Pfade aus, die bereits in \ref{c:maschkinematik} beschrieben wurden.
 
 Im Werkstück-Pfad muss zunächst der Versatz des Bearbeitungstisches berücksichtigt werden.
 Dies erfolgt mit einem ..Rigid Transform'' Block, welcher dem Signal eine Translation aufprägt, vgl. Gleichung \ref{eq:translation}.
@@ -110,18 +110,18 @@ Zu den Parametern, die dieser Sensor misst, gehören die rotatorische und transl
 Obwohl der Block einen Port hat, der Base-Frame heißt, muss in der Maske definiert werden, dass als Referenz der Messung das als Basis eingehängte Koordinatensystem, und nicht der Standardwert world-Frame verwendet werden soll.
 Die Komponenten der Translation werden einzeln ausgegeben.
 Es bietet sich an, diese mit einem \simulink Mux-Block zu einem vektoriellem Signal zusammenzuführen.
-Dieses kann dann geloggt und dem Basis-Workspace, als Matrix aus Spaltenvektoren der Koordinaten über Zeit, zur Verarbeitung zu Verfügung gestellt werden.
+Dieses kann geloggt und dem Basis-Workspace, als Matrix aus Spaltenvektoren der Koordinaten über Zeit, zur Verarbeitung zu Verfügung gestellt werden.
 
 \section{Durchführen der Validierung}
 In einem Skript wird zunächst die Berechnung der Trajektorie des PoI mit der in \ref{c:maschkinematik} entwickelten linearen Algebra durchgeführt.
 Dazu wird ein Vektor der diskreten Werkzeugwinkel, die bei einer festen zeitlichen Schrittweite bis zu einer Stopp-Zeit durchlaufen werden, generiert.
 Geschieht dies in die dritte Dimension, wird durch Anwendung der \code{subs}-Funktion auf eine Transformationsmatrix $\mathbf{G}$ ein Tensor aufgespannt.
 Diese ist von Datentyp Symbolic Math und nur noch abhängig vom Werkzeugwinkel, alle weiteren oben diskutierten Freiheitsgrade werden definiert.
-Nach Substituierung der Werte für $B$ wird der Datentyp des Tensors noch durch verkettete Anwendung von \code{vpa} und \code{double}, zunächst in Variable Precision Arithmetic und dann in Typ double konvertiert.
-Die Matrizen des Tensors entsprechen dann der Transformation zu jedem Zeitschritt, bzw. Werkzeugwinkel.
+Nach Substituierung der Werte für $B$ wird der Datentyp des Tensors durch verkettete Anwendung von \code{vpa} und \code{double}, zunächst in Variable Precision Arithmetic und dann in Typ double konvertiert.
+Die Matrizen des Tensors entsprechen der Transformation zu jedem Zeitschritt, bzw. Werkzeugwinkel.
 Durch Anwendung dieser Transformationsmatrizen auf die Koordinaten des PoI ergeben sich die Positionen entlang der Trajektorie des Punktes.
 
-In Folge wird aus dem Skript heraus das \simulink Modell gestartet, welches dann die selben Werte für die Variablen aus dem Basis-Workspace einliest, wie zuvor die lineare Algebra.
+In Folge wird aus dem Skript heraus das \simulink Modell gestartet, welches die selben Werte für die Variablen aus dem Basis-Workspace einliest, wie zuvor die lineare Algebra.
 Es wird ein Datensatz zurück gegeben, der neben Metadaten Logs gewählter Signale enthält.
 Diese sind noch gegen die sehr viel dichter gerasterte Simulationszeit aufgetragen, und es muss ein Downsampling auf die oben beschriebenen Zeitschritte durchgeführt werden.
 Während der Simulation wird das Ergebnis der linearen Algebra Methode mit einem Spline-Block geladen und, eingehängt auf das Werkstück-Koordinatensystem, im Mechanics Explorer zusammen mit der Maschine dargestellt (vgl. Abb. \ref{fig:mechexplorer}).
@@ -159,7 +159,8 @@ So ergab sich die Definition der Werkzeugkoordinaten gemäß Gleichung \ref{eq:w
 
 Im nächsten Schritt werden die Koordinaten der erzeugten Trajektorien analysiert.
 Es bietet sich an, die Daten wie in Abb. \ref{fig:koordkomps} gegen den Winkel des Werkstückes aufzutragen, da sich Fehler typischerweise periodisch mit der Werkstückumdrehung gezeigt haben.
-Um ein grundsätzliches Verständnis dafür zu bekommen, wie sich beide Methoden zueinander verhalten, sich den Abstand $d$ der Bahnen zu jedem Zeitpunkt anzusehen.
+Um ein grundsätzliches Verständnis dafür zu bekommen, wie sich beide Methoden zueinander verhalten, bot es sich an den Abstand $d$ der respektiven Punkte auf den Bahnen zu jedem Zeitpunkt anzusehen.
+Der Abstand der Punkte beider Trajektorien wird als euklidische Norm berechnet:
 
 \begin{equation*}
 	d = \sqrt{\left(x_2-x_1\right)^2 + \left(y_2-y_1\right)^2 + \left(z_2-z_1\right)^2}
@@ -170,7 +171,7 @@ Man stellt allerdings fest, dass sich eine bleibende Abweichung einstellt, auch 
 Die genau Ursache für diese Abweichung wurde nicht ausfindig gemacht.
 Es wird allerdings vermutet, dass es sich um eine Überlagerung von Ungenauigkeiten beider Methoden handelt.
 
-\begin{figure}
+\begin{figure}[h]
 	\includegraphics{koorddist}
 	\caption[Abweichung der Methoden]{Abweichung der Methoden zueinander gegen den Werkstückwinkel}
 	\label{fig:koorddist}
