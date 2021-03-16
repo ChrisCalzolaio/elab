@@ -4,7 +4,7 @@
 
 \begin{figure}
 	\includegraphics[scale=0.75]{vf1-flowchart}
-	\caption{Hier ist die caption}
+	\caption{Flussbild der Simulationsschleife}
 	\label{fig:flowchart}
 \end{figure}
 
@@ -242,7 +242,7 @@ Polyshape Objekte haben Methoden, die es erlauben Verschneidungsoperationen durc
 Dabei wird von einem polyshap Objekte die Geomtrie abgezogen, die von dem anderen Polygon überlagert wird.
 \begin{figure}
 	\includegraphics{uberlagerung}
-	\caption{Hier ist die caption}
+	\caption{Überlagerungsbereich von zwei Polygonen}
 	\label{fig:uberlagerung}
 \end{figure}
 
@@ -304,11 +304,56 @@ Am Schnittpunkt dieser Kanten wird ein Punkt erzeugt, der in die Menge der Verti
 Außerdem werden bei der Verschneidung Punkte des Werkzeugpolygons, welche innerhalb des Werkstückpolygons liegen, in die Menge der Werkstückvertices aufgenommen.
 
 Die Verschneidungsmethode der Polyshape Objekte gibt diese Klassifikation für jeden Schritt zurück.
-Allerdings ist der Methode nicht bekannt, welchen Ursprung ein Punkt vor der Verschneidung hatte.
+Allerdings ist der Methode nicht bekannt, welchen Ursprung ein Punkt vor der Verschneidung vor der Schnittoperation hatte.
 Dafür werden aus der zurückgegebenen Klassifikation ausschließlich die Punkte herausgefiltert, die bei der durchgeführten Schnittoperation entstanden sind.
 Nur für diese Punkte wird die Klassifikation in den Klassifikationsvektor übernommen.
 
-Jeder Punkt der 
+\section{Schnittende}
+Ein Schnitt ist die Menge direkt nacheinander stattfindende Engagementkonfiguration der Werkzeugschneide.
+Wir beschrieben beginnt der Schnitt mit der ersten gefundenen Konfiguration des Werkzeugs bei der eine Überlagerung stattfindet.
+Der Schnitt ist beendet, wenn die Schneide des Werkzeugs nach einer Überlagerungskonfiguration den ersten Iterationsschritt nicht mehr engaged ist.
+Dieser Zustand wird mit der beschriebenen Methode erkannt.
+
+Ist das Schnittende erreicht, wird der nur größte gefundene Werkzeugwinkel behalten.
+Es kann davon ausgegangen werden, dass die Schneide einen Anteil einer Umdrehung zurücklegt, bis sie wieder in Eingriff geraten kann.
+Die Größe des Winkels hängt von der Anordnung von Werkzeug und Werkstück ab.
+Eine zuverlässige Annahme ist eine halbe Umdrehung.
+Der Winkel einer halben Umdrehung, $\pi$, kann also auf den größten Werkzeugwinkel addiert werden und als neuer Startpunkt der Seekoperation verwendet werden.
+
+Der Sprung des Werkzeugs kann alternativ auf den bei der Findung der Startkonfiguration gefundenen Winkel bezogen werden.
+Die Geschwindigkeit der Werkzeugrotation ist im Verhältnis zu den Vorschubgeschwindigkeiten sehr hoch.
+Eine Annahme, dass der Winkel bei initialem Engagement des nächsten Schnittes ungefähr dem Winkel des vorherigen Schnittes entspricht, ist daher zulässig.
+Ist der Vorschub der X-Achse ungleich null, verändert sich der Achsabstand von Werkzeug und Werkstück.
+Das hat einen Einfluss auf den Winkel bei dem das Werkstück in den Eingriff gerät.
+Die während einer Werkzeugumdrehung zurückgelegten Strecke der X-Achse wird aber gering sein.
+Der Engagementwinkel wird daher in der Nähe des zuletzt gefundenen liegen.
+Bei Anwendung dieses Vorgehens entfällt die Notwendigkeit des Seekens nach dem ersten Schnitt.
+Wie bei dem initialen Seeken kann ein Eintritt der Schneide in das Envelope des Werkstücks ist mit der in Abschnitt \ref{c:startkonfig} Methode kompensiert werden.
+
+Mit der gleichen Begründung kann angenommen werden, dass die oberste Schittebene des folgenden Schnittes in der Nähe der letzten obersten Schnittebene liegt.
+Um mit Sicherheit alle Lösungen zu betrachten, wird die Suche nach validen Schnittebene oberhalb der letzten Startebene gestartet.
+Damit sind die Vorschübe der X-Achse und Z-Achse abgedeckt, die Einfluss auf die oberste Schnittebene haben können.
+
+Die Schneide wird sich bei der nächsten Umdrehung in der nächsten Periode des Lösungsbereichs der Gleichung \ref{eq:fixpunkt} befinden.
+Die Periode dieses Lösungsbereich ist eine volle Werkzeugumdrehung.
+Zu dem Faktor $k$ muss somit zwei addiert werden, damit der Lösung ein Inkrement von $2 \pi$ aufgeprägt wird.
+
+Abschließend wird geprüft, ob das Stop Criterion der Simulation erreicht.
+Im aktuellen Stand ist vorgesehen, das Ende der Simulation darüber zu steuern, welchen Winkel das Werkstück gelegt hat.
+Dieser wird mit der Definitionsgleichung \ref{eq:wrkstwinkel} der Werkstückrotation in Abhängigkeit des Werkstückwinkels berechnet.
+
+Es ist ebenfalls denkbar, die Bearbeitung eines einzelnen Zahnzwischenraums zu betrachten.
+Dabei müsste nach Vollendung eines Schnittes dem Werkzeugwinkel $B$ der Winkel addiert werden, den das Werkzeug nach einem Umlauf um das Werkstück hat.
+Das Werkzeug vollzieht je Zahnzwischenraum eine volle Umdrehung.
+Der übersprungene Winkel ist folglich
+\begin{equation*}
+	B_{"ubersprungen} = \left(n_{Z"ahne} -1 \right) \cdot 2 \pi
+\end{equation*}
+\begin{eqdscr}{$B_{"ubersprungen}$}
+	\item[$B_{"ubersprungen}$] übersprungener Winkel des Werkzeugs
+	\item[$n_{Z"ahne}$] Zähnezahl des Werkstücks
+\end{eqdscr}
+Bei dieser Simulationsmethodik bietet sich dann ein Zähler der durchgeführten Schritte an um die Simulation zu stoppen.
 
 \section{Plotten}
 Die Architektur des Codes erlaubt das parallel zum Lösen des mathematischen Problems die Ausgabe erfolgt mit minimalem Einfluss auf die Ausführungsgeschwindigkeit der Berechnung.
