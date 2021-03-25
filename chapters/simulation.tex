@@ -109,6 +109,27 @@ Der Abstand $d$ des Punktes zum Ursprung wird als euklidische Norm berechnet nac
 \end{equation*}
 Die Funktion gibt als logischen Wert zurück, ob der Werkzeugpunkt engaged ist oder nicht.
 
+\begin{figure}
+	\includegraphics{heightdistance}
+	\caption[Position eines Schneidenpunktes über Werkzeugwinkel]{Höhe im Werkstückkoordinatensystem und Entfernung vom Mittelpunkt des Werkstücks eines Schneidenpunktes aufgetragen über den Werkzeugwinkel}
+	\label{fig:heightdistance}
+\end{figure}
+
+Die Abbildung \ref{fig:heightdistance} verdeutlicht das Vorgehen bei diesem iterativen Verfahren.
+Die Panels dieser Darstellung zeigen die Entwicklung von Koordinatenkomponenten eines Schneidenpunktes aufgetragen über den Drehwinkel des Werkzeugs, ausgehend von der Startkonfiguration.
+Das obere der beiden Panels zeigt dabei die Höhe des Schneidenpunkte im Koordinatensystem des Werkstücks.
+Der kontinuierliche Verlauf der Höhenkomponente ist dabei mit einer gelben Linie dargestellt.
+Bei allen Konfigurationen des Werkzeugs wird die Höhe des Schneidenpunktes im Werkstückoordinatensystem auf diesem Verlauf liegen.
+Mit den rot strichlierten Linie ist die obere beziehungsweise untere Begrenzung der Werkstückausdehnung angedeutet.
+Das untere Panel zeigt den Verlauf des Abstands des Schneidenpunktes von der Mittelachse des Werkstücks.
+Hier ist ebenfalls der kontinuierliche Verlauf mit einer gelben Linie markiert.
+Der äußere Begrenzung des Werkstücks wird durch eine rot strichlierte Linie dargestellt, die im Wert des Radius des Werkstück verläuft.
+Die Orte, für welche das Engagement des Werkzeugs geprüft wird, sind mit einem grünen Stern markiert.
+
+Man kann erkennen, dass bei diesem Verfahren das Werkzeug das eine Rotation des Werkzeugs mit einer festen Schrittweite erfolgt, bevor Engagement überprüft wird.
+Bei der letzten Prüfmarkierung sind erstmalig für diesen Schnitt die Engagement-Bedingungen erfüllt.
+Die Position des geprüften Punktes liegt im Intervall der Höhenausdehnung und in der radialen Ausdehnung des Werkstücks.
+
 Das Ziel des Findens der Startkonfiguration ist es, die Rotation des Werkzeuges zu finden, bei welcher das Werkzeug das Werkstück gerade berührt.
 Der Seek liefert einen Werkzeugwinkel, welcher in der Nähe dieser Konfiguration liegt.
 Durch Verkleinerung der Schrittweite beim Seeken kann die Lösungskonfiguration dieses Näherungsverfahrens näher an die tatsächliche Lösung geführt werden.
@@ -141,6 +162,9 @@ Ist dies nicht der Fall, wird für die Lösung die nächst tiefergelegene Ebene 
 Das Werkzeug bewegt sich entlang seiner Rotation mit abfallender Höhe in z näher zur Achse des Werkstücks und kann so in Berührung kommen.
 Für diese Ebene wird gelöst und wieder auf Engagement geprüft.
 
+Das Resultat dieser Iteration ist in Abbildung \ref{fig:heightdistance} der erste Punkt der dunkelroten Linie.
+Er markiert die erste Konfiguration bei der sich mindestens ein Punkt der Schneide im Eingriff befindet.
+
 Zwar muss so bei den iterativen Schritten ebenfalls wiederholt Engagement geprüft werden.
 Allerdings kann die endgültige Lösung gespeichert und für die nächste Werkzeugumdrehung als Startebene verwendet werden.
 Es kann bei gleichbleibendem Werkstückradius und geringem Vorschub in z-Richtung davon ausgegangen werden, dass die Kontaktebene bei der nächsten Umdrehung nahe der aktuellen liegt und somit nur wenige Iterationen notwendig sein werden.
@@ -148,7 +172,7 @@ Es kann bei gleichbleibendem Werkstückradius und geringem Vorschub in z-Richtun
 Nach Finden einer Werkzeugkonfiguration die zu einem validen Schnitt führt, kann mit der Simulation des Schneidevorgangs begonnen werden.
 
 \section{Berechnung des Werkzeugwinkels}
-\label{eq:berechnungwinkel}
+\label{c:berechnungwinkel}
 Bei jeder Verschneidung der projizierten Werkzeugschneide mit der Werkstück Schnittebene ist die Berechnung des Werkzeugwinkels notwendig.
 
 Die Eckpunkte der Schneide bewegen sich während der Rotation auf einer Kreisbahn um die Werkzeugachse.
@@ -270,7 +294,7 @@ Dieser überlagerte Bereich wird bei der Simulation der Schnittoperation von dem
 
 Diese Operation wird in der Simulation durchgeführt, nachdem alle Winkel berechnet wurden, bei denen die Eckpunkte der Schneide auf einer Schnittebene liegen.
 Um eine Überlagerung von Werkstück und Schneide berechnen zu können, müssen die beiden Geometrien koplanar sein.
-Wie in Abschnitt \ref{eq:berechnungwinkel} erwähnt, muss dazu die Schneide auf die Werkstückschnittebene projiziert werden.
+Wie in Abschnitt \ref{c:berechnungwinkel} erwähnt, muss dazu die Schneide auf die Werkstückschnittebene projiziert werden.
 Diese Operation wird für jeden Punkt einzeln durchgeführt.
 Für die Projektion müssen die Koordinaten der Schneide im Koordinatensystem des Werkstücks vorliegen.
 Dazu wird die vektorielle Gleichung \ref{eq:koordgleichung} ausmultipliziert.
@@ -356,5 +380,30 @@ Der übersprungene Winkel ist folglich
 Bei dieser Simulationsmethodik bietet sich dann ein Zähler der durchgeführten Schritte an um die Simulation zu stoppen.
 
 \section{Plotten}
-Die Architektur des Codes erlaubt das parallel zum Lösen des mathematischen Problems die Ausgabe erfolgt mit minimalem Einfluss auf die Ausführungsgeschwindigkeit der Berechnung.
-Das wurde erreicht durch die Auslagern des Plottens in eine Klasse.
+Die Herausforderung bei der grafischen Ausgabe war es einen möglichst geringen Einfluss auf die Ausführungsgeschwindigkeit der Simulation zu nehmen.
+Darüber hinaus ist es wünschenswert den Simulationscode möglichst gut lesbar zu erhalten, um die Fehlersuche bei der Entwicklung zu vereinfachen.
+Es wurde daher entschieden, Simulation und Ausgabe zu trennen.
+Eine geschickte Möglichkeit diese Trennung zu erreichen ist eine Klasse zu entwickeln und der Simulation so die gewünschte Funktionalität in der grafischen Ausgabe bereitzustellen.
+Eine Klasse ist ein Konzept der Objektorientierten Programmierung.
+Sie bieten die Möglichkeit Daten und Funktionen in einer Struktur zu vereinen.
+
+Bei Erzeugung eines Objekts der \code{plotSimulation}-Klasse wird die grafische Ausgabe eingerichtet und relevante Werte des Simulationsfalles eingelesen.
+Diese werden in dem Objekt gespeichert und stehen ohne Zugriff auf den Basis-Workspace zur Verfügung.
+Die Handles der Ausgabefenster, der Achsen- und der Linienobjekte werden ebenfalls in dem Objekt gespeichert.
+Auf sie kann zu einem späteren Zeitpunkt zu gegriffen werden, um die Objekte anzusprechen.
+
+Eine wichtige Komponente der \code{plotSimulation}-Klasse ist das \code{timer}-Objekt mit dem Funktionen in definierten Intervallen ausgeführt werden können.
+So können die teuren Ausgaberoutinen mit einem festen Intervall ausgeführt werden statt bei Erreichen eines Zustands bei der Ausführung der Simulation.
+Diese Funktionalität ist realisiert, in dem die Simulationsschleife dem Ausgabe-Objekt Werte bereitstellt welche aber nicht unverzüglich grafisch ausgegeben werden.
+Stattdessen werden die Daten in dafür vorgesehene Felder des Objekts geschrieben und erst im nächsten Intervall geplottet.
+
+In \matlab existieren Plottingroutinen die für diese Architektur gedacht sind.
+Sie haben einen Cache, in den konstant Daten geschrieben werden können.
+Sobald ein Aufruf der Ausgabefunktion erfolgt werden die Daten in die grafische Ausgabe geplottet.
+
+Im aktuellen Stand kann so eine Ausgabefrequenz von $0{,}5 \si{\hertz}$ erreicht werden die ungefähr ein Drittel der Ausführungszeit der Simulation benötigt.
+Der hohe Aufwand der notwendig ist um in \matlab dieses Ergebnis zu erreichen zeigt, dass eine externe oder nachträgliche Visualisierung der Simulation notwendig.
+Die aktuell grafisch zur Verfügung gestellten Information sind aber sehr hilfreich bei der Entwicklung der Routinen, weswegen nur schwer auf sie verzichtet werden könnte.
+Es ist sehr wenig Aufwand kann die Ausführungszeit der Simulation verbessert werden in dem die Aufrufe zu dem Plot-Objekt ausgelassen werden.
+
+Für die Entwicklung der Simulation bieten sich vier Arten den Fortschritt der Lösung zu visualisieren an.
