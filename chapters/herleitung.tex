@@ -451,7 +451,7 @@ Es folgt für die Beschreibung eines Punktes mit Werkzeugkoordinaten in Maschine
 Bei dem gewählten Lösungsverfahren des Problems soll der Werkzeugwinkel in Abhängigkeit von einer vorgegebenen Höhe eines Werkzeugpunktes in z-Richtung bestimmt werden.
 Es gilt die Formel zu lösen, die sich bei Anwendung der allgemeinen Transformationsmatrix auf einen Werkzeugpunkt in der z-Komponente des Ergebnisses ergibt.
 
-\subsection[Polarkoordinaten]{Werkzeug in Polarkoordinaten definiert}
+\subsection[Zylinderkoordinaten]{Werkzeug in Zylinderkoordinaten definiert}
 
 \begin{equation}
 	\label{eq:koordgleichung}
@@ -521,111 +521,100 @@ Das geschieht durch Addition von Vielfachen $k$ von $\pi$.
 
 \subsection[Kartesische Koordinaten]{Werkstück in kartesischen Koordinaten definiert}
 
-\begin{equation}
-	\begin{pmatrix}p_{\wst,x}\\p_{\wst,y}\\p_{\wst,z}\\1\end{pmatrix} = \mathbf{G} \cdot{} \begin{pmatrix}p_{\wz,x}\\p_{\wz,y}\\p_{\wz,z}\\1\end{pmatrix}
-\end{equation}
-
+Es soll gezeigt werden, dass die Auflösung der Gleichung nach $B$ in kartesischen Koordinaten deutlich weniger komfortabel ist also in zylindrischen.
 \begin{equation*}
-	\begin{split}
-		p_{\wst,z} = z_{soll} = z - c + B \cdot{} \feed{Z}{Wz} + & \sin(A) \cdot{} (y + \yshift + B \cdot{} \feed{Y}{Wz}) \\
-							- & \sin(A) \cdot{} z_\wz \\
-							+ & \cos(A) \cdot{} y_\wz \cdot{} \cos(B) \\
-							+ & \cos(A) \cdot{} x_\wz \cdot{} \sin(B) | -z_{soll}
-	\end{split}
+	\begin{pmatrix}p_{\wst,x}\\p_{\wst,y}\\p_{\wst,z}\\1\end{pmatrix} = \mathbf{G} \cdot{} \begin{pmatrix}p_{\wz,x}\\p_{\wz,y}\\p_{\wz,z}\\1\end{pmatrix}
 \end{equation*}
 
+\begin{align*}
+	p_{\wst,z} = z_{soll} = z - c + B \cdot{} \feed{Z}{Wz} + & \sin(A) \cdot{} (y + \yshift + B \cdot{} \feed{Y}{Wz}) \\
+						- & \sin(A) \cdot{} z_\wz \\
+						+ & \cos(A) \cdot{} y_\wz \cdot{} \cos(B) \\
+						+ & \cos(A) \cdot{} x_\wz \cdot{} \sin(B) | -z_{soll}
+\end{align*}
 
-\begin{equation}
-	\begin{split}
-		0 = z - c - z_{soll} + B \cdot{} \feed{Z}{Wz} + & \sin(A) \cdot{} (y + \yshift + B \cdot{} \feed{Y}{Wz} - z_\wz) \\
-												+ & \cos{(A)} \cdot{} (y_\wz \cdot{} \cos(B) + x_\wz \cdot{} \sin(B))
-	\end{split}
-\end{equation}
+\begin{align*}
+	0  = z - c - z_{soll} + B \cdot{} \feed{Z}{Wz} & + \sin(A) \cdot{} (y + \yshift + B \cdot{} \feed{Y}{Wz} - z_\wz) \\
+											& + \cos{(A)} \cdot{} (y_\wz \cdot{} \cos(B) + x_\wz \cdot{} \sin(B))
+\end{align*}
 
-Mit:
-\begin{equation}
-	\begin{split}
+\begin{align*}
+	0 = &\beta +
+		\sin(A) \cdot{} \alpha +
+		\cos{(A)} \cdot{} (y_\wz \cdot{} \cos(B) + x_\wz \cdot{} \sin(B)) \quad | - \cos{(A)} \cdot (\dots)\\
+	& \begin{aligned}
+		\text{mit \quad}
 		\beta & = z - c - z_{soll} + B \cdot{} \feed{Z}{Wz}\\
 		\alpha &= y + \yshift + B \cdot{} \feed{Y}{Wz} - z_\wz
-	\end{split}
-\end{equation}
+	\end{aligned}
+\end{align*}
 
-\begin{equation}
-	\begin{split}
-		0 = \beta +
-			\sin(A) \cdot{} \alpha +
-			\cos{(A)} \cdot{} (y_\wz \cdot{} \cos(B) + x_\wz \cdot{} \sin(B)) | - \cos{(A)} \cdot (\dots)
-	\end{split}
-\end{equation}
-
-\begin{equation}
+\begin{equation*}
 	(-1) \cdot (\cos{(A)} \cdot{} (y_\wz \cdot{} \cos(B) + x_\wz \cdot{} \sin(B))) = 
-	\beta +	\sin(A) \cdot{} \alpha | \cdot (-1) \cdot \frac{1}{\cos{A}}
-\end{equation}
+	\beta +	\sin(A) \cdot{} \alpha \quad | \cdot (-1) \cdot \frac{1}{\cos{A}}
+\end{equation*}
 
-\begin{equation}
+\begin{equation*}
 	y_\wz \cdot{} \cos(B) + x_\wz \cdot{} \sin(B) = 
 	(-1) \cdot \left(
 	\frac{\beta}{\cos{(A)}} +
 	\frac{\sin(A)}{\cos{(A)}} \cdot{} \alpha \right) \quad | \cdot \frac{1}{\cos{(B)}}
-\end{equation}
+\end{equation*}
 
-\begin{equation}
+\begin{equation*}
 	y_\wz + x_\wz \cdot{} \frac{\sin(B)}{\cos{B}} = 
 	(-1) \cdot \left(
 	\frac{\beta}{\cos{A} \cdot \cos{B}} +
 	\frac{\sin(A)}{\cos{A} \cdot \cos{B}} \cdot{} \alpha \right)
-\end{equation}
+\end{equation*}
 
-\begin{equation}
+\begin{equation*}
 	(-1) \cdot (y_\wz + x_\wz \cdot{} \frac{\sin(B)}{\cos{(B)}}) = 
 	\frac{\beta}{\cos{(A)} \cdot \cos{(B)}} +
-	\frac{\tan{(A)}}{\cos{(B)}} \cdot{} (y + \yshift + B \cdot{} \feed{Y}{Wz} - z_\wz) | + y_\wz
-\end{equation}
+	\frac{\tan{(A)}}{\cos{(B)}} \cdot{} (y + \yshift + B \cdot{} \feed{Y}{Wz} - z_\wz) \quad | + y_\wz
+\end{equation*}
 
 \begin{equation}
 	- x_\wz \cdot{} \tan{B} = 
 	\frac{\beta}{\cos{(A)} \cdot \cos{(B)}} +
 	\frac{\tan{(A)}}{\cos{(B)}} \cdot{} (y + \yshift + B \cdot{} \feed{Y}{Wz} - z_\wz) + y_\wz
 \end{equation}
+Man kann erkennen, dass die Isolierung von $B$ nicht möglich ist.
+$B$ tritt sowohl in den sinoidalen Funktionen auf, als auch als ein linearer Faktor.
 
-\begin{equation}
-	\tan{x} = \frac{\sin{x}}{\cos{x}}
-\end{equation}
+Etwas geschickter ist noch die folgende Weise, die Gleichung aufzulösen:
 
-\begin{equation}
-	\begin{split}
-		0 = z - c - z_{soll} + B \cdot{} \feed{Z}{Wz} + & \sin(A) \cdot{} (y + \yshift + B \cdot{} \feed{Y}{Wz} - z_\wz) \\
-		+ & \cos{(A)} \cdot{} (y_\wz + x_\wz \cdot{} \tan(B))
-	\end{split}
-\end{equation}
+\begin{align*}
+	0 = z - c - z_{soll} + B \cdot{} \feed{Z}{Wz} + & \sin(A) \cdot{} (y + \yshift + B \cdot{} \feed{Y}{Wz} - z_\wz) \\
+	+ & \cos{(A)} \cdot{} (y_\wz + x_\wz \cdot{} \tan(B)) \quad | - \cos{(A)} \cdot (\dots)
+\end{align*}
+\begin{align*}
+	-\cos{(A)} \cdot{} (y_\wz + x_\wz \cdot{} \tan(B)) = & \\
+ z - c - z_{soll} + B \cdot{} \feed{Z}{Wz} + & \sin(A) \cdot{} (y + \yshift + B \cdot{} \feed{Y}{Wz} - z_\wz)
+	\quad | \cdot \left(- \cos{(A)} \right)
+\end{align*}
 
-\begin{equation}
-	\begin{split}
-		-\cos{(A)} \cdot{} (y_\wz + x_\wz \cdot{} \tan(B)) = & \\
-		 z - c - z_{soll} + B \cdot{} \feed{Z}{Wz} + & \sin(A) \cdot{} (y + \yshift + B \cdot{} \feed{Y}{Wz} - z_\wz) \\
-	\end{split}
-\end{equation}
+\begin{equation*}
+	y_\wz + x_\wz \cdot{} \tan(B) = -\frac{z - c - z_{soll} + B \cdot{} \feed{Z}{Wz} + \sin(A) \cdot{} (y + \yshift + B \cdot{} \feed{Y}{Wz} - z_\wz)}{\cos{(A)}} \quad | -y_\wz
+\end{equation*}
 
-\begin{equation}
-	y_\wz + x_\wz \cdot{} \tan(B) = -\frac{z - c - z_{soll} + B \cdot{} \feed{Z}{Wz} + \sin(A) \cdot{} (y + \yshift + B \cdot{} \feed{Y}{Wz} - z_\wz)}{\cos{(A)}}
-\end{equation}
-
-\begin{equation}
+\begin{equation*}
 	x_\wz \cdot{} \tan(B) =
 					-\frac{z - c - z_{soll} + B \cdot{} \feed{Z}{Wz}}{\cos{(A)}}
 					- y_\wz
-					- \frac{\sin(A)}{\cos{(A)}} \cdot{} (y + \yshift + B \cdot{} \feed{Y}{Wz} - z_\wz)
-\end{equation}
+					- \frac{\sin(A)}{\cos{(A)}} \cdot{} (y + \yshift + B \cdot{} \feed{Y}{Wz} - z_\wz) \quad | \cdot \frac{1}{x_\wz}
+\end{equation*}
 
-\begin{equation}
+\begin{equation*}
 	\tan(B) = -\frac{z - c - z_{soll} + B \cdot{} \feed{Z}{Wz}}{\cos{(A)} \cdot{} x_\wz}
 				- \frac{y_\wz}{x_\wz}
 				- \tan{(A)} \cdot{} \frac{y + \yshift + B \cdot{} \feed{Y}{Wz} - z_\wz}{x_\wz}
-				| \arctan{()}
-\end{equation}
+				\quad | \arctan{(\dots)}
+\end{equation*}
 
-\begin{equation}
+\begin{equation*}
 	B = -\arctan{\left(\frac{z - c - z_{soll} + B \cdot{} \feed{Z}{Wz}}{\cos{(A)} \cdot{} x_\wz} +\frac{y_\wz}{x_\wz}\right)}
 		- A \cdot{} \frac{y + \yshift + B \cdot{} \feed{Y}{Wz} - z_\wz}{x_\wz}
-\end{equation}
+\end{equation*}
+Allerdings tritt auch hier $B$ in einer sinoidalen Funktion und als linearer Faktor auf.
+Die Definition des Werkzeugs in Zylinderkoordinaten ist also deutlich geschickter und wird daher in dieser Arbeit als Vorgehensweise gewählt.

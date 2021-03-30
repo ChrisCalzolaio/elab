@@ -52,7 +52,7 @@ Diese Größen sind im betrachteten Fall null.
 Die Y-Achse verändert im betrachteten Fall ihrer Position ausgehend von ihrem Startwert nicht.
 
 Danach wird die Werkzeuggeometrie erzeugt.
-Wie in Kapitel \ref{c:werkzeugkinematik} erläutert, wird die Geometrie des Werkzeuges in Polarkoordinaten beschrieben.
+Wie in Kapitel \ref{c:werkzeugkinematik} erläutert, wird die Geometrie des Werkzeuges in Zylinderkoordinaten beschrieben.
 Dabei wird im aktuellen Stand das Bezugsprofil durch vier Eckpunkte dargestellt, deren Koordinaten mit einem Algorithmus von \scherbarth berechnet werden.
 Da eine Zahnstange als Zahnrad mit unendliche großer Zähnezahl verstanden werden kann, haben ihre Zähne gerade Flanken \cite[Kap. 3]{Widmer1981}.
 Eine Annäherung der Zahnstange mit vier Punkten ist deswegen zweckmäßig, obwohl Verrundungen am Zahnkopf damit noch nicht dargestellt werden können.
@@ -115,8 +115,14 @@ Die Funktion gibt als logischen Wert zurück, ob der Werkzeugpunkt engaged ist o
 	\label{fig:heightdistance}
 \end{figure}
 
-Die Abbildung \ref{fig:heightdistance} verdeutlicht das Vorgehen bei diesem iterativen Verfahren.
-Die Panels dieser Darstellung zeigen die Entwicklung von Koordinatenkomponenten eines Schneidenpunktes aufgetragen über den Drehwinkel des Werkzeugs, ausgehend von der Startkonfiguration.
+\begin{figure}
+	\includegraphics{3dview}
+	\caption{3D Ansicht der Iterationsschritte bei der Findung der Startkonfiguration}
+	\label{fig:3dview}
+\end{figure}
+
+Die Abbildung \ref{fig:heightdistance} und \ref{fig:3dview} verdeutlichen das Vorgehen bei diesem iterativen Verfahren.
+Die Panels der Abbildung \ref{fig:heightdistance} zeigen die Entwicklung von Koordinatenkomponenten eines Schneidenpunktes aufgetragen über den Drehwinkel des Werkzeugs, ausgehend von der Startkonfiguration.
 Das obere der beiden Panels zeigt dabei die Höhe des Schneidenpunkte im Koordinatensystem des Werkstücks.
 Der kontinuierliche Verlauf der Höhenkomponente ist dabei mit einer gelben Linie dargestellt.
 Bei allen Konfigurationen des Werkzeugs wird die Höhe des Schneidenpunktes im Werkstückoordinatensystem auf diesem Verlauf liegen.
@@ -125,6 +131,13 @@ Das untere Panel zeigt den Verlauf des Abstands des Schneidenpunktes von der Mit
 Hier ist ebenfalls der kontinuierliche Verlauf mit einer gelben Linie markiert.
 Der äußere Begrenzung des Werkstücks wird durch eine rot strichlierte Linie dargestellt, die im Wert des Radius des Werkstück verläuft.
 Die Orte, für welche das Engagement des Werkzeugs geprüft wird, sind mit einem grünen Stern markiert.
+
+In Abbildung \ref{fig:3dview} ist derselbe Vorgang dreidimensional dargestellt.
+Dadurch wird die Position der seek-, Schnittkandidaten und Schnittpunkte im Raum ersichtlich.
+Die äußeren Abmessungen des Bauteils sind durch ebene Flächen für die z-Ausdehnung und einen Zylinder für den Durchmesser des Bauteils markiert.
+Man kann erkennen, dass der Algorithmus das Werkzeug so lange sprunghaft rotiert, bis mindestens ein Punkt der Schneide innerhalb der äußeren Bauteilabmessungen liegt.
+Anschließend wird ausgehend von der obersten Schnittebene des Werkstücks nach einer validen Schnittkonfiguraiton gesucht, bis diese erreicht wird.
+Der kontinuierliche Verlauf des Werkzeugs wird in dieser Darstellung nicht visualisiert um die Übersichtlichkeit nicht zu beeinträchtigen.
 
 Man kann erkennen, dass bei diesem Verfahren das Werkzeug das eine Rotation des Werkzeugs mit einer festen Schrittweite erfolgt, bevor Engagement überprüft wird.
 Bei der letzten Prüfmarkierung sind erstmalig für diesen Schnitt die Engagement-Bedingungen erfüllt.
@@ -162,8 +175,8 @@ Ist dies nicht der Fall, wird für die Lösung die nächst tiefergelegene Ebene 
 Das Werkzeug bewegt sich entlang seiner Rotation mit abfallender Höhe in z näher zur Achse des Werkstücks und kann so in Berührung kommen.
 Für diese Ebene wird gelöst und wieder auf Engagement geprüft.
 
-Das Resultat dieser Iteration ist in Abbildung \ref{fig:heightdistance} der erste Punkt der dunkelroten Linie.
-Er markiert die erste Konfiguration bei der sich mindestens ein Punkt der Schneide im Eingriff befindet.
+Das Resultat dieser Iteration sind in den Abbildungen \ref{fig:heightdistance} und \ref{fig:3dview} der ersten Punkte der dunkelroten Linien.
+Sie markieren die erste Konfiguration bei der sich mindestens ein Punkt der Schneide im Eingriff befindet.
 
 Zwar muss so bei den iterativen Schritten ebenfalls wiederholt Engagement geprüft werden.
 Allerdings kann die endgültige Lösung gespeichert und für die nächste Werkzeugumdrehung als Startebene verwendet werden.
@@ -380,6 +393,15 @@ Der übersprungene Winkel ist folglich
 Bei dieser Simulationsmethodik bietet sich dann ein Zähler der durchgeführten Schritte an um die Simulation zu stoppen.
 
 \section{Plotten}
+\begin{figure}
+	\includegraphics[width=\textwidth,keepaspectratio]{pointcloud}
+	\caption{Ausgegebene Punktewolke}
+	\label{fig:pointcloud}
+\end{figure}
+
+Die Abbildung \ref{fig:pointcloud} zeigt die dreidimensionale Ausgabe der Punktewolke des Simulationsergebnisses.
+Diese Darstellung wird während der Simulation in Echtzeit ausgegeben und zeigt somit immer den aktuellen Stand der Simulation.
+
 Die Herausforderung bei der grafischen Ausgabe war es einen möglichst geringen Einfluss auf die Ausführungsgeschwindigkeit der Simulation zu nehmen.
 Darüber hinaus ist es wünschenswert den Simulationscode möglichst gut lesbar zu erhalten, um die Fehlersuche bei der Entwicklung zu vereinfachen.
 Es wurde daher entschieden, Simulation und Ausgabe zu trennen.
@@ -406,4 +428,8 @@ Der hohe Aufwand der notwendig ist um in \matlab dieses Ergebnis zu erreichen ze
 Die aktuell grafisch zur Verfügung gestellten Information sind aber sehr hilfreich bei der Entwicklung der Routinen, weswegen nur schwer auf sie verzichtet werden könnte.
 Es ist sehr wenig Aufwand kann die Ausführungszeit der Simulation verbessert werden in dem die Aufrufe zu dem Plot-Objekt ausgelassen werden.
 
-Für die Entwicklung der Simulation bieten sich vier Arten den Fortschritt der Lösung zu visualisieren an.
+Die Abbildungen \ref{fig:heightdistance}, \ref{fig:3dview}, \ref{fig:uberlagerung} und \ref{fig:pointcloud} werden während der Simulation in Echtzeit aktualisiert.
+Sie haben sich trotz dem negativen Einfluss auf die Ausführungsdauer der Simulation als äußerst hilfreich erwiesen um den Fortschritt und das Verhalten der Simulation zu überwachen.
+So konnte zum Beispiel mit Hilfe von Abbildung \ref{fig:heightdistance} erkannt werden, dass ein Abbruchkriterium für jeden Schnitt notwendig ist.
+Ohne dieses Abbruchkriterium versucht der Algorithmus nach Erreichen des tiefsten Punktes auf der Trajektorie der Schneideneckpunkte eine noch tiefere Schnittebene des Werkstücks zu erreichen.
+Dies war die Ursache, für die während der Entwicklung festgestellte imaginäre Lösung der Gleichung \ref{eq:fixpunkt}.
