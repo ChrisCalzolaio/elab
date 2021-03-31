@@ -22,7 +22,7 @@ Dieses Repository enthält Dependecies von dem Repository:\\
 \centerline{\url{https://github.com/ChrisSchuster/matlab-utils}}
 
 \section{Vorbereitung der Simulation}
-Vor Beginn der Simulation werden die Simulationssteuerungsparameter eingelesen.
+Im Codeausschnitt \ref{code:setup} wird gezeigt, wie zu Beginn der Simulation die Simulationssteuerungsparameter eingelesen werden.
 Dabei werden zunächst die Eingabedaten des betrachteten Falles festgelegt.
 Mit den folgenden Parametern kann definiert werden, wie dieser Fall gestaltet ist:
 \begin{itemize}
@@ -40,6 +40,7 @@ Die Position der X-Achse der Maschine wird berechnet über den Achsabstand des g
 	\item[$a$] Achsabstand
 	\item[$d_{s1}$, $d_{s2}$] Teilkreisdurchmesser von Schneckenrad und Schnecke
 \end{eqdscr}
+\begin{minipage}{\textwidth}
 Der Teilkreisdurchmesser des Schneckenrades wird berechnet nach \cite{Matek2017}:
 \begin{equation*}
 	d_{s1} = m \cdot z
@@ -48,6 +49,9 @@ Der Teilkreisdurchmesser des Schneckenrades wird berechnet nach \cite{Matek2017}
 	\item[$m$] Modul
 	\item[$z$] Zähnezahl des Werkstückes
 \end{eqdscr}
+\end{minipage}
+\lstinputlisting[caption = {Bedatung der Maschinenparameter}, linerange=4-32,firstnumber=4, label={code:setup}]{../ba/methods/vf1/vf1.m}
+
 Der Vorschubfaktor der X-Achse $\feed{X}{\wz}$ ist im betrachteten Fall null, sie verändert also ihre Position ausgehend von der Startposition im Verlauf der Simulation nicht.
 
 Für den Startwert der Y-Achse müssen die Größen $y$, Achsverschiebung im Ausgang, und $\yshift$ festgelegt werden.
@@ -61,6 +65,9 @@ Dabei wird im aktuellen Stand das Bezugsprofil durch vier Eckpunkte dargestellt,
 Da eine Zahnstange als Zahnrad mit unendlich großer Zähnezahl verstanden werden kann, haben ihre Zähne gerade Flanken \cite[Kap. 3]{Widmer1981}.
 Eine Annäherung der Zahnstange mit vier Punkten ist deswegen zweckmäßig, obwohl Verrundungen am Zahnkopf damit noch nicht dargestellt werden können.
 
+\lstinputlisting[caption = {Aufsetzen der Ausgangsdaten der Simulation}, linerange=35-74,firstnumber=35,label={code:startdata}]{../ba/methods/vf1/vf1.m}
+
+Der Codeausschnitt \ref{code:startdata} zeigt, wie die Daten von Werkzeug und Werkstück in der Ausgangssituation erzeugt werden.
 Das Werkzeug wird als Array aus Polyshape Objekten abgelegt.
 Dazu werden zunächst eine Menge diskreter Eckpunkte auf einem Kreis mit definierbarem Durchmesser erzeugt.
 Die Menge der Eckpunkte richtet sich an der Menge der geforderten diskreten Ebenen.
@@ -97,6 +104,8 @@ Befindet sich ein Punkt des Werkzeugs in Hüllgeometrie des Werkstücks ist das 
 Die Hüllgeomtrie des Werkstücks entspricht der Form des Rohmaterials und ist somit ein Zylinder mit dem Durchmesser und der Höhe des Werkstücks.
 Die Lage des Werkstücks entlang der z-Achse des Bearbeitungstischkoordinatensystems ist definierbar.
 
+\lstinputlisting[caption = {Funktion zur Prüfung des Engagements}, linerange={1-1,7-19}]{../ba/fun/checkEngagement/checkEng.m}
+
 Engagement wird in der Funktion \code{checkEng} durch Vergleich der Position der Schneidenecken mit der Ausdehnung des Werkstücks erkannt.
 Dabei ist es geschickt die Position der Schneidenecken in Zylinkerkoordinaten zu beschreiben.
 Vergleichbar zu den deckungsgleichen kartesischen und zylindrischen Koordinatensystemen des Werkzeugs, kann auch das Werkstück in kartesischen und zylindrischen Koordinatensystemen beschrieben werden.
@@ -125,7 +134,9 @@ Die Funktion gibt als logischen Wert zurück, ob der Werkzeugpunkt engaged ist o
 	\label{fig:3dview}
 \end{figure}
 
-Die Abbildung \ref{fig:heightdistance} und \ref{fig:3dview} verdeutlichen das Vorgehen bei diesem iterativen Verfahren.
+\lstinputlisting[caption = {Findung der Startkonfiguration}, linerange=99-116,firstnumber=99, label={code:startkonfiguration}]{../ba/methods/vf1/vf1.m}
+
+Die Abbildung \ref{fig:heightdistance} und \ref{fig:3dview} verdeutlichen das Vorgehen des in Codeausschnitt \ref{code:startkonfiguration} gezeigten iterativen Verfahren.
 Die Panels der Abbildung \ref{fig:heightdistance} zeigen die Entwicklung von Koordinatenkomponenten eines Schneidenpunktes aufgetragen über den Drehwinkel des Werkzeugs, ausgehend von der Startkonfiguration.
 Das obere der beiden Panels zeigt dabei die Höhe des Schneidenpunkte im Koordinatensystem des Werkstücks.
 Der kontinuierliche Verlauf der Höhenkomponente ist dabei mit einer gelben Linie dargestellt.
@@ -238,7 +249,9 @@ Es wird vermutet, dass der Fehler kleiner ist als die Rechnengenauigkeit der CPU
 Die Methode bietet außerdem den Vorteil, dass als Startwert für die iterative Lösung des nächsten Werkzeugpunktes die letzte Lösung verwendet werden kann.
 Das ist möglich, da bei geringem Abstand der Schnittebenen des Werkstücks auch die Lösungen nahe beieinander liegen müssen.
 
-Die  Gleichung \ref{eq:fixpunkt} ist im \matlab Code als anonyme Funktion definiert.
+\lstinputlisting[caption = {Repräsentation der Fixpunktgleichungen als anonyme Funktionen}, linerange=79-91,firstnumber=79, label={code:anonfun}]{../ba/methods/vf1/vf1.m}
+
+In dem Codeausschnitt \ref{code:anonfun} ist erkennbar, dass die Gleichung \ref{eq:fixpunkt} als anonyme Funktion definiert ist.
 ,,Eine anonyme Funktion ist eine Funktion, welche nicht in einer Programmdatei gespeichert ist.'' \cite{mwAnonFun}.
 Sie wird stattdessen im Code definiert, und einer Variable des Datentyps Funktionshandle zugewiesen.
 Sie steht damit auch nur dem Scope zur Verfügung in dem sie definiert wurde, und ist somit privat.
@@ -257,6 +270,9 @@ In diesem sind die Werkzeugwinkel für jeden Punkt der Schneide abgelegt.
 Die Operationen werden elementweise ausgeführt und in einem gleichartig strukturiertem Vektor ausgegeben.
 Diese Methode bietet gegenüber einer sukzessiven Berechnung einen großen Vorteil bei der Ausführungsgeschwindigkeit.
 
+\lstinputlisting[caption = {Lösung der Fixpunktgleichung vor Durchführen eines Schnittes}, linerange=122-159,firstnumber=122, label={code:fixpunktloes}]{../ba/methods/vf1/vf1.m}
+
+Der Codeausschnitt \ref{code:fixpunktloes} zeigt die Lösung der Fixpunktgleichung für jede diskrete Ebene des Werkstücks.
 Nach jeder Lösung der Funktion in der Iterationsschleife wird überprüft, ob die erhaltenen Winkel real sind.
 Das hat historische Gründe, da zu Beginn der Entwicklung nicht bedacht wurde, dass der Wertebereich des Arkussinus $\left[-1, 1\right]$ ist.
 Wird der Funktion also vorgegeben den Werkzeugwinkel für eine Ebene zu berechnen, die kinematisch für das Werkzeug nicht mehr zu erreichen ist, wird der Wertebereich unterschritten.
@@ -309,7 +325,9 @@ Auch gilt es noch zu untersuchen, welchen Einfluss die Anzahl der Eckpunkte bei 
 Die in Abbildung \ref{fig:uberlagerung} gelb dargestellte Fläche ist der Überlagerungsbereich von Werkzeug- und Werkstückoperation.
 Dieser überlagerte Bereich wird bei der Simulation der Schnittoperation von dem Werkstückpolygon abgezogen.
 
-Diese Operation wird in der Simulation durchgeführt, nachdem alle Winkel berechnet wurden, bei denen die Eckpunkte der Schneide auf einer Schnittebene liegen.
+\lstinputlisting[caption = {Verschneidung der überlagerten Polygonbereiche}, linerange=161-178,firstnumber=161, label={code:uberlagerung}]{../ba/methods/vf1/vf1.m}
+
+Die in dem Codeausschnitt \ref{code:uberlagerung} gezeigte Operation wird in der Simulation durchgeführt, nachdem alle Winkel berechnet wurden, bei denen die Eckpunkte der Schneide auf einer Schnittebene liegen.
 Um eine Überlagerung von Werkstück und Schneide berechnen zu können, müssen die beiden Geometrien koplanar sein.
 Wie in Abschnitt \ref{c:berechnungwinkel} erwähnt, muss dazu die Schneide auf die Werkstückschnittebene projiziert werden.
 Diese Operation wird für jeden Punkt einzeln durchgeführt.
@@ -355,7 +373,9 @@ Wir beschrieben beginnt der Schnitt mit der ersten gefundenen Konfiguration des 
 Der Schnitt ist beendet, wenn die Schneide des Werkzeugs nach einer Überlagerungskonfiguration den ersten Iterationsschritt nicht mehr engaged ist.
 Dieser Zustand wird mit der beschriebenen Methode erkannt.
 
-Ist das Schnittende erreicht, wird nur der größte gefundene Werkzeugwinkel behalten.
+\lstinputlisting[caption = {Operation bei Erreichen des Schnittendes}, linerange=180-192,firstnumber=180, label={code:schnittende}]{../ba/methods/vf1/vf1.m}
+
+Ist bei dem Codeausschnitt \ref{code:schnittende} das Schnittende erreicht, wird nur der größte gefundene Werkzeugwinkel behalten.
 Es kann davon ausgegangen werden, dass die Schneide einen Anteil einer Umdrehung zurücklegt, bis sie wieder in Eingriff geraten kann.
 Die Größe des Winkels hängt von der Anordnung von Werkzeug und Werkstück ab.
 Eine zuverlässige Annahme ist eine halbe Umdrehung.
