@@ -28,7 +28,7 @@ Mit den folgenden Parametern kann definiert werden, wie dieser Fall gestaltet is
 \begin{itemize}
 	\item Zähnezahl des Zahnrades
 	\item Modul des Zahnrades
-	\item Geometrie des des Werkzeuges (Durchmesser, Kopf- und Fußhöhe)	
+	\item Geometrie des  Werkzeuges (Durchmesser, Kopf- und Fußhöhe)
 \end{itemize}
 Aus diesen Parametern können weitere Startbedingungen ermittelt werden.
 So ist die Startposition des Werkzeugs und den daraus folgenden Positionen der Maschinenkomponenten zu berechnen, wie sie in Abschnitt \ref{c:maschkomppos} besprochen wurden.
@@ -53,17 +53,17 @@ Der Vorschubfaktor der X-Achse $\feed{X}{\wz}$ ist im betrachteten Fall null, si
 Für den Startwert der Y-Achse müssen die Größen $y$, Achsverschiebung im Ausgang, und $\yshift$ festgelegt werden.
 Ebenso ist für den Achsvorschub der Y-Achse $\feed{Y}{\wz}$ ein Wert einzugeben.
 Diese Größen sind im betrachteten Fall null.
-Die Y-Achse verändert im betrachteten Fall ihrer Position ausgehend von ihrem Startwert nicht.
+Die Y-Achse verändert im betrachteten Fall ihre Position ausgehend von ihrem Startwert nicht.
 
 Danach wird die Werkzeuggeometrie erzeugt.
 Wie in Kapitel \ref{c:werkzeugkinematik} erläutert, wird die Geometrie des Werkzeuges in Zylinderkoordinaten beschrieben.
 Dabei wird im aktuellen Stand das Bezugsprofil durch vier Eckpunkte dargestellt, deren Koordinaten mit einem Algorithmus von \scherbarth berechnet werden.
-Da eine Zahnstange als Zahnrad mit unendliche großer Zähnezahl verstanden werden kann, haben ihre Zähne gerade Flanken \cite[Kap. 3]{Widmer1981}.
+Da eine Zahnstange als Zahnrad mit unendlich großer Zähnezahl verstanden werden kann, haben ihre Zähne gerade Flanken \cite[Kap. 3]{Widmer1981}.
 Eine Annäherung der Zahnstange mit vier Punkten ist deswegen zweckmäßig, obwohl Verrundungen am Zahnkopf damit noch nicht dargestellt werden können.
 
 Das Werkzeug wird als Array aus Polyshape Objekten abgelegt.
-Dazu werden zunächst eine Menge diskrete Eckpunkte auf einem Kreis mit definierbarem Durchmesser erzeugt.
-Die Menge der Eckpunkten richtet sich an der Menge der geforderten diskreten Ebenen.
+Dazu werden zunächst eine Menge diskreter Eckpunkte auf einem Kreis mit definierbarem Durchmesser erzeugt.
+Die Menge der Eckpunkte richtet sich an der Menge der geforderten diskreten Ebenen.
 So soll sicher gestellt werden, dass sich die auf der Werkstückoberflächen liegenden Vertices zu gleichschenkligen Dreiecken vernetzen lassen.
 Aus den Eckpunkten wird dann ein Polyshape Objekt erzeugt.
 Dieses wird entsprechend der Anzahl der geforderten Ebenen in ein Array repliziert.
@@ -72,7 +72,7 @@ Auch wird ein Vektor erzeugt, der gleich strukturiert ist und die z-Koordinaten 
 Um mitverfolgen zu können, auf welche Weise ein Vertice einer Schnittgeomtrie entstanden ist, wird bei jeder Schnittoperation zu jedem Vertice ein entsprechender Wert zurückgegeben.
 Diese Klassifikation wird für jede Schnittgeomtrie in einem Vektor gespeichert, der ebenfalls zu einem Array repliziert werden muss.
 
-Die Simulation beginnt mit einem Ebenenindex $m$ von ein.
+Die Simulation beginnt mit einem Ebenenindex $m$ von eins.
 Es wird zunächst davon ausgegangen, dass die erste Ebene des Werkstücks geschnitten wird.
 Vor jedem Schnitt wird die oberste Ebene ermittelt, die eine valide Schnittkonfiguration hervorbringt.
 Wie diese Erkennung funktioniert wird in Abschnitt \ref{c:startkonfig} erläutert.
@@ -129,11 +129,11 @@ Die Abbildung \ref{fig:heightdistance} und \ref{fig:3dview} verdeutlichen das Vo
 Die Panels der Abbildung \ref{fig:heightdistance} zeigen die Entwicklung von Koordinatenkomponenten eines Schneidenpunktes aufgetragen über den Drehwinkel des Werkzeugs, ausgehend von der Startkonfiguration.
 Das obere der beiden Panels zeigt dabei die Höhe des Schneidenpunkte im Koordinatensystem des Werkstücks.
 Der kontinuierliche Verlauf der Höhenkomponente ist dabei mit einer gelben Linie dargestellt.
-Bei allen Konfigurationen des Werkzeugs wird die Höhe des Schneidenpunktes im Werkstückoordinatensystem auf diesem Verlauf liegen.
-Mit den rot strichlierten Linie ist die obere beziehungsweise untere Begrenzung der Werkstückausdehnung angedeutet.
+Bei allen Konfigurationen des Werkzeugs wird die Höhe des Schneidenpunktes im Werkstückkoordinatensystem auf diesem Verlauf liegen.
+Mit den rot strichlierten Linien ist die obere beziehungsweise untere Begrenzung der Werkstückausdehnung angedeutet.
 Das untere Panel zeigt den Verlauf des Abstands des Schneidenpunktes von der Mittelachse des Werkstücks.
 Hier ist ebenfalls der kontinuierliche Verlauf mit einer gelben Linie markiert.
-Der äußere Begrenzung des Werkstücks wird durch eine rot strichlierte Linie dargestellt, die im Wert des Radius des Werkstück verläuft.
+Die äußere Begrenzung des Werkstücks wird durch eine rot strichlierte Linie dargestellt, die im Wert des Radius des Werkstücks verläuft.
 Die Orte, für welche das Engagement des Werkzeugs geprüft wird, sind mit einem grünen Stern markiert.
 
 In Abbildung \ref{fig:3dview} ist derselbe Vorgang dreidimensional dargestellt.
@@ -143,7 +143,7 @@ Man kann erkennen, dass der Algorithmus das Werkzeug so lange sprunghaft rotiert
 Anschließend wird ausgehend von der obersten Schnittebene des Werkstücks nach einer validen Schnittkonfiguraiton gesucht, bis diese erreicht wird.
 Der kontinuierliche Verlauf des Werkzeugs wird in dieser Darstellung nicht visualisiert um die Übersichtlichkeit nicht zu beeinträchtigen.
 
-Man kann erkennen, dass bei diesem Verfahren das Werkzeug das eine Rotation des Werkzeugs mit einer festen Schrittweite erfolgt, bevor Engagement überprüft wird.
+Man kann erkennen, dass bei diesem Verfahren die Rotation des Werkzeugs mit einer festen Schrittweite erfolgt, bevor Engagement überprüft wird.
 Bei der letzten Prüfmarkierung sind erstmalig für diesen Schnitt die Engagement-Bedingungen erfüllt.
 Die Position des geprüften Punktes liegt im Intervall der Höhenausdehnung und in der radialen Ausdehnung des Werkstücks.
 
@@ -151,7 +151,7 @@ Das Ziel des Findens der Startkonfiguration ist es, die Rotation des Werkzeuges 
 Der Seek liefert einen Werkzeugwinkel, welcher in der Nähe dieser Konfiguration liegt.
 Durch Verkleinerung der Schrittweite beim Seeken kann die Lösungskonfiguration dieses Näherungsverfahrens näher an die tatsächliche Lösung geführt werden.
 Allerdings muss die Berechnung des Engagements, also des Eingriffs der Schneide, für jeden Iterationsschritt erfolgen und sollte deswegen sehr günstig sein, somit wenig Rechenzeit in Anspruch nehmen.
-Gleichzeit muss ein Kompromiss zwischen der Größe der Schrittweite beim Seeken und der dafür notwendigen Rechenzeit gefunden werden.
+Gleichzeitig muss ein Kompromiss zwischen der Größe der Schrittweite beim Seeken und der dafür notwendigen Rechenzeit gefunden werden.
 Mit einem nachträglichen Schritt kann eine Lösungskonfiguration weit innerhalb des Werkstück-Envelopes geschickt ausgeglichen werden.
 
 Sobald durch Iteration eine Konfiguration gefunden wurde, die als engaged gewertet wird, kann der so gefundene Winkel des Werkzeugs $B$ als Eingangswert $B_0$ für Gleichung \ref{eq:loesung} verwendet werden.
@@ -168,7 +168,7 @@ Die Lösung des Werkzeugwinkels muss im zweiten oder dritten Quadranten des Koor
 Der Lösungsbereich des Arkussinus ist $\left[-\frac{\pi}{2}, \frac{\pi}{2}\right]$.
 Es muss also $\pi$ addiert werden um eine Lösung im dritten Quadranten, mit Wertebereich $\left[\frac{\pi}{2}, \frac{3\cdot \pi}{2}\right]$, zu erhalten.
 
-Es ist also noch nicht bekannt, auf welcher Ebene das Werkzeug das Werkstück initial berührt.
+Es ist noch nicht bekannt, auf welcher Ebene das Werkzeug das Werkstück initial berührt.
 Auf dieser Ebene soll der Punkt des Werkzeugs für den gelöst wird liegen.
 Der Wert der z-Koordinate dieser Ebene wird in Gleichung \ref{eq:loesung} als $z_{soll}$ bezeichnet.
 Am Anfang der Simulation ist die geometrische Beziehung von Werkzeug und Werkstück nicht bekannt.
@@ -179,7 +179,7 @@ Ist dies nicht der Fall, wird für die Lösung die nächst tiefergelegene Ebene 
 Das Werkzeug bewegt sich entlang seiner Rotation mit abfallender Höhe in z näher zur Achse des Werkstücks und kann so in Berührung kommen.
 Für diese Ebene wird gelöst und wieder auf Engagement geprüft.
 
-Das Resultat dieser Iteration sind in den Abbildungen \ref{fig:heightdistance} und \ref{fig:3dview} der ersten Punkte der dunkelroten Linien.
+Das Resultat dieser Iteration wird in den Abbildungen \ref{fig:heightdistance} und \ref{fig:3dview} mit dem jeweilig ersten Punkt der dunkelroten Linien markiert.
 Sie markieren die erste Konfiguration bei der sich mindestens ein Punkt der Schneide im Eingriff befindet.
 
 Zwar muss so bei den iterativen Schritten ebenfalls wiederholt Engagement geprüft werden.
@@ -196,9 +196,9 @@ Die Eckpunkte der Schneide bewegen sich während der Rotation auf einer Kreisbah
 Sie liegen dabei nicht zwangsläufig auf einer Ebene, die durch die Werkzeugachse geht oder parallel dazu ist.
 Damit ist diese Schneidenebene nicht parallel zu den Schnittebenen des Werkstücks.
 Das bedingt zwei grundsätzliche Probleme, die es zu lösen gilt.
-Auf der einen Seite muss die Schneide des Werkzeugs auf die Werkstückebene projiziert werden, um die Verscheidungsberechnung durchführen zu können.
+Auf der einen Seite muss die Schneide des Werkzeugs auf die Werkstückebene projiziert werden, um die Verschneidungsberechnung durchführen zu können.
 Die Projektion wird in Abschnitt \ref{c:schnitte} betrachtet.
-Auf der anderen Seite, gibt es für jeden Punkt der Schneide einen einzigartigen Winkel, den das Werkzeug annehmen muss, damit dieser Punkt auf einer Schnittebene des Werkstücks liegt.
+Auf der anderen Seite gibt es für jeden Punkt der Schneide einen einzigartigen Winkel, den das Werkzeug annehmen muss, damit dieser Punkt auf einer Schnittebene des Werkstücks liegt.
 
 Gelöst wird dieses Problem für jeden Punkt der Schneide durch Berechnung eines individuellen Winkels des Werkzeugs.
 So werden alle Werkzeugwinkel gefunden, bei denen die Punkte auf der Zielschnittebene des Werkstücks liegt.
@@ -209,7 +209,7 @@ Dem Fixpunktproblem zugrunde liegt eine Fixpunktgleichung der Form:
 	x = g(x)
 \end{equation*}
 Zur Lösung dieses Problems wird in \cite{Widmer1981} vorgeschlagen eine Fixpunktiteration durchzuführen.
-Dabei wird in die Gleichung umgeformt, sodass sie in folgender Form vorliegt:
+Dabei wird die Gleichung umgeformt, sodass sie in folgender Form vorliegt:
 \begin{equation*}
 	x^{\left(n+1\right)} = g(x^{\,n}), \quad n = 0{,} 1{,} \dots
 \end{equation*}
@@ -355,7 +355,7 @@ Wir beschrieben beginnt der Schnitt mit der ersten gefundenen Konfiguration des 
 Der Schnitt ist beendet, wenn die Schneide des Werkzeugs nach einer Überlagerungskonfiguration den ersten Iterationsschritt nicht mehr engaged ist.
 Dieser Zustand wird mit der beschriebenen Methode erkannt.
 
-Ist das Schnittende erreicht, wird der nur größte gefundene Werkzeugwinkel behalten.
+Ist das Schnittende erreicht, wird nur der größte gefundene Werkzeugwinkel behalten.
 Es kann davon ausgegangen werden, dass die Schneide einen Anteil einer Umdrehung zurücklegt, bis sie wieder in Eingriff geraten kann.
 Die Größe des Winkels hängt von der Anordnung von Werkzeug und Werkstück ab.
 Eine zuverlässige Annahme ist eine halbe Umdrehung.
@@ -425,10 +425,10 @@ Stattdessen werden die Daten in dafür vorgesehene Felder des Objekts geschriebe
 
 In \matlab existieren Plottingroutinen die für diese Architektur gedacht sind.
 Sie haben einen Cache, in den konstant Daten geschrieben werden können.
-Sobald ein Aufruf der Ausgabefunktion erfolgt werden die Daten in die grafische Ausgabe geplottet.
+Sobald ein Aufruf der Ausgabefunktion erfolgt, werden die Daten in die grafische Ausgabe geplottet.
 
 Im aktuellen Stand kann so eine Ausgabefrequenz von $0{,}5 \si{\hertz}$ erreicht werden die ungefähr ein Drittel der Ausführungszeit der Simulation benötigt.
-Der hohe Aufwand der notwendig ist um in \matlab dieses Ergebnis zu erreichen zeigt, dass eine externe oder nachträgliche Visualisierung der Simulation notwendig.
+Der hohe Aufwand der notwendig ist um in \matlab dieses Ergebnis zu erreichen zeigt, dass eine externe oder nachträgliche Visualisierung der Simulation notwendig ist.
 Die aktuell grafisch zur Verfügung gestellten Information sind aber sehr hilfreich bei der Entwicklung der Routinen, weswegen nur schwer auf sie verzichtet werden könnte.
 Es ist sehr wenig Aufwand kann die Ausführungszeit der Simulation verbessert werden in dem die Aufrufe zu dem Plot-Objekt ausgelassen werden.
 

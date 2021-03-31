@@ -77,7 +77,7 @@ Daher ergibt sich für die Translationskomponente:
 	\end{split}
 \end{equation}
 
-Somit ergibt sich für die Inverse der translatorischen Transformationsmatrix.
+Somit ergibt sich für die Inverse der translatorischen Transformationsmatrix:
 
 \begin{equation*}
 	\tm{T^b_s}{t_x}{t_y}{t_z} ^{-1} = \tm{T^s_b}{-t_x}{-t_y}{-t_z}
@@ -112,7 +112,7 @@ Bei der Rotation um eine Achse ergibt sich die Rotationskomponente gemäß \ref{
 		\cos{-x} = & \cos{x}
 	\end{split}
 \end{equation}
-Für die transponierte der Rotationskomponente ergibt sich mit den Symmetriebeziehungen gemäß Gleichung \ref{eq:sincossymm}:
+Für die Transponierte der Rotationskomponente ergibt sich mit den Symmetriebeziehungen gemäß Gleichung \ref{eq:sincossymm}:
 \begin{equation*}
 	\begin{split}
 		R_{z}^\intercal(\alpha) = & \begin{bmatrix}\cos \alpha & -\sin \alpha & 0\\\sin \alpha & \cos \alpha & 0\\0& 0& 1\end{bmatrix}^\intercal \\
@@ -149,7 +149,7 @@ Beide Pfade werden vereint, um die gesamte Transformation als eine Matrix darste
 
 Die erste kinematische Kette betrachtet, ausgehend von dem Ursprung, die Maschine mit den verfahrbaren Achsen bis zum Werkzeugkoordinatensystem.
 Die zweite, in Richtung des Werkstücks, beschreibt die Position und Ausrichtung des Werkstückkoordinatensystems im Maschinenbett.
-Um anschließend die Koordinatentransformation von dem Werkzeugkoordinatensystems in das Werkstückkoordinatensystems zu erhalten, werden die beiden Terme gleichgesetzt und nach Werkzeugkoordinaten aufgelöst.
+Um anschließend die Koordinatentransformation von dem Werkzeugkoordinatensystem in das Werkstückkoordinatensystem zu erhalten, werden die beiden Terme gleichgesetzt und nach Werkzeugkoordinaten aufgelöst.
 
 \begin{figure}
 	\includegraphics[width=12cm]{maschine_frei}
@@ -251,7 +251,7 @@ Diese Variante hat nur theoretische Bedeutung.
 	\cdot{} \rottm{0}{0}{B}
 	\cdot{} \vec{p}_\wz
 \end{equation}
-Gleichung \ref{eq:werkzeug} beschreibt die Transformation eines Werkzeugpunktes in das Koordinatensystems des Maschinenbettes.
+Gleichung \ref{eq:werkzeug} beschreibt die Transformation eines Werkzeugpunktes in das Koordinatensystem des Maschinenbettes.
 Diese kinematische Kette beinhaltet die verfahrbaren Achsen der Maschine mit ihrem jeweiligen Freiheitsgrad.
 
 \begin{figure}
@@ -312,7 +312,7 @@ Der Position der Tangentialvorschubachse wird ein Offset aufgeprägt, mit dem de
 Das Werkzeug unterliegt beim Schneiden Verschleiß, der gleichmäßig auf den Schneiden verteilt werden muss um eine möglichst hohe Standzeit zu erreichen.
 Es tritt ein ,,[\dots] bevorzugter Verschleiß einzelner Schneidenbereiche gemäß der lokalen Schneidkantenbelastung [\dots]'' \cite{FritzKlocke2016} auf.
 Um diesen möglichst gleichmäßig auf den Schneiden zu verteilen, kann das Werkzeug entlang seiner Rotationsachse, tangential zum Werkstück, verschoben werden.
-Dafür muss es länger sein, als die Länge des Verschneidungsbereiches von Werkstück und Werkzeugprofil erfordern würde.
+Dafür muss es länger sein als die Länge des Verschneidungsbereiches von Werkstück und Werkzeugprofil erfordern würde.
 Mit dieser Verschiebung geht ein gleichzeitiges Drehen des Werkzeugs, vergleichbar einer Schraube in der Hülle des Werkzeugprofils, einher.
 So wird die Positionierung von Zahn und Zahnlücke gewahrt.
 
@@ -377,7 +377,7 @@ Um die Transformation aus dem Werkzeug- in das Werkstückkoordinatensystem zu er
 	\cdot{} \vec{p}_\wz
 \end{equation*}
 
-Die Gleichung wird durch Multiplikation mit den Inversen der Transformation- und Rotationsmatrix aufgelöst, sodass die Beschreibung der Transformation von Werkzeug- in Werkstückkoordinaten entsteht.
+Die Gleichung wird durch Multiplikation mit den Inversen der Transformations- und Rotationsmatrix aufgelöst, sodass die Beschreibung der Transformation von Werkzeug- in Werkstückkoordinaten entsteht.
 
 \begin{equation*}
 	\begin{split}
@@ -521,7 +521,7 @@ Das geschieht durch Addition von Vielfachen $k$ von $\pi$.
 
 \subsection[Kartesische Koordinaten]{Werkstück in kartesischen Koordinaten definiert}
 
-Es soll gezeigt werden, dass die Auflösung der Gleichung nach $B$ in kartesischen Koordinaten deutlich weniger komfortabel ist also in zylindrischen.
+Es soll gezeigt werden, dass die Auflösung der Gleichung nach $B$ in kartesischen Koordinaten deutlich weniger komfortabel ist als in zylindrischen.
 \begin{equation*}
 	\begin{pmatrix}p_{\wst,x}\\p_{\wst,y}\\p_{\wst,z}\\1\end{pmatrix} = \mathbf{G} \cdot{} \begin{pmatrix}p_{\wz,x}\\p_{\wz,y}\\p_{\wz,z}\\1\end{pmatrix}
 \end{equation*}
@@ -582,7 +582,7 @@ Es soll gezeigt werden, dass die Auflösung der Gleichung nach $B$ in kartesisch
 Man kann erkennen, dass die Isolierung von $B$ nicht möglich ist.
 $B$ tritt sowohl in den sinoidalen Funktionen auf, als auch als ein linearer Faktor.
 
-Etwas geschickter ist noch die folgende Weise, die Gleichung aufzulösen:
+Etwas geschickter ist noch die folgende Weise die Gleichung aufzulösen:
 
 \begin{align*}
 	0 = z - c - z_{soll} + B \cdot{} \feed{Z}{Wz} + & \sin(A) \cdot{} (y + \yshift + B \cdot{} \feed{Y}{Wz} - z_\wz) \\
@@ -617,4 +617,4 @@ Etwas geschickter ist noch die folgende Weise, die Gleichung aufzulösen:
 		- A \cdot{} \frac{y + \yshift + B \cdot{} \feed{Y}{Wz} - z_\wz}{x_\wz}
 \end{equation*}
 Allerdings tritt auch hier $B$ in einer sinoidalen Funktion und als linearer Faktor auf.
-Die Definition des Werkzeugs in Zylinderkoordinaten ist also deutlich geschickter und wird daher in dieser Arbeit als Vorgehensweise gewählt.
+Die Definition des Werkzeugs in Zylinderkoordinaten ist somit deutlich geschickter und wird daher in dieser Arbeit als Vorgehensweise gewählt.
