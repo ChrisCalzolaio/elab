@@ -72,6 +72,9 @@ Das Werkzeug wird als Array aus Polyshape Objekten abgelegt.
 Dazu werden zunächst eine Menge diskreter Eckpunkte auf einem Kreis mit definierbarem Durchmesser erzeugt.
 Die Menge der Eckpunkte richtet sich an der Menge der geforderten diskreten Ebenen.
 So soll sicher gestellt werden, dass sich die auf der Werkstückoberflächen liegenden Vertices zu gleichschenkligen Dreiecken vernetzen lassen.
+
+\lstinputlisting[caption = {Funktion zur Erzeugung von gleichmäßig verteilten diskreten Punkte auf einem Kreis}]{../ba/fun/circle.m}
+
 Aus den Eckpunkten wird dann ein Polyshape Objekt erzeugt.
 Dieses wird entsprechend der Anzahl der geforderten Ebenen in ein Array repliziert.
 So entsteht ein individuelles Polyshape Objekt für jede geforderte Ebene.
@@ -133,9 +136,9 @@ Die Funktion gibt als logischen Wert zurück, ob der Werkzeugpunkt engaged ist o
 	\caption{3D Ansicht der Iterationsschritte bei der Findung der Startkonfiguration}
 	\label{fig:3dview}
 \end{figure}
-
+\begin{minipage}{\textwidth}
 \lstinputlisting[caption = {Findung der Startkonfiguration}, linerange=99-116,firstnumber=99, label={code:startkonfiguration}]{../ba/methods/vf1/vf1.m}
-
+\end{minipage}
 Die Abbildung \ref{fig:heightdistance} und \ref{fig:3dview} verdeutlichen das Vorgehen des in Codeausschnitt \ref{code:startkonfiguration} gezeigten iterativen Verfahren.
 Die Panels der Abbildung \ref{fig:heightdistance} zeigen die Entwicklung von Koordinatenkomponenten eines Schneidenpunktes aufgetragen über den Drehwinkel des Werkzeugs, ausgehend von der Startkonfiguration.
 Das obere der beiden Panels zeigt dabei die Höhe des Schneidenpunkte im Koordinatensystem des Werkstücks.
@@ -373,8 +376,9 @@ Wir beschrieben beginnt der Schnitt mit der ersten gefundenen Konfiguration des 
 Der Schnitt ist beendet, wenn die Schneide des Werkzeugs nach einer Überlagerungskonfiguration den ersten Iterationsschritt nicht mehr engaged ist.
 Dieser Zustand wird mit der beschriebenen Methode erkannt.
 
+\begin{minipage}{\textwidth}
 \lstinputlisting[caption = {Operation bei Erreichen des Schnittendes}, linerange=180-192,firstnumber=180, label={code:schnittende}]{../ba/methods/vf1/vf1.m}
-
+\end{minipage}
 Ist bei dem Codeausschnitt \ref{code:schnittende} das Schnittende erreicht, wird nur der größte gefundene Werkzeugwinkel behalten.
 Es kann davon ausgegangen werden, dass die Schneide einen Anteil einer Umdrehung zurücklegt, bis sie wieder in Eingriff geraten kann.
 Die Größe des Winkels hängt von der Anordnung von Werkzeug und Werkstück ab.
@@ -407,6 +411,8 @@ Es ist ebenfalls denkbar, die Bearbeitung eines einzelnen Zahnzwischenraums zu b
 Dabei müsste nach Vollendung eines Schnittes dem Werkzeugwinkel $B$ der Winkel addiert werden, den das Werkzeug nach einem Umlauf um das Werkstück hat.
 Das Werkzeug vollzieht je Zahnzwischenraum eine volle Umdrehung.
 Der übersprungene Winkel ist folglich
+
+\begin{minipage}{\textwidth}
 \begin{equation*}
 	B_{"ubersprungen} = \left(n_{Z"ahne} -1 \right) \cdot 2 \pi
 \end{equation*}
@@ -414,6 +420,9 @@ Der übersprungene Winkel ist folglich
 	\item[$B_{"ubersprungen}$] übersprungener Winkel des Werkzeugs
 	\item[$n_{Z"ahne}$] Zähnezahl des Werkstücks
 \end{eqdscr}
+\end{minipage}
+\\
+\\
 Bei dieser Simulationsmethodik bietet sich dann ein Zähler der durchgeführten Schritte an um die Simulation zu stoppen.
 
 \section{Plotten}
@@ -433,15 +442,21 @@ Eine geschickte Möglichkeit diese Trennung zu erreichen ist eine Klasse zu entw
 Eine Klasse ist ein Konzept der Objektorientierten Programmierung.
 Sie bieten die Möglichkeit Daten und Funktionen in einer Struktur zu vereinen.
 
-Bei Erzeugung eines Objekts der \code{plotSimulation}-Klasse wird die grafische Ausgabe eingerichtet und relevante Werte des Simulationsfalles eingelesen.
+\lstinputlisting[caption = {Konstruktor der Simulationsausgabeklasse}, linerange=40-136,firstnumber=40, label={code:plotconstruct}]{../ba/fun/pltSim/plotSimulation.m}
+
+Bei Erzeugung eines Objekts der \code{plotSimulation}-Klasse, durch den im Codeausschnitt \ref{code:plotconstruct} gezeigten Konstruktor, wird die grafische Ausgabe eingerichtet und relevante Werte des Simulationsfalles eingelesen.
 Diese werden in dem Objekt gespeichert und stehen ohne Zugriff auf den Basis-Workspace zur Verfügung.
-Die Handles der Ausgabefenster, der Achsen- und der Linienobjekte werden ebenfalls in dem Objekt gespeichert.
+Die Handles der Ausgabefenster, der Achsen- und der Linienobjekte werden ebenfalls in dem Objekt gespeichert, siehe Codeausschnitt \ref{code:properties}.
 Auf sie kann zu einem späteren Zeitpunkt zu gegriffen werden, um die Objekte anzusprechen.
+
+\lstinputlisting[caption = {Attribute der Simulationsausgabeklasse}, linerange=5-37,firstnumber=5, label={code:properties}]{../ba/fun/pltSim/plotSimulation.m}
 
 Eine wichtige Komponente der \code{plotSimulation}-Klasse ist das \code{timer}-Objekt mit dem Funktionen in definierten Intervallen ausgeführt werden können.
 So können die teuren Ausgaberoutinen mit einem festen Intervall ausgeführt werden statt bei Erreichen eines Zustands bei der Ausführung der Simulation.
 Diese Funktionalität ist realisiert, in dem die Simulationsschleife dem Ausgabe-Objekt Werte bereitstellt welche aber nicht unverzüglich grafisch ausgegeben werden.
 Stattdessen werden die Daten in dafür vorgesehene Felder des Objekts geschrieben und erst im nächsten Intervall geplottet.
+
+\lstinputlisting[caption = {Verwendung des Timer-Objects}, linerange=138-145,firstnumber=138, label={code:timer}]{../ba/fun/pltSim/plotSimulation.m}
 
 In \matlab existieren Plottingroutinen die für diese Architektur gedacht sind.
 Sie haben einen Cache, in den konstant Daten geschrieben werden können.
@@ -451,6 +466,8 @@ Im aktuellen Stand kann so eine Ausgabefrequenz von $0{,}5 \si{\hertz}$ erreicht
 Der hohe Aufwand der notwendig ist um in \matlab dieses Ergebnis zu erreichen zeigt, dass eine externe oder nachträgliche Visualisierung der Simulation notwendig ist.
 Die aktuell grafisch zur Verfügung gestellten Information sind aber sehr hilfreich bei der Entwicklung der Routinen, weswegen nur schwer auf sie verzichtet werden könnte.
 Es ist sehr wenig Aufwand kann die Ausführungszeit der Simulation verbessert werden in dem die Aufrufe zu dem Plot-Objekt ausgelassen werden.
+
+\lstinputlisting[caption = {Methoden der Simulationsausgabeklasse}, linerange=148-220,firstnumber=148, label={code:methods}]{../ba/fun/pltSim/plotSimulation.m}
 
 Die Abbildungen \ref{fig:heightdistance}, \ref{fig:3dview}, \ref{fig:uberlagerung} und \ref{fig:pointcloud} werden während der Simulation in Echtzeit aktualisiert.
 Sie haben sich trotz dem negativen Einfluss auf die Ausführungsdauer der Simulation als äußerst hilfreich erwiesen um den Fortschritt und das Verhalten der Simulation zu überwachen.
